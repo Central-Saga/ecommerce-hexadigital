@@ -1,0 +1,60 @@
+@use 'sass:color';
+
+/*
+ * Variables
+ * 
+ * Tujuan:
+ * Menyimpan variabel global untuk kustomisasi Bootstrap dan gaya proyek.
+ * Variabel ini digunakan di seluruh file SCSS untuk memastikan konsistensi desain.
+ *
+ * Isi Utama:
+ * - Kustomisasi variabel Bootstrap (warna, font, spacer, dll.).
+ * - Variabel kustom untuk komponen proyek (navbar, footer, dll.).
+ * - Font Poppins sebagai font utama dengan fallback sistem.
+ *
+ * Contoh Penggunaan:
+ * .navbar {
+ *   background-color: $navbar-bg;
+ *   font-family: $font-family-base;
+ * }
+ *
+ * Catatan:
+ * - Impor font Poppins melalui Google Fonts di view atau simpan file font di assets/fonts/.
+ * - Variabel ini harus diimpor sebelum file lain untuk memastikan ketersediaan.
+ */
+
+$primary: #ff5733;
+$secondary: #6c757d;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+$info: #17a2b8;
+
+$font-size-base: 1rem;
+$font-family-base: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, sans-serif;
+$line-height-base: 1.6;
+
+$border-radius: 0.5rem;
+$spacer: 1rem;
+
+$navbar-bg: $primary;
+$footer-bg: color.adjust($secondary, $lightness: -10%);
+$sidebar-width: 250px;
+$header-height: 60px;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
+);
+
+$theme-colors: (
+    'light-bg': #ffffff,
+    'light-text': #212529,
+    'dark-bg': #212529,
+    'dark-text': #f8f9fa,
+);

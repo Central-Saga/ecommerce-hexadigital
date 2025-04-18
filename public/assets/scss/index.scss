@@ -1,7 +1,10 @@
-@import '../node_modules/bootstrap/scss/bootstrap';
+@use 'sass:color';
+@use 'sass:map';
 
 @forward 'abstracts/index';
 @forward 'base/index';
 @forward 'components/index';
 @forward 'pages/index';
 @forward 'layouts/index';
+
+@import '../../../vendor/twbs/bootstrap/scss/bootstrap';

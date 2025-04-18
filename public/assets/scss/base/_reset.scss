@@ -1,0 +1,52 @@
+@use '../abstracts/variables' as *;
+
+/*
+ * Reset
+ *
+ * Tujuan:
+ * Menormalkan gaya default browser untuk konsistensi lintas platform,
+ * melengkapi reset Bootstrap dengan aturan tambahan.
+ *
+ * Isi Utama:
+ * - Aturan box-sizing global, margin/padding nol, dan scroll halus.
+ * - Optimasi untuk gambar, tautan, dan rendering teks.
+ *
+ * Contoh Penggunaan:
+ * - Tidak perlu digunakan langsung; aturan diterapkan secara global.
+ * - Memastikan elemen seperti <a> memiliki warna $primary secara default.
+ *
+ * Catatan:
+ * - Berfungsi bersama reset Bootstrap (_reboot.scss) untuk gaya dasar yang bersih.
+ * - Pastikan file ini diimpor setelah _variables.scss untuk akses ke $primary.
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: $primary;
+}
