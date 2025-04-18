@@ -1,0 +1,90 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.footer {
+    background-color: $dark;
+    color: $white;
+    padding: 3rem 0 1rem;
+
+    h5 {
+        color: $white;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: $primary;
+        }
+    }
+
+    .about-text {
+        color: $gray-400;
+        line-height: 1.6;
+    }
+
+    .quick-links {
+        list-style: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 0.8rem;
+
+            a {
+                color: $gray-400;
+                text-decoration: none;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: $primary;
+                }
+            }
+        }
+    }
+
+    .contact-info {
+        list-style: none;
+        padding: 0;
+
+        li {
+            margin-bottom: 0.8rem;
+            color: $gray-400;
+
+            i {
+                color: $primary;
+                margin-right: 0.5rem;
+                width: 20px;
+            }
+        }
+    }
+
+    .copyright {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba($white, 0.1);
+        text-align: center;
+        color: $gray-500;
+    }
+}
+
+// Responsive styles
+@include media-breakpoint-down(md) {
+    .footer {
+        text-align: center;
+
+        h5::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .col-md-4 {
+            margin-bottom: 2rem;
+        }
+    }
+}

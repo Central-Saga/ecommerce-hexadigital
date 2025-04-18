@@ -1,10 +1,10 @@
 @use 'sass:color';
 @use 'sass:map';
 
-@forward 'abstracts/index';
-@forward 'base/index';
-@forward 'components/index';
-@forward 'pages/index';
-@forward 'layouts/index';
+@use 'abstracts/index' as *;
+@use 'base/index' as *;
+@use 'components/index' as *;
+@use 'pages/index' as *;
+@use 'layouts/index' as *;
 
 @import '../../../vendor/twbs/bootstrap/scss/bootstrap';
