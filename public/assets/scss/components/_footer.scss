@@ -2,7 +2,7 @@
 @use '../abstracts/mixins' as *;
 
 .footer {
-    background-color: $dark;
+    background-color: $emerald;
     color: $white;
     padding: 3rem 0 1rem;
 
@@ -20,12 +20,12 @@
             left: 0;
             width: 50px;
             height: 2px;
-            background-color: $primary;
+            background-color: $white;
         }
     }
 
     .about-text {
-        color: $gray-400;
+        color: rgba($white, 0.8);
         line-height: 1.6;
     }
 
@@ -37,12 +37,12 @@
             margin-bottom: 0.8rem;
 
             a {
-                color: $gray-400;
+                color: rgba($white, 0.8);
                 text-decoration: none;
                 transition: color 0.3s ease;
 
                 &:hover {
-                    color: $primary;
+                    color: $white;
                 }
             }
         }
@@ -54,10 +54,10 @@
 
         li {
             margin-bottom: 0.8rem;
-            color: $gray-400;
+            color: rgba($white, 0.8);
 
             i {
-                color: $primary;
+                color: $white;
                 margin-right: 0.5rem;
                 width: 20px;
             }
@@ -67,9 +67,9 @@
     .copyright {
         margin-top: 2rem;
         padding-top: 1.5rem;
-        border-top: 1px solid rgba($white, 0.1);
+        border-top: 1px solid rgba($white, 0.2);
         text-align: center;
-        color: $gray-500;
+        color: rgba($white, 0.8);
     }
 }
 

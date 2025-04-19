@@ -8,4 +8,4 @@
 @forward 'pages/index';
 @forward 'layouts/index';
 
-@forward '../../../node_modules/bootstrap/scss/bootstrap';
+@use '../../../node_modules/bootstrap/scss/bootstrap';
