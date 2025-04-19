@@ -24,7 +24,7 @@
             <div class="collapse" id="userManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/users">
+                        <a class="nav-link" href="/godmode/user">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person"></i>
                             </div>
@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/roles">
+                        <a class="nav-link" href="/godmode/role">
                             <div class="icon-wrapper">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
@@ -40,7 +40,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/customers">
+                        <a class="nav-link" href="/godmode/customer">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person-badge"></i>
                             </div>
