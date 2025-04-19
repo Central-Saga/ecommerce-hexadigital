@@ -1,0 +1,38 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+.dropdown {
+    &-toggle {
+        @include center-content;
+        color: $text-color;
+        text-decoration: none;
+
+        i {
+            margin-right: 0.5rem;
+        }
+    }
+
+    &-menu {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        padding: 0.5rem 0;
+
+        &-end {
+            right: 0;
+            left: auto;
+        }
+    }
+
+    &-item {
+        padding: 0.5rem 1rem;
+        color: $text-color;
+
+        &:hover {
+            background-color: $hover-color;
+        }
+    }
+
+    &-divider {
+        margin: 0.5rem 0;
+    }
+}

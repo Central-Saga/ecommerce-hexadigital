@@ -45,6 +45,13 @@ $danger: #dc3545;
 $warning: #ffc107;
 $info: #17a2b8;
 
+$text-color: $gray-700;
+$text-color-light: $gray-600;
+$text-color-dark: $gray-900;
+
+$hover-color: $gray-100;
+$hover-color-dark: $gray-200;
+
 $font-size-base: 1rem;
 $font-family-base: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, sans-serif;
@@ -73,3 +80,10 @@ $theme-colors: (
     'dark-bg': #212529,
     'dark-text': #f8f9fa,
 );
+
+/* Admin Variables */
+$admin-sidebar-width: 250px;
+$admin-header-height: 60px;
+$admin-primary-color: #2c3e50;
+$admin-text-color: #ffffff;
+$admin-hover-color: rgba(255, 255, 255, 0.1);

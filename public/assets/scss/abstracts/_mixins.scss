@@ -25,6 +25,10 @@
  * - Mixin ini dapat digunakan di file components/, pages/, atau lainnya.
  */
 
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+    transition: $property $duration $timing;
+}
+
 @mixin center-content {
     display: flex;
     justify-content: center;
@@ -59,4 +63,24 @@
     } @else {
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
+}
+
+// Admin Dashboard Mixins
+@mixin admin-flex-center {
+    display: flex;
+    align-items: center;
+}
+
+@mixin admin-transition($property: all, $duration: 0.3s) {
+    transition: $property $duration;
+}
+
+// Admin Mixins
+@mixin admin-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+@mixin admin-flex-center {
+    display: flex;
+    align-items: center;
 }

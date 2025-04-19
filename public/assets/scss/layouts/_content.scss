@@ -1,0 +1,15 @@
+@use '../abstracts/variables' as *;
+
+.main {
+    width: calc(100% - $sidebar-width);
+    margin-left: $sidebar-width;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding-top: 1rem;
+    background-color: #f8f9fa;
+}

@@ -1,0 +1,21 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.table {
+    &-responsive {
+        overflow-x: auto;
+    }
+
+    th {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+
+    .badge {
+        padding: 0.5em 0.75em;
+    }
+}

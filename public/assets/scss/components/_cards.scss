@@ -1,0 +1,19 @@
+@use '../abstracts/mixins' as *;
+
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1rem;
+
+    &-header {
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    &-body {
+        .d-flex {
+            @include center-content;
+            justify-content: space-between;
+        }
+    }
+}

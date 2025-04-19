@@ -1,0 +1,19 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.header {
+    height: $header-height;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 1.5rem;
+
+    &-content {
+        height: 100%;
+        @include center-content;
+        justify-content: space-between;
+    }
+
+    &-right {
+        @include center-content;
+    }
+}
