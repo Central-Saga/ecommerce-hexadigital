@@ -39,6 +39,9 @@ class User extends BaseController
 
     public function postStore()
     {
+        log_message('info', '[User::postStore] Starting user creation process');
+        log_message('info', '[User::postStore] Request data: ' . json_encode($this->request->getPost()));
+
         $rules = [
             'username' => 'required|min_length[3]|max_length[30]|is_unique[auth_identities.secret]',
             'email' => 'required|valid_email|is_unique[auth_identities.secret]',
@@ -49,6 +52,7 @@ class User extends BaseController
         ];
 
         if (!$this->validate($rules)) {
+            log_message('error', '[User::postStore] Validation failed: ' . json_encode($this->validator->getErrors()));
             return redirect()->back()
                 ->withInput()
                 ->with('errors', $this->validator->getErrors());
@@ -57,6 +61,7 @@ class User extends BaseController
         try {
             // Buat user baru
             $users = auth()->getProvider();
+            log_message('info', '[User::postStore] Creating new user with data: ' . json_encode($this->request->getPost()));
 
             $user = new ShieldUser([
                 'username' => $this->request->getPost('username'),
@@ -65,18 +70,29 @@ class User extends BaseController
                 'active' => $this->request->getPost('status') === 'active' ? 1 : 0
             ]);
 
+            // Simpan user terlebih dahulu
             if (!$users->save($user)) {
+                log_message('error', '[User::postStore] Failed to save user');
                 throw new \Exception('Gagal menyimpan user');
             }
 
-            // Tambahkan role
-            if (!$user->addGroup($this->request->getPost('role'))) {
+            // Dapatkan user yang baru dibuat
+            $savedUser = $users->findById($users->getInsertID());
+            if (!$savedUser) {
+                throw new \Exception('Gagal mendapatkan user yang baru dibuat');
+            }
+
+            // Tambahkan role setelah user berhasil disimpan
+            if (!$savedUser->addGroup($this->request->getPost('role'))) {
+                log_message('error', '[User::postStore] Failed to add role');
                 throw new \Exception('Gagal menambahkan role');
             }
 
+            log_message('info', '[User::postStore] User created successfully, redirecting to index');
+
             // Set flash message dan redirect
-            return redirect()->to('/godmode/user')
-                ->with('success', 'User berhasil ditambahkan');
+            session()->setFlashdata('success', 'User berhasil ditambahkan');
+            return redirect()->to('/godmode/user');
         } catch (\Exception $e) {
             log_message('error', '[User::postStore] Error: ' . $e->getMessage());
             return redirect()->back()
