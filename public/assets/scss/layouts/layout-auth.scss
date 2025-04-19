@@ -1,0 +1,135 @@
+@use '../abstracts/variables' as *;
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+
+    .auth-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        background: $white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba($black, 0.1);
+    }
+
+    .auth-header {
+        text-align: left;
+        margin-bottom: 1.5rem;
+
+        h2 {
+            color: $dark;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: $gray-600;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+    }
+
+    .form-label {
+        color: $dark;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid $gray-300;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+
+        &:focus {
+            border-color: $emerald;
+            box-shadow: none;
+        }
+
+        &::placeholder {
+            color: $gray-500;
+        }
+    }
+
+    .btn-auth {
+        width: 100%;
+        background-color: $emerald;
+        border: none;
+        color: $white;
+        padding: 0.75rem;
+        font-weight: 500;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: darken($emerald, 5%);
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .form-check {
+        margin: 1rem 0;
+
+        .form-check-input {
+            border-color: $gray-400;
+
+            &:checked {
+                background-color: $emerald;
+                border-color: $emerald;
+            }
+
+            &:focus {
+                box-shadow: none;
+                border-color: $emerald;
+            }
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: $gray-700;
+        }
+    }
+
+    .auth-link {
+        color: $emerald;
+        text-decoration: none;
+        font-size: 0.9rem;
+
+        &:hover {
+            color: darken($emerald, 10%);
+            text-decoration: none;
+        }
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: $gray-600;
+
+        .auth-link {
+            margin-left: 0.25rem;
+        }
+    }
+
+    .alert {
+        border-radius: 4px;
+        font-size: 0.9rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .password-requirements {
+        font-size: 0.8rem;
+        color: $gray-600;
+        margin-top: 0.5rem;
+    }
+}
