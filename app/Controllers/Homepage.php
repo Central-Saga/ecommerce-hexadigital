@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-class Pages extends BaseController
+class Homepage extends BaseController
 {
-    public function getHomepage()
+    public function getIndex()
     {
         return view('pages/homepage');
     }
