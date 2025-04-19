@@ -56,7 +56,7 @@ class User extends BaseController
 
         try {
             // Buat user baru
-            $users = model('UserModel');
+            $users = auth()->getProvider();
 
             $user = new ShieldUser([
                 'username' => $this->request->getPost('username'),
@@ -65,19 +65,14 @@ class User extends BaseController
                 'active' => $this->request->getPost('status') === 'active' ? 1 : 0
             ]);
 
-            $users->save($user);
-
-            // Tambahkan email identity
-            $identities = model('IdentityModel');
-            $identities->insert([
-                'user_id' => $user->id,
-                'type' => 'email_password',
-                'secret' => $this->request->getPost('email'),
-                'secret2' => $user->password_hash,
-            ]);
+            if (!$users->save($user)) {
+                throw new \Exception('Gagal menyimpan user');
+            }
 
             // Tambahkan role
-            $user->addGroup($this->request->getPost('role'));
+            if (!$user->addGroup($this->request->getPost('role'))) {
+                throw new \Exception('Gagal menambahkan role');
+            }
 
             // Set flash message dan redirect
             return redirect()->to('/godmode/user')
@@ -138,7 +133,7 @@ class User extends BaseController
         }
 
         try {
-            $users = model('UserModel');
+            $users = auth()->getProvider();
 
             // Update user data
             $user->username = $this->request->getPost('username');
@@ -150,16 +145,6 @@ class User extends BaseController
             }
 
             $users->save($user);
-
-            // Update email identity
-            $identities = model('IdentityModel');
-            $identity = $identities->where('user_id', $user->id)->first();
-            if ($identity) {
-                $identities->update($identity->id, [
-                    'secret' => $this->request->getPost('email'),
-                    'secret2' => $user->password_hash,
-                ]);
-            }
 
             // Update role
             $currentRole = $user->getGroups()[0] ?? '';
