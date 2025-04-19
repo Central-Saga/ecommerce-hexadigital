@@ -1,8 +1,8 @@
-<header class="bg-primary bg-gradient shadow-lg">
-    <nav class="navbar navbar-expand-lg navbar-dark">
+<header>
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <!-- Navbar Brand -->
-            <a class="navbar-brand fw-bold" href="/">Hexadigital Store</a>
+            <a class="navbar-brand" href="/">Hexadigital Store</a>
 
             <!-- Toggler Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,13 +22,13 @@
                 <!-- Navigation Links -->
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="/cart">
-                            <i class="bi bi-cart3 me-1"></i>Keranjang
+                        <a class="nav-link" href="/cart">
+                            <i class="bi bi-cart3"></i>Keranjang
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3" href="/account">
-                            <i class="bi bi-person me-1"></i>Akun
+                        <a class="nav-link" href="/account">
+                            <i class="bi bi-person"></i>Akun
                         </a>
                     </li>
                 </ul>

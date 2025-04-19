@@ -10,78 +10,66 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
 
-.header {
-    background-color: $white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+// Gaya untuk header
+header {
+    background-color: $emerald;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Efek bayangan untuk kesan elegan
 
+    // Gaya untuk navbar
     .navbar {
-        padding: 1rem 0;
-
-        &-brand {
-            img {
-                height: 40px;
-                transition: transform 0.3s ease;
-
-                &:hover {
-                    transform: scale(1.05);
-                }
-            }
-        }
-
-        .search-form {
-            width: 50%;
-            margin: 0 auto;
-
-            .form-control {
-                border-radius: 20px;
-                padding: 0.5rem 1rem;
-                border: 1px solid $gray-300;
-
-                &:focus {
-                    box-shadow: none;
-                    border-color: $primary;
-                }
-            }
-
-            .btn {
-                border-radius: 20px;
-                padding: 0.5rem 1rem;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background-color: $primary;
-                    color: $white;
-                }
-            }
-        }
-
-        .nav-link {
-            color: $gray-700;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            transition: color 0.3s ease;
-
-            i {
-                margin-right: 0.5rem;
-            }
+        .navbar-brand {
+            color: $white;
+            font-weight: bold;
 
             &:hover {
-                color: $primary;
+                color: #f0f0f0;
             }
         }
-    }
-}
 
-// Responsive styles
-@include media-breakpoint-down(lg) {
-    .header {
-        .navbar {
-            .search-form {
-                width: 100%;
-                margin: 1rem 0;
+        // Gaya untuk link navigasi
+        .nav-link {
+            color: $white;
+            padding: 0.5rem 1rem;
+
+            &:hover {
+                color: #e0e0e0;
+            }
+
+            // Gaya untuk ikon di dalam link
+            .bi {
+                margin-right: 0.25rem;
+            }
+        }
+
+        // Gaya untuk form pencarian
+        .form-control {
+            border: 1px solid $white;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: $white;
+
+            &::placeholder {
+                color: #d1d1d1;
+            }
+        }
+
+        .btn-light {
+            background-color: $white;
+            color: $emerald;
+            border: none;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+
+        // Gaya untuk toggler (hamburger menu pada mobile)
+        .navbar-toggler {
+            border-color: $white;
+
+            .navbar-toggler-icon {
+                background-image: escape-svg(
+                    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#ffffff' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>")
+                );
             }
         }
     }
