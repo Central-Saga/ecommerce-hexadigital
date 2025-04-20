@@ -32,14 +32,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/role">
-                            <div class="icon-wrapper">
-                                <i class="bi bi-shield-lock"></i>
-                            </div>
-                            <span>Kelola Roles</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/godmode/customer">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person-badge"></i>
