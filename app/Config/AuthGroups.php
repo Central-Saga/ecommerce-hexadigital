@@ -41,25 +41,17 @@ class AuthGroups extends ShieldAuthGroups
      * @see https://codeigniter4.github.io/shield/quick_start_guide/using_authorization/#change-available-groups for more info
      */
     public array $groups = [
-        'superadmin' => [
-            'title'       => 'Super Admin',
-            'description' => 'Complete control of the site.',
-        ],
         'admin' => [
             'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+            'description' => 'Administrator dengan akses penuh ke sistem.',
         ],
-        'staff' => [
-            'title'       => 'Staff',
-            'description' => 'General staff users with limited permissions.',
+        'pegawai' => [
+            'title'       => 'Pegawai',
+            'description' => 'Pegawai dengan akses terbatas untuk operasional.',
         ],
-        'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
-        ],
-        'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+        'pelanggan' => [
+            'title'       => 'Pelanggan',
+            'description' => 'Pengguna umum yang dapat melakukan pembelian.',
         ],
     ];
 
@@ -77,12 +69,6 @@ class AuthGroups extends ShieldAuthGroups
         'users.create'       => 'Dapat membuat user baru',
         'users.edit'         => 'Dapat mengedit user',
         'users.delete'       => 'Dapat menghapus user',
-
-        // Role Management
-        'roles.view'         => 'Dapat melihat daftar role',
-        'roles.create'       => 'Dapat membuat role baru',
-        'roles.edit'         => 'Dapat mengedit role',
-        'roles.delete'       => 'Dapat menghapus role',
 
         // Product Management
         'products.view'      => 'Dapat melihat daftar produk',
@@ -144,21 +130,8 @@ class AuthGroups extends ShieldAuthGroups
      * This defines group-level permissions.
      */
     public array $matrix = [
-        'superadmin' => [
-            'users.*',
-            'roles.*',
-            'products.*',
-            'customers.*',
-            'categories.*',
-            'orders.*',
-            'transactions.*',
-            'shipping.*',
-            'stock.*',
-            // 'admin.access',
-            // 'admin.settings',
-            // 'beta.*',
-        ],
         'admin' => [
+            'users.*',
             'products.*',
             'customers.*',
             'categories.*',
@@ -166,11 +139,8 @@ class AuthGroups extends ShieldAuthGroups
             'transactions.*',
             'shipping.*',
             'stock.*',
-            // 'admin.access',
-            // 'admin.settings',
-            // 'beta.access',
         ],
-        'staff' => [
+        'pegawai' => [
             'products.view',
             'customers.view',
             'orders.view',
@@ -178,15 +148,11 @@ class AuthGroups extends ShieldAuthGroups
             'shipping.view',
             'shipping.track',
             'stock.view',
-            // 'admin.access',
-            // 'admin.settings',
-            // 'beta.access',
         ],
-        'user' => [
-            // Basic permissions untuk customer
+        'pelanggan' => [
+            'products.view',
+            'orders.view',
+            'transactions.view',
         ],
-        // 'beta' => [
-        //     'beta.access',
-        // ],
     ];
 }

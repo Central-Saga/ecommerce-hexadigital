@@ -22,7 +22,7 @@ class User extends BaseController
                 'id' => $user->id,
                 'name' => $user->username,
                 'email' => $user->email,
-                'role' => $user->groups()[0] ?? 'user',
+                'role' => $user->getGroups()[0] ?? 'user',
                 'status' => $user->active ? 'active' : 'inactive'
             ];
         }
@@ -47,7 +47,7 @@ class User extends BaseController
             'email' => 'required|valid_email|is_unique[auth_identities.secret]',
             'password' => 'required|min_length[8]',
             'password_confirm' => 'required|matches[password]',
-            'role' => 'required|in_list[admin,user]',
+            'role' => 'required|in_list[admin,pegawai,pelanggan]',
             'status' => 'required|in_list[active,inactive]'
         ];
 
@@ -113,7 +113,7 @@ class User extends BaseController
             'id' => $user->id,
             'name' => $user->username,
             'email' => $user->email,
-            'role' => $user->groups()[0] ?? 'user',
+            'role' => $user->getGroups()[0] ?? 'user',
             'status' => $user->active ? 'active' : 'inactive'
         ];
 
@@ -133,7 +133,7 @@ class User extends BaseController
         $rules = [
             'username' => "required|min_length[3]|max_length[30]|is_unique[auth_identities.secret,id,{$id}]",
             'email' => "required|valid_email|is_unique[auth_identities.secret,id,{$id}]",
-            'role' => 'required|in_list[admin,user]',
+            'role' => 'required|in_list[admin,pegawai,pelanggan]',
             'status' => 'required|in_list[active,inactive]'
         ];
 
@@ -163,7 +163,7 @@ class User extends BaseController
             $users->save($user);
 
             // Update role
-            $currentRole = $user->groups()[0] ?? '';
+            $currentRole = $user->getGroups()[0] ?? '';
             if ($currentRole) {
                 $user->removeGroup($currentRole);
             }

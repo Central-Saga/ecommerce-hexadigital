@@ -121,7 +121,8 @@
                                 required>
                                 <option value="" selected disabled>Pilih Role</option>
                                 <option value="admin" <?= old('role') === 'admin' ? 'selected' : '' ?>>Admin</option>
-                                <option value="user" <?= old('role') === 'user' ? 'selected' : '' ?>>User</option>
+                                <option value="pegawai" <?= old('role') === 'pegawai' ? 'selected' : '' ?>>Pegawai</option>
+                                <option value="pelanggan" <?= old('role') === 'pelanggan' ? 'selected' : '' ?>>Pelanggan</option>
                             </select>
                             <div class="invalid-feedback">
                                 <?= session('errors.role') ?>
