@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/customer">
+                        <a class="nav-link" href="/godmode/pelanggan">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person-badge"></i>
                             </div>
