@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Godmode;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;

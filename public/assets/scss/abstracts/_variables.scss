@@ -38,19 +38,21 @@ $gray-900: #212529;
  * - Variabel ini harus diimpor sebelum file lain untuk memastikan ketersediaan.
  */
 
-$primary: #ff5733;
+$primary: #1a2234;
 $secondary: #6c757d;
 $success: #28a745;
 $danger: #dc3545;
 $warning: #ffc107;
 $info: #17a2b8;
 
-$text-color: $gray-700;
+$text-color: rgba(255, 255, 255, 0.85);
+$text-muted: rgba(255, 255, 255, 0.6);
 $text-color-light: $gray-600;
 $text-color-dark: $gray-900;
 
-$hover-color: $gray-100;
-$hover-color-dark: $gray-200;
+$sidebar-bg: #1e2736;
+$hover-color: rgba(255, 255, 255, 0.06);
+$active-color: rgba(255, 255, 255, 0.1);
 
 $font-size-base: 1rem;
 $font-family-base: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -62,7 +64,8 @@ $spacer: 1rem;
 
 $navbar-bg: $primary;
 $footer-bg: color.adjust($secondary, $lightness: -10%);
-$sidebar-width: 250px;
+$sidebar-width: 280px;
+$sidebar-collapsed-width: 70px;
 $header-height: 60px;
 
 $grid-breakpoints: (
@@ -87,3 +90,9 @@ $admin-header-height: 60px;
 $admin-primary-color: #2c3e50;
 $admin-text-color: #ffffff;
 $admin-hover-color: rgba(255, 255, 255, 0.1);
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
