@@ -22,7 +22,7 @@ class User extends BaseController
                 'id' => $user->id,
                 'name' => $user->username,
                 'email' => $user->email,
-                'role' => $user->getGroups()[0] ?? 'user',
+                'role' => $user->groups()[0] ?? 'user',
                 'status' => $user->active ? 'active' : 'inactive'
             ];
         }
@@ -113,7 +113,7 @@ class User extends BaseController
             'id' => $user->id,
             'name' => $user->username,
             'email' => $user->email,
-            'role' => $user->getGroups()[0] ?? 'user',
+            'role' => $user->groups()[0] ?? 'user',
             'status' => $user->active ? 'active' : 'inactive'
         ];
 
@@ -163,7 +163,7 @@ class User extends BaseController
             $users->save($user);
 
             // Update role
-            $currentRole = $user->getGroups()[0] ?? '';
+            $currentRole = $user->groups()[0] ?? '';
             if ($currentRole) {
                 $user->removeGroup($currentRole);
             }

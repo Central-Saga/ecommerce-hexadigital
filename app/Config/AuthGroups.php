@@ -49,9 +49,9 @@ class AuthGroups extends ShieldAuthGroups
             'title'       => 'Admin',
             'description' => 'Day to day administrators of the site.',
         ],
-        'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+        'staff' => [
+            'title'       => 'Staff',
+            'description' => 'General staff users with limited permissions.',
         ],
         'user' => [
             'title'       => 'User',
@@ -72,13 +72,67 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        // User Management
+        'users.view'         => 'Dapat melihat daftar user',
+        'users.create'       => 'Dapat membuat user baru',
+        'users.edit'         => 'Dapat mengedit user',
+        'users.delete'       => 'Dapat menghapus user',
+
+        // Role Management
+        'roles.view'         => 'Dapat melihat daftar role',
+        'roles.create'       => 'Dapat membuat role baru',
+        'roles.edit'         => 'Dapat mengedit role',
+        'roles.delete'       => 'Dapat menghapus role',
+
+        // Product Management
+        'products.view'      => 'Dapat melihat daftar produk',
+        'products.create'    => 'Dapat membuat produk baru',
+        'products.edit'      => 'Dapat mengedit produk',
+        'products.delete'    => 'Dapat menghapus produk',
+
+        // Customer Management
+        'customers.view'     => 'Dapat melihat daftar customer',
+        'customers.create'   => 'Dapat membuat customer baru',
+        'customers.edit'     => 'Dapat mengedit customer',
+        'customers.delete'   => 'Dapat menghapus customer',
+
+        // Category Management
+        'categories.view'    => 'Dapat melihat daftar kategori',
+        'categories.create'  => 'Dapat membuat kategori baru',
+        'categories.edit'    => 'Dapat mengedit kategori',
+        'categories.delete'  => 'Dapat menghapus kategori',
+
+        // Order Management
+        'orders.view'        => 'Dapat melihat daftar pesanan',
+        'orders.create'      => 'Dapat membuat pesanan baru',
+        'orders.edit'        => 'Dapat mengedit pesanan',
+        'orders.delete'      => 'Dapat menghapus pesanan',
+        'orders.process'     => 'Dapat memproses pesanan',
+
+        // Transaction Management
+        'transactions.view'  => 'Dapat melihat daftar transaksi',
+        'transactions.create' => 'Dapat membuat transaksi',
+        'transactions.edit'  => 'Dapat mengedit transaksi',
+        'transactions.void'  => 'Dapat membatalkan transaksi',
+
+        // Shipping Management
+        'shipping.view'      => 'Dapat melihat daftar pengiriman',
+        'shipping.create'    => 'Dapat membuat pengiriman baru',
+        'shipping.edit'      => 'Dapat mengedit pengiriman',
+        'shipping.track'     => 'Dapat melacak pengiriman',
+
+        // Stock Management
+        'stock.view'         => 'Dapat melihat stok',
+        'stock.update'       => 'Dapat mengupdate stok',
+        'stock.history'      => 'Dapat melihat history stok',
+        'stock.adjust'       => 'Dapat melakukan penyesuaian stok',
+
+        // Additional permissions
+        // 'admin.access'        => 'Can access the sites admin area',
+        // 'admin.settings'      => 'Can access the main site settings',
+        // 'users.manage-admins' => 'Can manage other admins',
+        // 'beta.access'         => 'Can access beta-level features',
+        // 'roles.permissions'   => 'Can manage role permissions',
     ];
 
     /**
@@ -91,27 +145,48 @@ class AuthGroups extends ShieldAuthGroups
      */
     public array $matrix = [
         'superadmin' => [
-            'admin.*',
             'users.*',
-            'beta.*',
+            'roles.*',
+            'products.*',
+            'customers.*',
+            'categories.*',
+            'orders.*',
+            'transactions.*',
+            'shipping.*',
+            'stock.*',
+            // 'admin.access',
+            // 'admin.settings',
+            // 'beta.*',
         ],
         'admin' => [
-            'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'beta.access',
+            'products.*',
+            'customers.*',
+            'categories.*',
+            'orders.*',
+            'transactions.*',
+            'shipping.*',
+            'stock.*',
+            // 'admin.access',
+            // 'admin.settings',
+            // 'beta.access',
         ],
-        'developer' => [
-            'admin.access',
-            'admin.settings',
-            'users.create',
-            'users.edit',
-            'beta.access',
+        'staff' => [
+            'products.view',
+            'customers.view',
+            'orders.view',
+            'orders.process',
+            'shipping.view',
+            'shipping.track',
+            'stock.view',
+            // 'admin.access',
+            // 'admin.settings',
+            // 'beta.access',
         ],
-        'user' => [],
-        'beta' => [
-            'beta.access',
+        'user' => [
+            // Basic permissions untuk customer
         ],
+        // 'beta' => [
+        //     'beta.access',
+        // ],
     ];
 }
