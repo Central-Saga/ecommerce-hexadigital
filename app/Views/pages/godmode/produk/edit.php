@@ -1,9 +1,10 @@
 <!-- filepath: c:\laragon\www\ecommerce-hexadigital\app\Views\pages\godmode\produk\edit.php -->
-<?= $this->extend('layouts/admin') ?>
+<?php /** @var \CodeIgniter\View\View $this */ ?>
+<?= $this->extend('layouts/admin'); ?>
 
 <?= $this->section('title') ?>Edit Produk<?= $this->endSection() ?>
 
-<?= $this->section('content') ?>
+<?= $this->section('content'); ?>
 <div class="container-fluid px-4">
     <h1 class="mt-4">Edit Produk</h1>
     <ol class="breadcrumb mb-4">
@@ -169,4 +170,4 @@
         }
     });
 </script>
-<?= $this->endSection() ?>
+<?= $this->endSection(); ?>
