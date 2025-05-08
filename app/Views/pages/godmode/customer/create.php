@@ -30,7 +30,7 @@
             <h5 class="mb-0">Tambah Pelanggan Baru</h5>
         </div>
         <div class="card-body">
-            <form action="/godmode/customer/store" method="POST" class="needs-validation" novalidate>
+            <form action="/godmode/pelanggan/store" method="POST" class="needs-validation" novalidate>
                 <?= csrf_field() ?>
 
                 <div class="row g-4">
