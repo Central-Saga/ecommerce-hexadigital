@@ -5,7 +5,7 @@
 
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="/admin/dashboard">
+            <a class="nav-link active" href="/godmode/dashboard">
                 <div class="icon-wrapper">
                     <i class="bi bi-speedometer2"></i>
                 </div>
@@ -54,7 +54,7 @@
             <div class="collapse" id="productManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/products">
+                        <a class="nav-link" href="/godmode/products">
                             <div class="icon-wrapper">
                                 <i class="bi bi-box-seam"></i>
                             </div>
@@ -62,7 +62,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/categories">
+                        <a class="nav-link" href="/godmode/kategori">
                             <div class="icon-wrapper">
                                 <i class="bi bi-tags"></i>
                             </div>
@@ -70,7 +70,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/inventory">
+                        <a class="nav-link" href="/godmode/inventory">
                             <div class="icon-wrapper">
                                 <i class="bi bi-boxes"></i>
                             </div>
@@ -92,7 +92,7 @@
             <div class="collapse" id="orderManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/orders">
+                        <a class="nav-link" href="/godmode/orders">
                             <div class="icon-wrapper">
                                 <i class="bi bi-cart-check"></i>
                             </div>
@@ -100,7 +100,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/transactions">
+                        <a class="nav-link" href="/godmode/transactions">
                             <div class="icon-wrapper">
                                 <i class="bi bi-credit-card"></i>
                             </div>
@@ -108,7 +108,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin/shipping">
+                        <a class="nav-link" href="/godmode/shipping">
                             <div class="icon-wrapper">
                                 <i class="bi bi-truck"></i>
                             </div>
@@ -120,7 +120,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/admin/settings">
+            <a class="nav-link" href="/godmode/settings">
                 <div class="icon-wrapper">
                     <i class="bi bi-gear"></i>
                 </div>
