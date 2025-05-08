@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateKategoriTable extends Migration
+class CreateKategoriTable_2025_04_20_105526 extends Migration
 {
     public function up()
     {
