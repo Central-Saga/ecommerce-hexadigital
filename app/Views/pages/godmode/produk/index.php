@@ -5,160 +5,183 @@
 <?= $this->section('title') ?>Kelola Produk<?= $this->endSection() ?>
 
 <?= $this->section('content'); ?>
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Kelola Produk</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="<?= site_url('godmode/dashboard') ?>">Dashboard</a></li>
-        <li class="breadcrumb-item active">Produk</li>
-    </ol>
-
-    <!-- Alert Messages -->
-    <?php if (session()->has('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> <?= session('success') ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-    
-    <?php if (session()->has('error')): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle me-2"></i> <?= session('error') ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <?= session()->getFlashdata('success') ?>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
     <?php endif; ?>
 
-    <div class="card mb-4">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-                <i class="fas fa-box-open me-1"></i>
-                Daftar Produk
-            </div>
-            <div>
-                <a href="<?= site_url('godmode/produk/create') ?>" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i> Tambah Produk
-                </a>
+    <?php if (session()->getFlashdata('error')) : ?>
+        <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-x-circle me-2"></i>
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataProduk" class="table table-striped table-bordered" width="100%">
-                    <thead class="table-dark">
-                        <tr>
-                            <th width="70">ID</th>
-                            <th width="100">Gambar</th>
-                            <th>Nama Produk</th>
-                            <th width="120">Harga</th>
-                            <th width="80">Stok</th>
-                            <th width="140">Kategori</th>
-                            <th width="160">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($produks as $produk): ?>
-                            <tr>
-                                <td><?= esc($produk['id']) ?></td>
-                                <td class="text-center">
-                                    <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
-                                        <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>" alt="<?= esc($produk['nama_produk']) ?>" 
-                                            class="img-thumbnail" style="max-height: 50px;">
-                                    <?php else: ?>
-                                        <img src="<?= base_url('assets/img/no-image.png') ?>" alt="No Image" 
-                                            class="img-thumbnail" style="max-height: 50px;">
-                                    <?php endif; ?>
-                                </td>
-                                <td><?= esc($produk['nama_produk']) ?></td>
-                                <td>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></td>
-                                <td class="text-center">
-                                    <span class="badge bg-<?= $produk['stok'] > 0 ? 'success' : 'danger' ?>">
-                                        <?= $produk['stok'] ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <?php if (isset($produk['kategori_nama']) && !empty($produk['kategori_nama'])): ?>
-                                        <span class="badge bg-info"><?= esc($produk['kategori_nama']) ?></span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Tidak ada kategori</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="<?= site_url('godmode/produk/detail/' . $produk['id']) ?>" 
-                                           class="btn btn-info btn-sm" title="Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="<?= site_url('godmode/produk/edit/' . $produk['id']) ?>" 
-                                           class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                data-id="<?= $produk['id'] ?>"
-                                                data-name="<?= esc($produk['nama_produk']) ?>"
-                                                title="Hapus">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <?php endif; ?>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="product-management">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-box-seam me-2 text-primary fs-4"></i>
+                <h5 class="mb-0">Daftar Produk</h5>
             </div>
-            <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus produk <strong id="delete-produk-name"></strong>?</p>
-                <p class="text-danger"><small>Tindakan ini tidak dapat dibatalkan.</small></p>
-            </div>
-            <div class="modal-footer">
-                <form id="deleteForm" action="" method="post">
-                    <?= csrf_field() ?>
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-danger">Hapus</button>
-                </form>
-            </div>
+            <a href="<?= site_url('godmode/produk/create') ?>" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-1"></i> Tambah Produk
+            </a>
+        </div>
+        <div class="card-body">
+            <?php if (empty($produks)) : ?>
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                    <p class="mt-3 text-muted">Belum ada data produk</p>
+                </div>
+            <?php else : ?>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 60px">ID</th>
+                                <th style="width: 100px">Gambar</th>
+                                <th>Nama Produk</th>
+                                <th style="width: 120px">Harga</th>
+                                <th class="text-center" style="width: 80px">Stok</th>
+                                <th style="width: 140px">Kategori</th>
+                                <th class="text-center" style="width: 160px">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($produks as $produk): ?>
+                                <tr>
+                                    <td class="text-center"><?= esc($produk['id']) ?></td>
+                                    <td class="text-center">
+                                        <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
+                                            <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
+                                                alt="<?= esc($produk['nama_produk']) ?>"
+                                                class="product-image">
+                                        <?php else: ?>
+                                            <img src="<?= base_url('assets/img/no-image.png') ?>"
+                                                alt="No Image"
+                                                class="product-image">
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold"><?= esc($produk['nama_produk']) ?></div>
+                                    </td>
+                                    <td>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></td>
+                                    <td class="text-center">
+                                        <span class="badge bg-<?= $produk['stok'] > 0 ? 'success' : 'danger' ?>">
+                                            <?= $produk['stok'] ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php if (isset($produk['kategori_nama']) && !empty($produk['kategori_nama'])): ?>
+                                            <span class="badge bg-info"><?= esc($produk['kategori_nama']) ?></span>
+                                        <?php else: ?>
+                                            <span class="badge bg-secondary">Tidak ada kategori</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-1">
+                                            <a href="<?= site_url('godmode/produk/detail/' . $produk['id']) ?>"
+                                                class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Detail">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="<?= site_url('godmode/produk/edit/' . $produk['id']) ?>"
+                                                class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                onclick="deleteProduk(<?= $produk['id'] ?>, '<?= esc($produk['nama_produk']) ?>')"
+                                                data-bs-toggle="tooltip" title="Hapus">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize DataTable
-        $('#dataProduk').DataTable({
-            responsive: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json'
+    function deleteProduk(id, name) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: `Produk "${name}" akan dihapus!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`<?= site_url('godmode/produk/') ?>${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: data.message,
+                                icon: 'success'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: data.message,
+                                icon: 'error'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat menghapus produk',
+                            icon: 'error'
+                        });
+                    });
             }
         });
-        
-        // Set up delete confirmation
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        const deleteForm = document.getElementById('deleteForm');
-        const deleteProdukName = document.getElementById('delete-produk-name');
-        
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const name = this.getAttribute('data-name');
-                
-                deleteProdukName.textContent = name;
-                deleteForm.action = `<?= site_url('godmode/produk/') ?>${id}`;
-                
-                // Show modal
-                const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-                deleteModal.show();
-            });
-        });
+    }
+
+    // Inisialisasi toast
+    document.addEventListener('DOMContentLoaded', function() {
+        const toastElList = document.querySelectorAll('.toast');
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 3000
+        }));
+        toastList.forEach(toast => toast.show());
+
+        // Inisialisasi tooltip
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     });
 </script>
 <?= $this->endSection(); ?>

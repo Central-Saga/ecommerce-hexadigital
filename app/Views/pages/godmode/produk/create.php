@@ -5,141 +5,222 @@
 <?= $this->section('title') ?>Tambah Produk Baru<?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<div class="container-fluid px-4 py-3">
-    <div class="row">
-        <div class="col-12">
-            <div class="card shadow border-0">
-                <div class="card-header bg-gradient-primary text-white">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-plus-circle-fill me-2"></i>Tambah Produk Baru
-                    </h5>
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <?php if (session()->has('errors')) : ?>
+        <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-x-circle me-2"></i>
+                    <?php
+                    $errors = session('errors');
+                    if (is_array($errors)) {
+                        echo implode('<br>', $errors);
+                    } else {
+                        echo $errors;
+                    }
+                    ?>
                 </div>
-                <div class="card-body">
-                    <?php if (session()->has('errors')): ?>
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                <?php foreach (session('errors') as $error): ?>
-                                    <li><?= esc($error) ?></li>
-                                <?php endforeach ?>
-                            </ul>
-                        </div>
-                    <?php endif; ?>
-                    
-                    <form action="<?= site_url('godmode/produk/store') ?>" method="post" enctype="multipart/form-data">
-                        <?= csrf_field() ?>
-                        
-                        <div class="row mb-3">
-                            <div class="col-md-8">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="nama_produk" name="nama_produk" 
-                                           placeholder="Nama Produk" value="<?= old('nama_produk') ?>">
-                                    <label for="nama_produk">Nama Produk</label>
-                                </div>
-                                
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="kategori_id" name="kategori_id">
-                                        <option value="" selected disabled>Pilih Kategori</option>
-                                        <?php if (isset($kategoriList)): ?>
-                                            <?php foreach ($kategoriList as $kategori): ?>
-                                                <option value="<?= $kategori['id'] ?>" <?= old('kategori_id') == $kategori['id'] ? 'selected' : '' ?>>
-                                                    <?= esc($kategori['nama']) ?>
-                                                </option>
-                                            <?php endforeach ?>
-                                        <?php endif ?>
-                                    </select>
-                                    <label for="kategori_id">Kategori Produk</label>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="harga" name="harga" 
-                                                   placeholder="Harga Produk" value="<?= old('harga') ?>" min="0" step="0.01">
-                                            <label for="harga">Harga (Rp)</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3">
-                                            <input type="number" class="form-control" id="stok" name="stok" 
-                                                   placeholder="Stok" value="<?= old('stok', 0) ?>" min="0">
-                                            <label for="stok">Stok</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3">
-                                    <label for="deskripsi" class="form-label">Deskripsi Produk</label>
-                                    <textarea class="form-control" id="deskripsi" name="deskripsi" 
-                                              rows="5" placeholder="Deskripsi lengkap produk..."><?= old('deskripsi') ?></textarea>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="card border">
-                                    <div class="card-header bg-light">
-                                        <h6 class="mb-0">Gambar Produk</h6>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        <div class="mb-3">
-                                            <img id="preview" src="<?= base_url('assets/img/placeholder-image.png') ?>" 
-                                                 class="img-fluid img-thumbnail mb-2" style="max-height: 200px;">
-                                            
-                                            <div class="input-group">
-                                                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
-                                                <label class="input-group-text" for="gambar">Upload</label>
-                                            </div>
-                                            <small class="text-muted">Format: JPG, PNG, GIF. Maks 2MB</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="<?= site_url('godmode/produk') ?>" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left me-1"></i> Kembali
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save me-1"></i> Simpan Produk
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<div class="product-form">
+    <div class="card">
+        <div class="card-header d-flex align-items-center gap-2">
+            <i class="bi bi-box-seam text-primary fs-4"></i>
+            <h5 class="mb-0">Tambah Produk Baru</h5>
+        </div>
+        <div class="card-body">
+            <form action="<?= site_url('godmode/produk/store') ?>" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <?= csrf_field() ?>
+
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="nama_produk" class="form-label">
+                                <i class="bi bi-box me-1"></i>Nama Produk
+                            </label>
+                            <input type="text"
+                                class="form-control <?= session('errors.nama_produk') ? 'is-invalid' : '' ?>"
+                                id="nama_produk"
+                                name="nama_produk"
+                                value="<?= old('nama_produk') ?>"
+                                required>
+                            <div class="invalid-feedback">
+                                <?= session('errors.nama_produk') ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="kategori_id" class="form-label">
+                                <i class="bi bi-tags me-1"></i>Kategori Produk
+                            </label>
+                            <select class="form-select <?= session('errors.kategori_id') ? 'is-invalid' : '' ?>"
+                                id="kategori_id"
+                                name="kategori_id"
+                                required>
+                                <option value="" selected disabled>Pilih Kategori</option>
+                                <?php if (isset($kategoriList)): ?>
+                                    <?php foreach ($kategoriList as $kategori): ?>
+                                        <option value="<?= $kategori['id'] ?>" <?= old('kategori_id') == $kategori['id'] ? 'selected' : '' ?>>
+                                            <?= esc($kategori['nama']) ?>
+                                        </option>
+                                    <?php endforeach ?>
+                                <?php endif ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                <?= session('errors.kategori_id') ?>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="harga" class="form-label">
+                                        <i class="bi bi-currency-dollar me-1"></i>Harga (Rp)
+                                    </label>
+                                    <input type="text"
+                                        class="form-control <?= session('errors.harga') ? 'is-invalid' : '' ?>"
+                                        id="harga"
+                                        name="harga"
+                                        value="<?= old('harga') ?>"
+                                        required>
+                                    <div class="invalid-feedback">
+                                        <?= session('errors.harga') ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="stok" class="form-label">
+                                        <i class="bi bi-boxes me-1"></i>Stok
+                                    </label>
+                                    <input type="number"
+                                        class="form-control <?= session('errors.stok') ? 'is-invalid' : '' ?>"
+                                        id="stok"
+                                        name="stok"
+                                        value="<?= old('stok', 0) ?>"
+                                        min="0"
+                                        required>
+                                    <div class="invalid-feedback">
+                                        <?= session('errors.stok') ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deskripsi" class="form-label">
+                                <i class="bi bi-card-text me-1"></i>Deskripsi Produk
+                            </label>
+                            <textarea class="form-control <?= session('errors.deskripsi') ? 'is-invalid' : '' ?>"
+                                id="deskripsi"
+                                name="deskripsi"
+                                rows="5"
+                                required><?= old('deskripsi') ?></textarea>
+                            <div class="invalid-feedback">
+                                <?= session('errors.deskripsi') ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="bi bi-image me-1"></i>Gambar Produk
+                            </label>
+                            <div class="card border">
+                                <div class="card-body text-center">
+                                    <img id="preview"
+                                        src="<?= base_url('assets/img/placeholder-image.png') ?>"
+                                        class="image-preview mb-3">
+
+                                    <div class="input-group">
+                                        <input type="file"
+                                            class="form-control <?= session('errors.gambar') ? 'is-invalid' : '' ?>"
+                                            id="gambar"
+                                            name="gambar"
+                                            accept="image/*"
+                                            required>
+                                        <label class="input-group-text" for="gambar">
+                                            <i class="bi bi-upload"></i>
+                                        </label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        <?= session('errors.gambar') ?>
+                                    </div>
+                                    <small class="text-muted d-block mt-2">
+                                        Format: JPG, PNG, GIF. Maks 2MB
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="<?= site_url('godmode/produk') ?>" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Simpan Produk
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Preview gambar yang diupload
-    const gambarInput = document.getElementById('gambar');
-    const previewImg = document.getElementById('preview');
-    
-    gambarInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewImg.src = e.target.result;
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi toast
+        const toastElList = document.querySelectorAll('.toast');
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 3000
+        }));
+        toastList.forEach(toast => toast.show());
+
+        // Form validation
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+
+        // Preview gambar yang diupload
+        const gambarInput = document.getElementById('gambar');
+        const previewImg = document.getElementById('preview');
+
+        gambarInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.src = '<?= base_url('assets/img/placeholder-image.png') ?>';
             }
-            reader.readAsDataURL(file);
-        } else {
-            previewImg.src = '<?= base_url('assets/img/placeholder-image.png') ?>';
-        }
+        });
+
+        // Format input harga dengan separator ribuan
+        const hargaInput = document.getElementById('harga');
+        hargaInput.addEventListener('input', function(e) {
+            const value = this.value.replace(/,/g, '');
+            if (!isNaN(value) && value !== '') {
+                this.value = parseFloat(value).toLocaleString('id-ID');
+            }
+        });
     });
-    
-    // Format input harga dengan separator ribuan
-    const hargaInput = document.getElementById('harga');
-    hargaInput.addEventListener('input', function(e) {
-        const value = this.value.replace(/,/g, '');
-        if (!isNaN(value) && value !== '') {
-            // Format hanya jika angka valid
-            this.value = parseFloat(value).toLocaleString('id-ID');
-        }
-    });
-});
 </script>
 <?= $this->endSection() ?>

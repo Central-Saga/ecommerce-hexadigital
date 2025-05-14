@@ -13,8 +13,8 @@ class Produk extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nama_produk', 
-        'harga', 
+        'nama_produk',
+        'harga',
         'deskripsi',
         'stok',
         'kategori_id'
@@ -28,20 +28,20 @@ class Produk extends Model
         'stok' => 'integer',
         'kategori_id' => 'integer'
     ];
-    
+
     // Dates
     protected $useTimestamps = true; // Aktifkan timestamps
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    
+
     // Validation
     protected $validationRules = [
         'nama_produk' => 'required|min_length[3]|max_length[255]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
     ];
-    
+
     protected $validationMessages = [
         'nama_produk' => [
             'required' => 'Nama produk harus diisi',
@@ -57,7 +57,7 @@ class Produk extends Model
             'integer' => 'Stok produk harus berupa angka bulat'
         ]
     ];
-    
+
     protected $skipValidation = false;
     protected $cleanValidationRules = true;
 
@@ -66,10 +66,10 @@ class Produk extends Model
      */
     public function withKategori()
     {
-        return $this->select('produk.*, kategori.nama as kategori_nama')
-                    ->join('kategori', 'kategori.id = produk.kategori_id', 'left');
+        return $this->select('produk.*, kategori.nama_kategori as kategori_nama')
+            ->join('kategori', 'kategori.id = produk.kategori_id', 'left');
     }
-    
+
     /**
      * Get produk by kategori
      */

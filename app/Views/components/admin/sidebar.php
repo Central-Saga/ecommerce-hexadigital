@@ -54,7 +54,7 @@
             <div class="collapse" id="productManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/products">
+                        <a class="nav-link" href="/godmode/produk">
                             <div class="icon-wrapper">
                                 <i class="bi bi-box-seam"></i>
                             </div>
