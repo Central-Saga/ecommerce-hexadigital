@@ -82,7 +82,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-1">
-                                            <a href="/godmode/customer/edit/<?= $customer['id'] ?>" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
+                                            <a href="/godmode/pelanggan/edit/<?= $customer['id'] ?>" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-danger" onclick="deleteCustomer(<?= $customer['id'] ?>)" data-bs-toggle="tooltip" title="Hapus">
@@ -113,7 +113,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/godmode/customer/${id}`, {
+                fetch(`/godmode/pelanggan/pelanggan/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',

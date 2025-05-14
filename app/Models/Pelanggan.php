@@ -88,4 +88,14 @@ class Pelanggan extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    /**
+     * Get pelanggan with user relation
+     */
+    public function withUser()
+    {
+        return $this->select('pelanggans.*, users.username, auth_identities.secret as email')
+            ->join('users', 'users.id = pelanggans.user_id', 'left')
+            ->join('auth_identities', 'auth_identities.user_id = users.id', 'left');
+    }
 }

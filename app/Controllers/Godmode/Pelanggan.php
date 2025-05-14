@@ -18,17 +18,17 @@ class Pelanggan extends BaseController
 
     public function getIndex()
     {
-        // Ambil semua pelanggan dari database
-        $pelanggans = $this->pelangganModel->findAll();
+        // Ambil semua pelanggan dari database dengan data user
+        $pelanggans = $this->pelangganModel->withUser()->findAll();
 
         // Format data pelanggan untuk view
         $formattedPelanggans = [];
         foreach ($pelanggans as $pelanggan) {
             $formattedPelanggans[] = [
                 'id' => $pelanggan['id'],
-                'name' => $pelanggan['name'],
+                'name' => $pelanggan['username'],
                 'email' => $pelanggan['email'],
-                'no_telepon' => $pelanggan['no_telepon'],
+                'phone' => $pelanggan['no_telepon'],
                 'status' => $pelanggan['status']
             ];
         }
@@ -57,8 +57,7 @@ class Pelanggan extends BaseController
     public function postStore()
     {
         $rules = [
-            'name' => 'required|min_length[3]|max_length[100]',
-            'email' => 'required|valid_email|is_unique[pelanggans.email]',
+            'user_id' => 'required|numeric|is_not_unique[users.id]',
             'no_telepon' => 'required|numeric|min_length[10]|max_length[15]',
             'alamat' => 'required',
             'jenis_kelamin' => 'required|in_list[L,P]',
@@ -74,8 +73,7 @@ class Pelanggan extends BaseController
 
         try {
             $data = [
-                'name' => $this->request->getPost('name'),
-                'email' => $this->request->getPost('email'),
+                'user_id' => $this->request->getPost('user_id'),
                 'no_telepon' => $this->request->getPost('no_telepon'),
                 'alamat' => $this->request->getPost('alamat'),
                 'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
@@ -86,7 +84,7 @@ class Pelanggan extends BaseController
             $this->pelangganModel->insert($data);
 
             session()->setFlashdata('success', 'Pelanggan berhasil ditambahkan');
-            return redirect()->to('/godmode/customer');
+            return redirect()->to('/godmode/pelanggan');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -98,7 +96,7 @@ class Pelanggan extends BaseController
     {
         $pelanggan = $this->pelangganModel->find($id);
         if (!$pelanggan) {
-            return redirect()->to('/godmode/customer')
+            return redirect()->to('/godmode/pelanggan')
                 ->with('error', 'Pelanggan tidak ditemukan');
         }
 
@@ -121,13 +119,12 @@ class Pelanggan extends BaseController
     {
         $pelanggan = $this->pelangganModel->find($id);
         if (!$pelanggan) {
-            return redirect()->to('/godmode/customer')
+            return redirect()->to('/godmode/pelanggan')
                 ->with('error', 'Pelanggan tidak ditemukan');
         }
 
         $rules = [
-            'name' => 'required|min_length[3]|max_length[100]',
-            'email' => "required|valid_email|is_unique[pelanggans.email,id,{$id}]",
+            'user_id' => 'required|numeric|is_not_unique[users.id]',
             'no_telepon' => 'required|numeric|min_length[10]|max_length[15]',
             'alamat' => 'required',
             'jenis_kelamin' => 'required|in_list[L,P]',
@@ -143,8 +140,7 @@ class Pelanggan extends BaseController
 
         try {
             $data = [
-                'name' => $this->request->getPost('name'),
-                'email' => $this->request->getPost('email'),
+                'user_id' => $this->request->getPost('user_id'),
                 'no_telepon' => $this->request->getPost('no_telepon'),
                 'alamat' => $this->request->getPost('alamat'),
                 'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
@@ -154,7 +150,7 @@ class Pelanggan extends BaseController
 
             $this->pelangganModel->update($id, $data);
 
-            return redirect()->to('/godmode/customer')
+            return redirect()->to('/godmode/pelanggan')
                 ->with('success', 'Pelanggan berhasil diperbarui');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -186,7 +182,7 @@ class Pelanggan extends BaseController
                     'message' => 'Pelanggan berhasil dihapus'
                 ]);
             }
-            return redirect()->to('/godmode/customer')
+            return redirect()->to('/godmode/pelanggan')
                 ->with('success', 'Pelanggan berhasil dihapus');
         } catch (\Exception $e) {
             if ($this->request->isAJAX()) {

@@ -30,7 +30,7 @@
             <h5 class="mb-0">Edit Pelanggan</h5>
         </div>
         <div class="card-body">
-            <form action="/godmode/customer/update/<?= $customer['id'] ?>" method="POST" class="needs-validation" novalidate>
+            <form action="/godmode/pelanggan/update/<?= $customer['id'] ?>" method="POST" class="needs-validation" novalidate>
                 <?= csrf_field() ?>
                 <input type="hidden" name="_method" value="PUT">
 
