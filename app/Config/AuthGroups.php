@@ -23,7 +23,7 @@ class AuthGroups extends ShieldAuthGroups
      * --------------------------------------------------------------------
      * The group that a newly registered user is added to.
      */
-    public string $defaultGroup = 'user';
+    public string $defaultGroup = 'pengunjung';
 
     /**
      * --------------------------------------------------------------------
@@ -41,25 +41,21 @@ class AuthGroups extends ShieldAuthGroups
      * @see https://codeigniter4.github.io/shield/quick_start_guide/using_authorization/#change-available-groups for more info
      */
     public array $groups = [
-        'superadmin' => [
-            'title'       => 'Super Admin',
-            'description' => 'Complete control of the site.',
-        ],
         'admin' => [
             'title'       => 'Admin',
-            'description' => 'Day to day administrators of the site.',
+            'description' => 'Administrator sistem dengan akses penuh.',
         ],
-        'developer' => [
-            'title'       => 'Developer',
-            'description' => 'Site programmers.',
+        'pegawai' => [
+            'title'       => 'Pegawai',
+            'description' => 'Pegawai dengan akses terbatas untuk operasional.',
         ],
-        'user' => [
-            'title'       => 'User',
-            'description' => 'General users of the site. Often customers.',
+        'pelanggan' => [
+            'title'       => 'Pelanggan',
+            'description' => 'Pengguna terdaftar yang dapat melakukan transaksi.',
         ],
-        'beta' => [
-            'title'       => 'Beta User',
-            'description' => 'Has access to beta-level features.',
+        'pengunjung' => [
+            'title'       => 'Pengunjung',
+            'description' => 'Pengguna yang belum terdaftar.',
         ],
     ];
 
@@ -72,13 +68,54 @@ class AuthGroups extends ShieldAuthGroups
      * If a permission is not listed here it cannot be used.
      */
     public array $permissions = [
-        'admin.access'        => 'Can access the sites admin area',
-        'admin.settings'      => 'Can access the main site settings',
-        'users.manage-admins' => 'Can manage other admins',
-        'users.create'        => 'Can create new non-admin users',
-        'users.edit'          => 'Can edit existing non-admin users',
-        'users.delete'        => 'Can delete existing non-admin users',
-        'beta.access'         => 'Can access beta-level features',
+        // User Management
+        'users.manage'    => 'Mengizinkan pengelolaan data pengguna',
+        'users.view'      => 'Mengizinkan melihat data pengguna',
+        'users.create'    => 'Mengizinkan membuat pengguna baru',
+        'users.edit'      => 'Mengizinkan mengedit data pengguna',
+        'users.delete'    => 'Mengizinkan menghapus pengguna',
+
+        // Product Management
+        'products.manage' => 'Mengizinkan pengelolaan produk',
+        'products.view'   => 'Mengizinkan melihat produk',
+        'products.create' => 'Mengizinkan membuat produk baru',
+        'products.edit'   => 'Mengizinkan mengedit produk',
+        'products.delete' => 'Mengizinkan menghapus produk',
+
+        // Customer Management
+        'customers.manage' => 'Mengizinkan pengelolaan data pelanggan',
+        'customers.view'   => 'Mengizinkan melihat data pelanggan',
+        'customers.create' => 'Mengizinkan membuat data pelanggan baru',
+        'customers.edit'   => 'Mengizinkan mengedit data pelanggan',
+        'customers.delete' => 'Mengizinkan menghapus data pelanggan',
+
+        // Category Management
+        'categories.manage' => 'Mengizinkan pengelolaan kategori',
+        'categories.view'   => 'Mengizinkan melihat kategori',
+        'categories.create' => 'Mengizinkan membuat kategori baru',
+        'categories.edit'   => 'Mengizinkan mengedit kategori',
+        'categories.delete' => 'Mengizinkan menghapus kategori',
+
+        // Order Management
+        'orders.manage'    => 'Mengizinkan pengelolaan pesanan',
+        'orders.view'      => 'Mengizinkan melihat pesanan',
+        'orders.create'    => 'Mengizinkan membuat pesanan baru',
+        'orders.edit'      => 'Mengizinkan mengedit pesanan',
+        'orders.delete'    => 'Mengizinkan menghapus pesanan',
+
+        // Transaction Management
+        'transactions.manage' => 'Mengizinkan pengelolaan transaksi',
+        'transactions.view'   => 'Mengizinkan melihat transaksi',
+        'transactions.create' => 'Mengizinkan membuat transaksi baru',
+        'transactions.edit'   => 'Mengizinkan mengedit transaksi',
+        'transactions.delete' => 'Mengizinkan menghapus transaksi',
+
+        // Shipment Management
+        'shipments.manage' => 'Mengizinkan pengelolaan pengiriman',
+        'shipments.view'   => 'Mengizinkan melihat pengiriman',
+        'shipments.create' => 'Mengizinkan membuat pengiriman baru',
+        'shipments.edit'   => 'Mengizinkan mengedit pengiriman',
+        'shipments.delete' => 'Mengizinkan menghapus pengiriman',
     ];
 
     /**
@@ -90,28 +127,45 @@ class AuthGroups extends ShieldAuthGroups
      * This defines group-level permissions.
      */
     public array $matrix = [
-        'superadmin' => [
-            'admin.*',
-            'users.*',
-            'beta.*',
-        ],
         'admin' => [
-            'admin.access',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'beta.access',
+            'users.*',
+            'products.*',
+            'customers.*',
+            'categories.*',
+            'orders.*',
+            'transactions.*',
+            'shipments.*',
         ],
-        'developer' => [
-            'admin.access',
-            'admin.settings',
-            'users.create',
-            'users.edit',
-            'beta.access',
+        'pegawai' => [
+            'products.view',
+            'products.create',
+            'products.edit',
+            'customers.view',
+            'customers.create',
+            'customers.edit',
+            'categories.view',
+            'orders.view',
+            'orders.create',
+            'orders.edit',
+            'transactions.view',
+            'transactions.create',
+            'transactions.edit',
+            'shipments.view',
+            'shipments.create',
+            'shipments.edit',
         ],
-        'user' => [],
-        'beta' => [
-            'beta.access',
+        'pelanggan' => [
+            'products.view',
+            'categories.view',
+            'orders.view',
+            'orders.create',
+            'transactions.view',
+            'transactions.create',
+            'shipments.view',
+        ],
+        'pengunjung' => [
+            'products.view',
+            'categories.view',
         ],
     ];
 }
