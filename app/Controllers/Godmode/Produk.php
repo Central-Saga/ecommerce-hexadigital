@@ -137,7 +137,7 @@ class Produk extends BaseController
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
             'kategori_id' => 'permit_empty|integer',
-            'gambar' => 'uploaded[gambar]|is_image[gambar]|max_size[gambar,2048]|mime_in[gambar,image/jpg,image/jpeg,image/png]'
+            'gambar' => 'permit_empty|is_image[gambar]|max_size[gambar,2048]|mime_in[gambar,image/jpg,image/jpeg,image/png]'
         ];
 
         if (!$this->validate($rules)) {
@@ -157,13 +157,6 @@ class Produk extends BaseController
 
             // Handle file upload
             $gambar = $this->request->getFile('gambar');
-            log_message('debug', 'File upload info: ' . json_encode([
-                'isValid' => $gambar->isValid(),
-                'hasMoved' => $gambar->hasMoved(),
-                'getError' => $gambar->getError(),
-                'getErrorString' => $gambar->getErrorString()
-            ]));
-
             if ($gambar->isValid() && !$gambar->hasMoved()) {
                 // Delete old file if exists
                 if ($produk['gambar'] && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])) {
@@ -176,11 +169,6 @@ class Produk extends BaseController
                 $gambar->move(ROOTPATH . 'public/uploads/produk', $newName);
                 // Add filename to data
                 $data['gambar'] = $newName;
-            } else {
-                log_message('error', 'File upload failed: ' . $gambar->getErrorString());
-                return redirect()->back()
-                    ->withInput()
-                    ->with('errors', ['gambar' => 'Gagal mengupload gambar: ' . $gambar->getErrorString()]);
             }
 
             $this->produkModel->update($id, $data);

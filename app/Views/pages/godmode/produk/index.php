@@ -135,7 +135,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`<?= site_url('godmode/produk/') ?>${id}`, {
+                fetch(`/godmode/produk/produk/${id}`, {
                         method: 'DELETE',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
