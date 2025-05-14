@@ -15,7 +15,7 @@
 
         <!-- Manajemen Pengguna -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#userManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#userManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-people"></i>
                 </div>
@@ -45,7 +45,7 @@
 
         <!-- Manajemen Produk -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#productManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#productManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-box"></i>
                 </div>
@@ -83,7 +83,7 @@
 
         <!-- Manajemen Pesanan -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="collapse" href="#orderManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#orderManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-cart"></i>
                 </div>
