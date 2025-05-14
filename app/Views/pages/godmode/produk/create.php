@@ -63,12 +63,14 @@
                                 name="kategori_id"
                                 required>
                                 <option value="" selected disabled>Pilih Kategori</option>
-                                <?php if (isset($kategoriList)): ?>
-                                    <?php foreach ($kategoriList as $kategori): ?>
+                                <?php if (isset($kategoris) && count($kategoris) > 0): ?>
+                                    <?php foreach ($kategoris as $kategori): ?>
                                         <option value="<?= $kategori['id'] ?>" <?= old('kategori_id') == $kategori['id'] ? 'selected' : '' ?>>
-                                            <?= esc($kategori['nama']) ?>
+                                            <?= esc($kategori['nama_kategori']) ?>
                                         </option>
                                     <?php endforeach ?>
+                                <?php else: ?>
+                                    <option value="" disabled>Tidak ada kategori, silakan tambah kategori dulu.</option>
                                 <?php endif ?>
                             </select>
                             <div class="invalid-feedback">
@@ -150,7 +152,7 @@
                                         </label>
                                     </div>
                                     <div class="invalid-feedback">
-                                        <?= session('errors.gambar') ?>
+                                        <?= session('errors.gambar') ?? 'Gambar produk harus diupload' ?>
                                     </div>
                                     <small class="text-muted d-block mt-2">
                                         Format: JPG, PNG, GIF. Maks 2MB
@@ -216,10 +218,21 @@
         // Format input harga dengan separator ribuan
         const hargaInput = document.getElementById('harga');
         hargaInput.addEventListener('input', function(e) {
-            const value = this.value.replace(/,/g, '');
-            if (!isNaN(value) && value !== '') {
-                this.value = parseFloat(value).toLocaleString('id-ID');
+            // Ambil hanya digit angka
+            let value = this.value.replace(/[^0-9]/g, '');
+            if (value.length > 0) {
+                // Format ribuan
+                this.value = parseInt(value, 10).toLocaleString('id-ID');
+            } else {
+                this.value = '';
             }
+        });
+
+        // Pastikan harga hanya angka sebelum submit
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const hargaInput = document.getElementById('harga');
+            hargaInput.value = hargaInput.value.replace(/[^0-9]/g, '');
         });
     });
 </script>

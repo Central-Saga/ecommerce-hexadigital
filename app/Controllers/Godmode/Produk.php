@@ -56,6 +56,10 @@ class Produk extends BaseController
 
     public function postStore()
     {
+        // Debug: Log request data
+        log_message('debug', 'POST Data: ' . json_encode($this->request->getPost()));
+        log_message('debug', 'FILES Data: ' . json_encode($this->request->getFiles()));
+
         $rules = [
             'nama_produk' => 'required|min_length[3]|max_length[255]',
             'harga' => 'required|numeric',
@@ -66,15 +70,16 @@ class Produk extends BaseController
         ];
 
         if (!$this->validate($rules)) {
+            log_message('error', 'Validation errors: ' . json_encode($this->validator->getErrors()));
             return redirect()->back()
                 ->withInput()
-                ->with('errors', validation_errors());
+                ->with('errors', $this->validator->getErrors());
         }
 
         try {
             $data = [
                 'nama_produk' => $this->request->getPost('nama_produk'),
-                'harga' => $this->request->getPost('harga'),
+                'harga' => str_replace(',', '', $this->request->getPost('harga')),
                 'stok' => $this->request->getPost('stok'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
                 'kategori_id' => $this->request->getPost('kategori_id') ?: null
@@ -82,6 +87,13 @@ class Produk extends BaseController
 
             // Handle file upload
             $gambar = $this->request->getFile('gambar');
+            log_message('debug', 'File upload info: ' . json_encode([
+                'isValid' => $gambar->isValid(),
+                'hasMoved' => $gambar->hasMoved(),
+                'getError' => $gambar->getError(),
+                'getErrorString' => $gambar->getErrorString()
+            ]));
+
             if ($gambar->isValid() && !$gambar->hasMoved()) {
                 // Generate random name
                 $newName = $gambar->getRandomName();
@@ -89,6 +101,11 @@ class Produk extends BaseController
                 $gambar->move(ROOTPATH . 'public/uploads/produk', $newName);
                 // Add filename to data
                 $data['gambar'] = $newName;
+            } else {
+                log_message('error', 'File upload failed: ' . $gambar->getErrorString());
+                return redirect()->back()
+                    ->withInput()
+                    ->with('errors', ['gambar' => 'Gagal mengupload gambar: ' . $gambar->getErrorString()]);
             }
 
             $this->produkModel->insert($data);
@@ -96,9 +113,10 @@ class Produk extends BaseController
             session()->setFlashdata('success', 'Produk berhasil ditambahkan');
             return redirect()->to('/godmode/produk');
         } catch (\Exception $e) {
+            log_message('error', 'Exception in postStore: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Gagal menambahkan produk: ' . $e->getMessage());
+                ->with('errors', ['general' => 'Gagal menambahkan produk: ' . $e->getMessage()]);
         }
     }
 
@@ -162,7 +180,7 @@ class Produk extends BaseController
                 if ($produk['gambar'] && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])) {
                     unlink(ROOTPATH . 'public/uploads/produk/' . $produk['gambar']);
                 }
-                
+
                 // Generate random name
                 $newName = $gambar->getRandomName();
                 // Move file to upload directory
@@ -227,7 +245,7 @@ class Produk extends BaseController
     public function getDetail($id)
     {
         $produk = $this->produkModel->withKategori()->find($id);
-        
+
         if (!$produk) {
             return redirect()->to('/godmode/produk')
                 ->with('error', 'Produk tidak ditemukan');

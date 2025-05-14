@@ -24,7 +24,7 @@ class Produk extends Model
     protected bool $updateOnlyChanged = true;
 
     protected array $casts = [
-        'harga' => 'decimal',
+        'harga' => 'float',
         'stok' => 'integer',
         'kategori_id' => 'integer'
     ];
