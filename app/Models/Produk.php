@@ -17,7 +17,8 @@ class Produk extends Model
         'harga',
         'deskripsi',
         'stok',
-        'kategori_id'
+        'kategori_id',
+        'gambar'
     ];
 
     protected bool $allowEmptyInserts = false;

@@ -71,7 +71,8 @@
                                         <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
                                             <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
                                                 alt="<?= esc($produk['nama_produk']) ?>"
-                                                class="product-image">
+                                                class="product-image"
+                                                onerror="this.src='<?= base_url('assets/img/no-image.png') ?>'">
                                         <?php else: ?>
                                             <img src="<?= base_url('assets/img/no-image.png') ?>"
                                                 alt="No Image"

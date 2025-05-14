@@ -27,6 +27,11 @@ class CreateProdukTable extends Migration
                 'type' => 'TEXT',
                 'null' => true,
             ],
+            'gambar' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => true,
+            ],
             'stok' => [
                 'type'       => 'INT',
                 'constraint' => 11,
