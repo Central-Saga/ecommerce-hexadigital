@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProdukTable_2025_04_20_154245 extends Migration
+class CreateProdukTable extends Migration
 {
     public function up()
     {
@@ -47,7 +47,7 @@ class CreateProdukTable_2025_04_20_154245 extends Migration
                 'null' => true,
             ],
         ]);
-        
+
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('kategori_id', 'kategori', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('produk');
