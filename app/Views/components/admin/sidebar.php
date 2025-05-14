@@ -61,14 +61,6 @@ function isActive($path)
             <div class="collapse <?= isActive('/godmode/produk') || isActive('/godmode/kategori') || isActive('/godmode/inventory') ? 'show' : '' ?>" id="productManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/produk') ?>" href="/godmode/produk">
-                            <div class="icon-wrapper">
-                                <i class="bi bi-box-seam"></i>
-                            </div>
-                            <span>Kelola Produk</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link <?= isActive('/godmode/kategori') ?>" href="/godmode/kategori">
                             <div class="icon-wrapper">
                                 <i class="bi bi-tags"></i>
@@ -77,11 +69,11 @@ function isActive($path)
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/inventory') ?>" href="/godmode/inventory">
+                        <a class="nav-link <?= isActive('/godmode/produk') ?>" href="/godmode/produk">
                             <div class="icon-wrapper">
-                                <i class="bi bi-boxes"></i>
+                                <i class="bi bi-box-seam"></i>
                             </div>
-                            <span>Kelola Stok</span>
+                            <span>Kelola Produk</span>
                         </a>
                     </li>
                 </ul>
