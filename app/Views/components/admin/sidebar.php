@@ -1,3 +1,10 @@
+<?php
+function isActive($path)
+{
+    $currentPath = $_SERVER['REQUEST_URI'];
+    return strpos($currentPath, $path) !== false ? 'active' : '';
+}
+?>
 <nav class="admin-sidebar">
     <div class="admin-sidebar-header">
         <h3>HexaDigital</h3>
@@ -5,7 +12,7 @@
 
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="/godmode/dashboard">
+            <a class="nav-link <?= isActive('/godmode/dashboard') ?>" href="/godmode/dashboard">
                 <div class="icon-wrapper">
                     <i class="bi bi-speedometer2"></i>
                 </div>
@@ -15,16 +22,16 @@
 
         <!-- Manajemen Pengguna -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#userManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/user') || isActive('/godmode/pelanggan') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#userManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-people"></i>
                 </div>
                 <span>Manajemen Pengguna</span>
             </a>
-            <div class="collapse" id="userManagement">
+            <div class="collapse <?= isActive('/godmode/user') || isActive('/godmode/pelanggan') ? 'show' : '' ?>" id="userManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/user">
+                        <a class="nav-link <?= isActive('/godmode/user') ?>" href="/godmode/user">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person"></i>
                             </div>
@@ -32,7 +39,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/pelanggan">
+                        <a class="nav-link <?= isActive('/godmode/pelanggan') ?>" href="/godmode/pelanggan">
                             <div class="icon-wrapper">
                                 <i class="bi bi-person-badge"></i>
                             </div>
@@ -45,16 +52,16 @@
 
         <!-- Manajemen Produk -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#productManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/produk') || isActive('/godmode/kategori') || isActive('/godmode/inventory') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#productManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-box"></i>
                 </div>
                 <span>Manajemen Produk</span>
             </a>
-            <div class="collapse" id="productManagement">
+            <div class="collapse <?= isActive('/godmode/produk') || isActive('/godmode/kategori') || isActive('/godmode/inventory') ? 'show' : '' ?>" id="productManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/produk">
+                        <a class="nav-link <?= isActive('/godmode/produk') ?>" href="/godmode/produk">
                             <div class="icon-wrapper">
                                 <i class="bi bi-box-seam"></i>
                             </div>
@@ -62,7 +69,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/kategori">
+                        <a class="nav-link <?= isActive('/godmode/kategori') ?>" href="/godmode/kategori">
                             <div class="icon-wrapper">
                                 <i class="bi bi-tags"></i>
                             </div>
@@ -70,7 +77,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/inventory">
+                        <a class="nav-link <?= isActive('/godmode/inventory') ?>" href="/godmode/inventory">
                             <div class="icon-wrapper">
                                 <i class="bi bi-boxes"></i>
                             </div>
@@ -83,16 +90,16 @@
 
         <!-- Manajemen Pesanan -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle sidebar-dropdown" data-bs-toggle="collapse" href="#orderManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/orders') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#orderManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-cart"></i>
                 </div>
                 <span>Manajemen Pesanan</span>
             </a>
-            <div class="collapse" id="orderManagement">
+            <div class="collapse <?= isActive('/godmode/orders') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'show' : '' ?>" id="orderManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/orders">
+                        <a class="nav-link <?= isActive('/godmode/orders') ?>" href="/godmode/orders">
                             <div class="icon-wrapper">
                                 <i class="bi bi-cart-check"></i>
                             </div>
@@ -100,7 +107,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/transactions">
+                        <a class="nav-link <?= isActive('/godmode/transactions') ?>" href="/godmode/transactions">
                             <div class="icon-wrapper">
                                 <i class="bi bi-credit-card"></i>
                             </div>
@@ -108,7 +115,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/godmode/shipping">
+                        <a class="nav-link <?= isActive('/godmode/shipping') ?>" href="/godmode/shipping">
                             <div class="icon-wrapper">
                                 <i class="bi bi-truck"></i>
                             </div>
@@ -120,7 +127,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/godmode/settings">
+            <a class="nav-link <?= isActive('/godmode/settings') ?>" href="/godmode/settings">
                 <div class="icon-wrapper">
                     <i class="bi bi-gear"></i>
                 </div>
