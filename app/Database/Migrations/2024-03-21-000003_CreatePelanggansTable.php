@@ -60,7 +60,7 @@ class CreatePelanggansTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        // Removed foreign key constraint to users table
         $this->forge->createTable('pelanggans');
     }
 
