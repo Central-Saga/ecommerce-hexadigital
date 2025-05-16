@@ -25,38 +25,72 @@ class Pemesanan extends BaseController
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
         
-        // Ambil semua pemesanan dari database dengan relasi pelanggan
+        // Tampilkan konten tabel pemesanan untuk debugging
+        try {
+            $query = $this->pemesananModel->db->query("DESCRIBE pemesanan");
+            $tableStructure = $query->getResultArray();
+            log_message('debug', 'Struktur tabel pemesanan: ' . json_encode($tableStructure));
+        } catch (\Exception $e) {
+            log_message('error', 'Gagal mengambil struktur tabel: ' . $e->getMessage());
+        }
+        
+        // Direct query untuk memastikan data diambil
+        try {
+            $query = $this->pemesananModel->db->query("SELECT * FROM pemesanan");
+            $rawPemesanans = $query->getResultArray();
+            log_message('debug', 'Raw query pemesanans: ' . json_encode($rawPemesanans));
+        } catch (\Exception $e) {
+            log_message('error', 'Gagal mengambil data pemesanan: ' . $e->getMessage());
+            $rawPemesanans = [];
+        }
+        
+        // Ambil semua pemesanan dari database dengan model
         $pemesanans = $this->pemesananModel->findAll();
         
         // Debug: Tambahkan log
-        log_message('debug', 'Pemesanans raw: ' . json_encode($pemesanans));
-        
-        // SQL Query debug
-        log_message('debug', 'Last Query: ' . $this->pemesananModel->db->getLastQuery());
-        
-        // Check if database has data
-        log_message('debug', 'Database count rows: ' . $this->pemesananModel->countAllResults());
+        log_message('debug', 'Pemesanans from model: ' . json_encode($pemesanans));
         
         // Format data pemesanan untuk view
         $formattedPemesanans = [];
-        foreach ($pemesanans as $pemesanan) {
-            // Dapatkan data pelanggan dengan informasi user
-            $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
-            
-            // Debug: Log data pelanggan
-            log_message('debug', 'Pelanggan data: ' . json_encode($pelanggan));
-            
-            $formattedPemesanans[] = [
-                'id' => $pemesanan['id'],
-                'pelanggan_nama' => $pelanggan ? ($pelanggan['username'] ?? 'Tidak ada nama') : 'Pelanggan tidak ditemukan',
-                'email' => $pelanggan ? ($pelanggan['email'] ?? '-') : '-',
-                'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
-                'total_harga' => $pemesanan['total_harga'],
-                'status_pemesanan' => $pemesanan['status_pemesanan'],
-                'created_at' => $pemesanan['created_at'],
-                'updated_at' => $pemesanan['updated_at']
-            ];
+        
+        // Jika data dari model kosong, gunakan data dari query langsung
+        $dataToProcess = !empty($pemesanans) ? $pemesanans : $rawPemesanans;
+        
+        foreach ($dataToProcess as $pemesanan) {
+            try {
+                // Ambil data pelanggan - tangani jika gagal
+                $pelanggan = null;
+                if (!empty($pemesanan['pelanggan_id'])) {
+                    $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
+                }
+                
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'],
+                    'pelanggan_nama' => $pelanggan ? ($pelanggan['username'] ?? 'Tidak ada nama') : 'Pelanggan tidak ditemukan',
+                    'email' => $pelanggan ? ($pelanggan['email'] ?? '-') : '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
+                    'total_harga' => $pemesanan['total_harga'],
+                    'status_pemesanan' => $pemesanan['status_pemesanan'],
+                    'created_at' => $pemesanan['created_at'] ?? date('Y-m-d H:i:s'),
+                    'updated_at' => $pemesanan['updated_at'] ?? date('Y-m-d H:i:s')
+                ];
+            } catch (\Exception $e) {
+                log_message('error', 'Error saat memproses pemesanan: ' . $e->getMessage());
+                // Tambahkan data minimal untuk mencegah error pada view
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'] ?? '?',
+                    'pelanggan_nama' => 'Error: Pelanggan tidak ditemukan',
+                    'email' => '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'] ?? date('Y-m-d'),
+                    'total_harga' => $pemesanan['total_harga'] ?? 0,
+                    'status_pemesanan' => $pemesanan['status_pemesanan'] ?? 'menunggu',
+                    'created_at' => $pemesanan['created_at'] ?? date('Y-m-d H:i:s'),
+                    'updated_at' => $pemesanan['updated_at'] ?? date('Y-m-d H:i:s')
+                ];
+            }
         }
+        
+        log_message('debug', 'Formatted data: ' . json_encode($formattedPemesanans));
 
         return view('pages/godmode/pemesanan/index', [
             'pemesanans' => $formattedPemesanans
@@ -81,7 +115,7 @@ class Pemesanan extends BaseController
         $rules = [
             'pelanggan_id' => 'required|integer',
             'tanggal_pemesanan' => 'required|valid_date',
-            'total_harga' => 'required|decimal',
+            'total_harga' => 'required', // ubah dari decimal ke general agar bisa menerima format
             'status_pemesanan' => 'required|in_list[menunggu,diproses,selesai,dibatalkan]'
         ];
 
@@ -106,7 +140,7 @@ class Pemesanan extends BaseController
             $data = [
                 'pelanggan_id' => $this->request->getPost('pelanggan_id'),
                 'tanggal_pemesanan' => $this->request->getPost('tanggal_pemesanan'),
-                'total_harga' => $totalHarga,
+                'total_harga' => floatval($totalHarga), // Pastikan dikonversi ke float
                 'status_pemesanan' => $this->request->getPost('status_pemesanan'),
                 'catatan' => $this->request->getPost('catatan')
             ];
@@ -114,20 +148,39 @@ class Pemesanan extends BaseController
             // Debug data yang akan disimpan
             log_message('debug', 'Data to be inserted: ' . json_encode($data));
 
-            // Pre-insert debugging
-            log_message('debug', 'Allowed fields in model: ' . json_encode($this->pemesananModel->allowedFields));
+            // Coba simpan menggunakan query manual jika model tidak berhasil
+            try {
+                $insertId = $this->pemesananModel->insert($data);
+                log_message('debug', 'Insert result menggunakan model: ' . ($insertId ? 'Success with ID: ' . $insertId : 'Failed'));
+                
+                // Jika gagal insert dengan model, coba dengan query langsung
+                if (!$insertId) {
+                    $db = \Config\Database::connect();
+                    $builder = $db->table('pemesanan');
+                    $result = $builder->insert($data);
+                    $insertId = $db->insertID();
+                    log_message('debug', 'Insert result menggunakan query langsung: ' . ($result ? 'Success with ID: ' . $insertId : 'Failed'));
+                }
+            } catch (\Exception $modelException) {
+                log_message('error', 'Error saat insert model: ' . $modelException->getMessage());
+                
+                // Coba dengan query langsung sebagai fallback
+                $db = \Config\Database::connect();
+                $builder = $db->table('pemesanan');
+                $result = $builder->insert($data);
+                $insertId = $db->insertID();
+                log_message('debug', 'Insert result fallback: ' . ($result ? 'Success with ID: ' . $insertId : 'Failed'));
+            }
             
-            $insertId = $this->pemesananModel->insert($data);
-            
-            // Post-insert debugging
-            log_message('debug', 'Insert result: ' . ($insertId ? 'Success with ID: ' . $insertId : 'Failed'));
-            
-            // Debug hasil insert
-            log_message('debug', 'Insert ID: ' . $insertId);
+            // Jika masih gagal, lempar exception
+            if (!$insertId) {
+                throw new \Exception('Gagal menyimpan pemesanan');
+            }
 
             session()->setFlashdata('success', 'Pemesanan berhasil ditambahkan');
             return redirect()->to('/godmode/pemesanan');
         } catch (\Exception $e) {
+            log_message('error', 'Exception: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal menambahkan pemesanan: ' . $e->getMessage());

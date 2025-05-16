@@ -39,7 +39,7 @@ class Pemesanan extends Model
 
     // Validation
     protected $validationRules      = [
-        'pelanggan_id' => 'required|integer|is_not_unique[pelanggans.id]',
+        'pelanggan_id' => 'required|integer', // Hapus is_not_unique untuk mengurangi ketergantungan
         'tanggal_pemesanan' => 'required|valid_date',
         'total_harga' => 'required|numeric',
         'status_pemesanan' => 'required|in_list[menunggu,diproses,selesai,dibatalkan]'

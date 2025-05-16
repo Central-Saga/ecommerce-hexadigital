@@ -31,8 +31,8 @@ class CreatePemesananTable extends Migration
             ],
             'status_pemesanan' => [
                 'type'       => 'ENUM',
-                'constraint' => ['pending', 'proses', 'selesai', 'dibatalkan'],
-                'default'    => 'pending',
+                'constraint' => ['menunggu', 'diproses', 'selesai', 'dibatalkan'],
+                'default'    => 'menunggu',
             ],
             'catatan' => [
                 'type' => 'TEXT',
