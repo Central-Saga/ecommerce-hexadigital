@@ -31,8 +31,12 @@
                             <i class="bi bi-person"></i>Akun
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/login">Login</a></li>
-                            <li><a class="dropdown-item" href="/register">Register</a></li>
+                            <?php if (auth()->loggedIn()): ?>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            <?php else: ?>
+                                <li><a class="dropdown-item" href="/login">Login</a></li>
+                                <li><a class="dropdown-item" href="/register">Register</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 </ul>
