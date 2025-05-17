@@ -436,9 +436,21 @@ class Auth extends ShieldAuth
      */
     public function loginRedirect(): string
     {
+        $user = auth()->user();
+
+        if ($user) {
+            $groups = $user->getGroups();
+
+            if (in_array('admin', $groups) || in_array('pegawai', $groups)) {
+                return site_url('godmode/dashboard');
+            } elseif (in_array('pelanggan', $groups)) {
+                return site_url('/');
+            }
+        }
+
+        // Default redirect jika tidak ada group
         $session = session();
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
-
         return $this->getUrl($url);
     }
 
