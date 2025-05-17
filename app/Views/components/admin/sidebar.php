@@ -82,16 +82,16 @@ function isActive($path)
 
         <!-- Manajemen Pesanan -->
         <li class="nav-item">
-            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/orders') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#orderManagement">
+            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/pemesanan') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#orderManagement">
                 <div class="icon-wrapper">
                     <i class="bi bi-cart"></i>
                 </div>
                 <span>Manajemen Pesanan</span>
             </a>
-            <div class="collapse <?= isActive('/godmode/orders') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'show' : '' ?>" id="orderManagement">
+            <div class="collapse <?= isActive('/godmode/pemesanan') || isActive('/godmode/transactions') || isActive('/godmode/shipping') ? 'show' : '' ?>" id="orderManagement">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/orders') ?>" href="/godmode/orders">
+                        <a class="nav-link <?= isActive('/godmode/pemesanan') ?>" href="/godmode/pemesanan">
                             <div class="icon-wrapper">
                                 <i class="bi bi-cart-check"></i>
                             </div>
