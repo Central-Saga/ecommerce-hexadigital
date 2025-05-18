@@ -1,8 +1,12 @@
 <header>
+    <!-- Top Navigation -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <!-- Navbar Brand -->
-            <a class="navbar-brand" href="/">Hexadigital Store</a>
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-hexagon-fill text-white me-2"></i>
+                Hexadigital Store
+            </a>
 
             <!-- Toggler Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,29 +17,63 @@
             <div class="collapse navbar-collapse" id="navbarMain">
                 <!-- Search Form -->
                 <form class="d-flex mx-auto my-2 my-lg-0" style="max-width: 500px; width: 100%;">
-                    <input class="form-control me-2" type="search" placeholder="Cari produk..." aria-label="Search">
-                    <button class="btn btn-light" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
+                    <div class="input-group">
+                        <input class="form-control" type="search" placeholder="Cari produk..." aria-label="Search">
+                        <button class="btn btn-light" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
                 </form>
 
                 <!-- Navigation Links -->
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">
+                            <i class="bi bi-grid me-1"></i>
+                            Semua Produk
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-tags me-1"></i>
+                            Kategori
+                        </a>
+                        <ul class="dropdown-menu">
+                            <?php if(isset($categories) && !empty($categories)): ?>
+                                <?php foreach($categories as $category): ?>
+                                    <li>
+                                        <a class="dropdown-item" href="/category/<?= $category['id'] ?>">
+                                            <i class="bi <?= $category['icon'] ?? 'bi-tag' ?> me-2"></i>
+                                            <?= esc($category['nama_kategori']) ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li><a class="dropdown-item disabled" href="#">Tidak ada kategori</a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/cart">
-                            <i class="bi bi-cart3"></i>Keranjang
+                            <i class="bi bi-cart3 me-1"></i>
+                            Keranjang
+                            <span class="badge bg-light text-dark ms-1">0</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person"></i>Akun
+                            <i class="bi bi-person me-1"></i>
+                            Akun
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <?php if (auth()->loggedIn()): ?>
-                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="/profile"><i class="bi bi-person-circle me-2"></i>Profil Saya</a></li>
+                                <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag me-2"></i>Pesanan Saya</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                             <?php else: ?>
-                                <li><a class="dropdown-item" href="/login">Login</a></li>
-                                <li><a class="dropdown-item" href="/register">Register</a></li>
+                                <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
+                                <li><a class="dropdown-item" href="/register"><i class="bi bi-person-plus me-2"></i>Register</a></li>
                             <?php endif; ?>
                         </ul>
                     </li>

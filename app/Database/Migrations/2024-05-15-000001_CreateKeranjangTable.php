@@ -43,10 +43,8 @@ class CreateKeranjangTable extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-        ]);
-
-        $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('pelanggan_id', 'pelanggan', 'id', 'CASCADE', 'CASCADE');
+        ]);        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('pelanggan_id', 'pelanggans', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('produk_id', 'produk', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('keranjang');
     }

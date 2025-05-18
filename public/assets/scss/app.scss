@@ -1,0 +1,13 @@
+// Main Styles
+@use 'abstracts/variables';
+@use 'components/header';
+@use 'components/footer';
+@use 'components/cards';
+@use 'components/category-card';
+@use 'components/product-card';
+@use 'components/feature-card';
+@use 'pages/homepage';
+@use 'pages/kategori';
+@use 'pages/produk';
+
+// Base styles and utilities can be added here
