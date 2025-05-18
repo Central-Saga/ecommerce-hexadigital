@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProdukTable extends Migration
+class Migration_2024_03_21_000002_create_produk_table extends Migration
 {
     public function up()
     {

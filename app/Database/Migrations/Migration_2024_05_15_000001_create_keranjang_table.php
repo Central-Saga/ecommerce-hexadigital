@@ -4,14 +4,14 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreatePemesananTable extends Migration
+class Migration_2024_05_15_000001_create_keranjang_table extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
-                'type'           => 'BIGINT',
-                'constraint'     => 20,
+                'type'           => 'INT',
+                'constraint'     => 11,
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
@@ -20,23 +20,20 @@ class CreatePemesananTable extends Migration
                 'constraint' => 11,
                 'unsigned'   => true,
             ],
-            'tanggal_pemesanan' => [
-                'type' => 'DATE',
-                'null' => false,
+            'produk_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
             ],
-            'total_harga' => [
+            'jumlah' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'default'    => 1,
+            ],
+            'subtotal' => [
                 'type'       => 'DECIMAL',
                 'constraint' => '15,2',
                 'default'    => 0,
-            ],
-            'status_pemesanan' => [
-                'type'       => 'ENUM',
-                'constraint' => ['menunggu', 'diproses', 'selesai', 'dibatalkan'],
-                'default'    => 'menunggu',
-            ],
-            'catatan' => [
-                'type' => 'TEXT',
-                'null' => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -46,15 +43,14 @@ class CreatePemesananTable extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-        ]);
-        
-        $this->forge->addKey('id', true);
-        // Removed foreign key constraint to pelanggans table
-        $this->forge->createTable('pemesanan');
+        ]);        $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('pelanggan_id', 'pelanggans', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('produk_id', 'produk', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('keranjang');
     }
 
     public function down()
     {
-        $this->forge->dropTable('pemesanan');
+        $this->forge->dropTable('keranjang');
     }
 }

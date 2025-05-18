@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreatePelanggansTable extends Migration
+class Migration_2024_03_21_000003_create_pelanggans_table extends Migration
 {
     public function up()
     {
