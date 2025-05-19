@@ -27,15 +27,15 @@ class Product extends BaseController
         return view('pages/products', $data);
     }
 
-    public function detail($slug)
+    public function detail($id)
     {
         $data = [
             'title' => 'Product Detail',
-            'product' => $this->produkModel->getProducts($slug)
+            'product' => $this->produkModel->find($id)
         ];
 
         if (empty($data['product'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Product ' . $slug . ' not found');
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Product not found');
         }
 
         return view('pages/product-detail', $data);

@@ -106,14 +106,11 @@
                         <?php endif; ?>
                         <div class="product-actions">
                             <button class="action-btn" onclick="addToCart(<?= $product['id'] ?>)">
-                                <i class="bi bi-cart-plus"></i>
-                            </button>
-                            <button class="action-btn" onclick="addToWishlist(<?= $product['id'] ?>)">
-                                <i class="bi bi-heart"></i>
-                            </button>
-                            <a href="<?= base_url('product/' . $product['id']) ?>" class="action-btn">
-                                <i class="bi bi-eye"></i>
-                            </a>
+    <i class="bi bi-cart-plus"></i>
+</button>
+<a href="<?= base_url('produk/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
+    <i class="bi bi-eye"></i>
+</a>
                         </div>
                     </div>
                     <div class="product-info">
