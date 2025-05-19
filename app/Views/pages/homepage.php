@@ -103,11 +103,15 @@
                              onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
                         <?php if(isset($product['discount']) && $product['discount'] > 0): ?>
                             <div class="product-badge">-<?= $product['discount'] ?>%</div>
-                        <?php endif; ?>                        <div class="product-actions">
+                        <?php endif; ?>
+                        <div class="product-actions">
                             <button class="action-btn" onclick="addToCart(<?= $product['id'] ?>)">
                                 <i class="bi bi-cart-plus"></i>
                             </button>
-                            <a href="<?= base_url('produk/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
+                            <button class="action-btn" onclick="addToWishlist(<?= $product['id'] ?>)">
+                                <i class="bi bi-heart"></i>
+                            </button>
+                            <a href="<?= base_url('product/' . $product['id']) ?>" class="action-btn">
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
@@ -205,6 +209,11 @@
 function addToCart(productId) {
     // Implementasi logika menambah ke keranjang
     alert('Produk ditambahkan ke keranjang!');
+}
+
+function addToWishlist(productId) {
+    // Implementasi logika menambah ke wishlist
+    alert('Produk ditambahkan ke wishlist!');
 }
 </script>
 

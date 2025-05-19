@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Produk;
+use App\Models\Kategori;
+
 class Product extends BaseController
 {
     protected $produkModel;
@@ -9,20 +12,64 @@ class Product extends BaseController
 
     public function __construct()
     {
-        $this->produkModel = new \App\Models\Produk();
-        $this->kategoriModel = new \App\Models\Kategori();
+        $this->produkModel = new Produk();
+        $this->kategoriModel = new Kategori();
     }
 
-    public function detail($id)
+    public function index()
     {
-        $product = $this->produkModel->withKategori()->find($id);
-        
-        if (!$product) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Produk tidak ditemukan');
+        $data = [
+            'title' => 'Products',
+            'products' => $this->produkModel->getProducts(),
+            'categories' => $this->kategoriModel->findAll()
+        ];
+
+        return view('pages/products', $data);
+    }
+
+    public function detail($slug)
+    {
+        $data = [
+            'title' => 'Product Detail',
+            'product' => $this->produkModel->getProducts($slug)
+        ];
+
+        if (empty($data['product'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Product ' . $slug . ' not found');
         }
 
-        return view('pages/product-detail', [
-            'product' => $product
-        ]);
+        return view('pages/product-detail', $data);
+    }
+
+    public function category($id)
+    {
+        $category = $this->kategoriModel->find($id);
+        
+        if (!$category) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Category not found');
+        }
+
+        $data = [
+            'title' => 'Products - ' . $category['nama'],
+            'products' => $this->produkModel->getProductsByCategory($id),
+            'category' => $category,
+            'categories' => $this->kategoriModel->findAll()
+        ];
+
+        return view('pages/products', $data);
+    }
+
+    public function search()
+    {
+        $keyword = $this->request->getGet('q');
+        
+        $data = [
+            'title' => 'Search Results for: ' . $keyword,
+            'products' => $this->produkModel->searchProducts($keyword),
+            'categories' => $this->kategoriModel->findAll(),
+            'keyword' => $keyword
+        ];
+
+        return view('pages/products', $data);
     }
 }

@@ -7,7 +7,7 @@
   .product-container {
     display: grid;
     gap: 2rem;
-
+    
     @media (min-width: 768px) {
       grid-template-columns: 1fr 1fr;
     }
@@ -16,7 +16,7 @@
       width: 100%;
       border-radius: 8px;
       overflow: hidden;
-
+      
       img {
         width: 100%;
         height: 100%;
@@ -52,7 +52,7 @@
         .meta-item {
           display: flex;
           gap: 0.5rem;
-
+          
           .label {
             font-weight: 600;
             color: var(--text-dark);
@@ -67,12 +67,12 @@
       .product-actions {
         display: flex;
         gap: 1rem;
-
+        
         .quantity {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-
+          
           button {
             background: var(--gray-100);
             border: none;
@@ -80,7 +80,7 @@
             height: 30px;
             border-radius: 4px;
             cursor: pointer;
-
+            
             &:hover {
               background: var(--gray-200);
             }
@@ -104,7 +104,7 @@
           border-radius: 4px;
           cursor: pointer;
           transition: background 0.2s;
-
+          
           &:hover {
             background: var(--primary-dark);
           }

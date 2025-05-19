@@ -1,15 +1,17 @@
 /* Product Detail Page Styles */
 .product-detail {
   padding: 40px 0;
+
   .product-container {
     background: #fff;
     border-radius: 16px;
-    padding: 0;
-    box-shadow: 0 4px 16px rgba(7, 187, 103, 0.1);
-    display: flex;
-    flex-direction: column;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 500px 1fr;
+    gap: 40px;
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 1200px;
     position: relative;
 
     @media (max-width: 992px) {
@@ -19,16 +21,19 @@
       gap: 24px;
     }
   }
+
   .product-image {
-    position: relative;
-    border-radius: 16px 16px 0 0;
+    position: sticky;
+    top: 20px;
+    border-radius: 12px;
     overflow: hidden;
     background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    height: calc(100vh - 100px);
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
 
     &::after {
       content: "";
@@ -43,15 +48,17 @@
     }
 
     @media (max-width: 992px) {
-      border-radius: 12px 12px 0 0;
+      position: relative;
+      top: 0;
+      height: 400px;
     }
+
     img {
       width: 100%;
-      height: auto;
-      max-height: calc(100vh - 200px);
+      height: 100%;
       object-fit: contain;
       transition: all 0.4s ease;
-      padding: 0;
+      padding: 24px;
 
       &:hover {
         transform: scale(1.05);
@@ -59,16 +66,15 @@
       }
     }
   }
+
   .product-info {
     display: flex;
     flex-direction: column;
     gap: 24px;
     position: relative;
-    padding: 32px 40px 60px;
-    background: #fff;
+    padding-bottom: 60px;
 
     @media (max-width: 992px) {
-      min-height: auto;
       padding-bottom: 80px;
     }
   }
@@ -121,6 +127,7 @@
       }
     }
   }
+
   .product-actions {
     position: absolute;
     bottom: 0;
@@ -128,9 +135,7 @@
     display: flex;
     gap: 16px;
     justify-content: flex-end;
-    padding: 16px;
-    border-radius: 12px;
-    background: #fff;
+    padding: 16px 0;
 
     .btn {
       padding: 14px 28px;
@@ -142,12 +147,12 @@
       justify-content: center;
       display: flex;
       align-items: center;
-      background: transparent;
 
       &:hover {
         transform: translateY(-2px);
       }
     }
+
     .btn-primary {
       background: var(--primary-color);
       border: none;
