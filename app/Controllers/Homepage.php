@@ -24,6 +24,6 @@ class Homepage extends BaseController
             'categories' => $this->kategoriModel->findAll()
         ];
 
-        return view('pages/home', $data);
+        return view('pages/homepage', $data);
     }
 }
