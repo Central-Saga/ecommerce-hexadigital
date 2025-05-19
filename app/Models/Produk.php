@@ -18,7 +18,8 @@ class Produk extends Model
         'deskripsi',
         'stok',
         'kategori_id',
-        'gambar'
+        'gambar',
+        'slug'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -41,6 +42,7 @@ class Produk extends Model
         'nama_produk' => 'required|min_length[3]|max_length[255]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
+        'slug' => 'required|is_unique[produk.slug,id,{id}]'
     ];
 
     protected $validationMessages = [
@@ -77,5 +79,46 @@ class Produk extends Model
     public function getByKategori($kategori_id)
     {
         return $this->where('kategori_id', $kategori_id)->findAll();
+    }
+
+    // Fungsi untuk menghasilkan slug saat menyimpan/update produk
+    protected function beforeInsert(array $data)
+    {
+        if (!isset($data['data']['slug'])) {
+            $data['data']['slug'] = $this->createSlug($data['data']['nama_produk']);
+        }
+        return $data;
+    }
+
+    protected function beforeUpdate(array $data)
+    {
+        if (isset($data['data']['nama_produk']) && !isset($data['data']['slug'])) {
+            $data['data']['slug'] = $this->createSlug($data['data']['nama_produk']);
+        }
+        return $data;
+    }
+
+    // Fungsi untuk membuat slug unik
+    protected function createSlug($title)
+    {
+        $slug = url_title($title, '-', true);
+        $count = 1;
+
+        // Cek apakah slug sudah ada
+        while ($this->where('slug', $slug)
+                   ->where('id !=', $this->getID())
+                   ->countAllResults() > 0) {
+            $slug = url_title($title . '-' . $count, '-', true);
+            $count++;
+        }
+
+        return $slug;
+    }
+
+    // Fungsi untuk mendapatkan produk berdasarkan slug
+    public function getProductBySlug($slug)
+    {
+        return $this->where('slug', $slug)
+                   ->first();
     }
 }

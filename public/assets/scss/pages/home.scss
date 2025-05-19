@@ -19,7 +19,7 @@
 .content-container {
   // Default styles untuk mobile (dibawah 768px)
   width: 100%;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 15px;
   box-sizing: border-box;
@@ -42,7 +42,7 @@
   // Layar: monitor ultra-wide, resolusi 4K
   @media (min-width: 1600px) {
     width: 100%;
-    padding: 0 20px;
+    padding: 0px;
   }
 }
 
@@ -58,8 +58,8 @@
   }
 
   @media (min-width: 1200px) {
-    padding-left: 4rem;
-    padding-right: 4rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 
   @media (min-width: 1600px) {
