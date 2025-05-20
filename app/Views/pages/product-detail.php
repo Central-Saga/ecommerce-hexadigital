@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/main') ?>
+<?= $this->extend('layouts/wrapper') ?>
 
 <?= $this->section('content') ?>
 
@@ -6,14 +6,14 @@
     <div class="product-container">
         <div class="product-image">
             <?php if ($product['gambar']): ?>
-                <img src="<?= base_url('uploads/produk/' . $product['gambar']) ?>" alt="<?= $product['nama'] ?>">
+                <img src="<?= base_url('uploads/produk/' . $product['gambar']) ?>" alt="<?= $product['nama_produk'] ?>">
             <?php else: ?>
                 <img src="<?= base_url('assets/images/no-image.jpg') ?>" alt="No Image">
             <?php endif; ?>
         </div>
 
         <div class="product-info">
-            <h1 class="product-title"><?= esc($product['nama']) ?></h1>
+            <h1 class="product-title"><?= esc($product['nama_produk']) ?></h1>
             <div class="product-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></div>
             
             <div class="product-description">
