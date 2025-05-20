@@ -58,13 +58,12 @@ class Product extends BaseController
         }
 
         $data = [
-            'title' => 'Products - ' . $category['nama'],
-            'products' => $this->produkModel->getProductsByCategory($id),
-            'category' => $category,
-            'categories' => $this->kategoriModel->findAll()
+            'title' => 'Kategori: ' . $category['nama_kategori'],
+            'products' => $this->produkModel->where('kategori_id', $id)->findAll(),
+            'category' => $category
         ];
 
-        return view('pages/products', $data);
+        return view('pages/category', $data);
     }
 
     public function search()
@@ -79,5 +78,15 @@ class Product extends BaseController
         ];
 
         return view('pages/products', $data);
+    }
+
+    public function kategori()
+    {
+        $kategoriModel = new Kategori();
+        $data = [
+            'title' => 'Semua Kategori',
+            'categories' => $kategoriModel->findAll()
+        ];
+        return view('pages/kategori', $data);
     }
 }

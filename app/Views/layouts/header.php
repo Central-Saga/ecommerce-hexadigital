@@ -28,7 +28,7 @@
                 <!-- Navigation Links -->
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="/products">
+                        <a class="nav-link" href="/produk">
                             <i class="bi bi-grid me-1"></i>
                             Semua Produk
                         </a>
@@ -42,7 +42,7 @@
                             <?php if(isset($categories) && !empty($categories)): ?>
                                 <?php foreach($categories as $category): ?>
                                     <li>
-                                        <a class="dropdown-item" href="/category/<?= $category['id'] ?>">
+                                        <a class="dropdown-item" href="/kategori/<?= $category['id'] ?>">
                                             <i class="bi <?= $category['icon'] ?? 'bi-tag' ?> me-2"></i>
                                             <?= esc($category['nama_kategori']) ?>
                                         </a>
@@ -57,7 +57,7 @@
                         <a class="nav-link" href="/cart">
                             <i class="bi bi-cart3 me-1"></i>
                             Keranjang
-                            <span class="badge bg-light text-dark ms-1">0</span>
+                            <span class="badge bg-light text-dark ms-1" id="cart-count">0</span>
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -82,3 +82,13 @@
         </div>
     </nav>
 </header>
+<script>
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+    let count = 0;
+    for (let id in cart) count += cart[id];
+    document.getElementById('cart-count').textContent = count;
+}
+updateCartCount();
+window.addEventListener('storage', updateCartCount);
+</script>

@@ -50,4 +50,12 @@ class Produk extends Model
         }
         return false;
     }
+
+    // Ambil produk beserta nama kategori
+    public function getProductsWithCategory()
+    {
+        return $this->select('produk.*, kategori.nama_kategori as kategori')
+            ->join('kategori', 'kategori.id = produk.kategori_id', 'left')
+            ->findAll();
+    }
 }

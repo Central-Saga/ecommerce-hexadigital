@@ -20,7 +20,7 @@ class Homepage extends BaseController
     {
         $data = [
             'title' => 'Hexadigital - Home',
-            'featured_products' => array_slice($this->produkModel->getProducts(), 0, 8),
+            'featured_products' => array_slice($this->produkModel->getProductsWithCategory(), 0, 8),
             'categories' => $this->kategoriModel->findAll()
         ];
 
