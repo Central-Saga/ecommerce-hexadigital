@@ -1,78 +1,57 @@
-// Base Styles
-:root {
-  --primary-color: #10b981;
-  --primary-dark: #059669;
-  --primary-light: #d1fae5;
-  --secondary-color: #4f46e5;
-  --text-dark: #1f2937;
-  --text-light: #6b7280;
-  --white: #ffffff;
-  --gray-50: #f9fafb;
-  --gray-100: #f3f4f6;
-  --gray-200: #e5e7eb;
-  --success: #059669;
-  --warning: #fbbf24;
-  --danger: #dc2626;
-}
+@use '../abstracts/variables' as *;
 
 // Container styles
 .content-container {
-  // Default styles untuk mobile (dibawah 768px)
-  width: 100%;
-  max-width: 1500px;
-  margin: 0 auto;
-  padding: 0 15px;
-  box-sizing: border-box;
-
-  // Tablet dan desktop kecil (768px dan keatas)
-  // Layar: iPad, tablet Android, laptop kecil
-  @media (min-width: 768px) {
+    // Default styles untuk mobile (dibawah 768px)
     width: 100%;
-    padding: 0 20px;
-  }
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
 
-  // Desktop menengah (1200px dan keatas)
-  // Layar: laptop besar, monitor desktop standar
-  @media (min-width: 1200px) {
-    width: 100%;
-    padding: 0 20px;
-  }
+    // Tablet dan desktop kecil (768px dan keatas)
+    // Layar: iPad, tablet Android, laptop kecil
+    @media (min-width: 768px) {
+        width: 100%;
+        padding: 0 20px;
+    }
 
-  // Desktop besar dan 4K (1600px dan keatas)
-  // Layar: monitor ultra-wide, resolusi 4K
-  @media (min-width: 1600px) {
-    width: 100%;
-    padding: 0px;
-  }
+    // Desktop menengah (1200px dan keatas)
+    // Layar: laptop besar, monitor desktop standar
+    @media (min-width: 1200px) {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    // Desktop besar dan 4K (1600px dan keatas)
+    // Layar: monitor ultra-wide, resolusi 4K
+    @media (min-width: 1600px) {
+        width: 100%;
+        padding: 0px;
+    }
 }
 
 // Reset container-fluid
 .container-fluid {
-  width: 100%;
-  margin: 0;
-  padding: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 
-  @media (min-width: 768px) {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+    @media (min-width: 768px) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
-  @media (min-width: 1200px) {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+    @media (min-width: 1200px) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 
-  @media (min-width: 1600px) {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+    @media (min-width: 1600px) {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
 }
 
-// Import components
-@import "../components/hero";
-@import "../components/categories";
-@import "../components/products";
-@import "../components/features";
-@import "../components/newsletter";
-@import "../components/empty-state";
-@import "../components/responsive";
+// Import semua komponen dari index components
+@use '../components';

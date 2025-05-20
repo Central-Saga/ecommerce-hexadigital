@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Migration_2024_05_15_000001_create_keranjang_table extends Migration
+class CreateKeranjangTable extends Migration
 {
     public function up()
     {
@@ -43,7 +43,8 @@ class Migration_2024_05_15_000001_create_keranjang_table extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-        ]);        $this->forge->addKey('id', true);
+        ]);
+        $this->forge->addKey('id', true);
         $this->forge->addForeignKey('pelanggan_id', 'pelanggans', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('produk_id', 'produk', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('keranjang');

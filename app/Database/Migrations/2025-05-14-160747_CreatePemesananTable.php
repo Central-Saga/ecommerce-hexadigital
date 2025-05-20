@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Migration_2025_05_14_160747_create_pemesanan_table extends Migration
+class CreatePemesananTable extends Migration
 {
     public function up()
     {
@@ -47,7 +47,7 @@ class Migration_2025_05_14_160747_create_pemesanan_table extends Migration
                 'null' => true,
             ],
         ]);
-        
+
         $this->forge->addKey('id', true);
         // Removed foreign key constraint to pelanggans table
         $this->forge->createTable('pemesanan');
