@@ -23,7 +23,7 @@
             <div class="product-meta">
                 <div class="meta-item">
                     <span class="label">Kategori</span>
-                    <span class="value"><?= esc($product['kategori_nama']) ?></span>
+                    <span class="value"><?= esc($kategori['nama_kategori'] ?? '-') ?></span>
                 </div>
                 <div class="meta-item">
                     <span class="label">Stok</span>

@@ -30,18 +30,20 @@ class Product extends BaseController
     public function detail($id)
     {
         $product = $this->produkModel->find($id);
-
         if (empty($product)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Product not found');
         }
 
-        // Ambil nama kategori
-        $kategori = $this->kategoriModel->find($product['kategori_id']);
-        $product['kategori_nama'] = is_array($kategori) ? ($kategori['nama_kategori'] ?? '-') : '-';
+        // Ambil data kategori
+        $kategori = null;
+        if (!empty($product['kategori_id'])) {
+            $kategori = $this->kategoriModel->find($product['kategori_id']);
+        }
 
         $data = [
             'title' => 'Product Detail',
-            'product' => $product
+            'product' => $product,
+            'kategori' => $kategori
         ];
 
         return view('pages/product-detail', $data);
