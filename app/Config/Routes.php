@@ -8,3 +8,6 @@ use CodeIgniter\Router\RouteCollection;
 
 // Homepage Routes
 $routes->get('/', 'Homepage::index');
+
+// Tambahkan route Shield
+defined('SHIELD_ROUTE') || service('auth')->routes($routes);
