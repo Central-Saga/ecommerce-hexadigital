@@ -8,23 +8,23 @@
             <p class="section-description"><?= esc($category['deskripsi_kategori'] ?? '') ?></p>
         </div>
         <div class="products-grid">
-            <?php if(isset($products) && !empty($products)): ?>
-                <?php foreach($products as $product): ?>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama_produk']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title"><?= esc($product['nama_produk']) ?></h3>
-                        <p class="product-description"><?= substr($product['deskripsi'] ?? '', 0, 100) ?>...</p>
-                        <div class="product-footer">
-                            <div class="product-price">
-                                <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
-                            </div>
+            <?php if (isset($products) && !empty($products)): ?>
+                <?php foreach ($products as $product): ?>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
                         </div>
-                        <a href="<?= base_url('produk/' . $product['id']) ?>" class="btn btn-outline-primary btn-sm mt-2">Lihat Detail</a>
+                        <div class="product-info">
+                            <h3 class="product-title"><?= esc($product['nama']) ?></h3>
+                            <p class="product-description"><?= substr($product['deskripsi'] ?? '', 0, 100) ?>...</p>
+                            <div class="product-footer">
+                                <div class="product-price">
+                                    <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
+                                </div>
+                            </div>
+                            <a href="<?= base_url('produk/' . $product['id']) ?>" class="btn btn-outline-primary btn-sm mt-2">Lihat Detail</a>
+                        </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="empty-state">

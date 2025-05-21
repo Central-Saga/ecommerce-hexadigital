@@ -28,7 +28,7 @@
                 <!-- Navigation Links -->
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="/produk">
+                        <a class="nav-link" href="/product">
                             <i class="bi bi-grid me-1"></i>
                             Semua Produk
                         </a>
@@ -39,8 +39,8 @@
                             Kategori
                         </a>
                         <ul class="dropdown-menu">
-                            <?php if(isset($categories) && !empty($categories)): ?>
-                                <?php foreach($categories as $category): ?>
+                            <?php if (isset($categories) && !empty($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
                                     <li>
                                         <a class="dropdown-item" href="/kategori/<?= $category['id'] ?>">
                                             <i class="bi <?= $category['icon'] ?? 'bi-tag' ?> me-2"></i>
@@ -69,7 +69,9 @@
                             <?php if (auth()->loggedIn()): ?>
                                 <li><a class="dropdown-item" href="/profile"><i class="bi bi-person-circle me-2"></i>Profil Saya</a></li>
                                 <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag me-2"></i>Pesanan Saya</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                             <?php else: ?>
                                 <li><a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
@@ -83,12 +85,12 @@
     </nav>
 </header>
 <script>
-function updateCartCount() {
-    let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-    let count = 0;
-    for (let id in cart) count += cart[id];
-    document.getElementById('cart-count').textContent = count;
-}
-updateCartCount();
-window.addEventListener('storage', updateCartCount);
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+        let count = 0;
+        for (let id in cart) count += cart[id];
+        document.getElementById('cart-count').textContent = count;
+    }
+    updateCartCount();
+    window.addEventListener('storage', updateCartCount);
 </script>

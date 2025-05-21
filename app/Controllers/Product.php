@@ -16,7 +16,7 @@ class Product extends BaseController
         $this->kategoriModel = new Kategori();
     }
 
-    public function index()
+    public function getIndex()
     {
         $data = [
             'title' => 'Products',
@@ -27,7 +27,7 @@ class Product extends BaseController
         return view('pages/products', $data);
     }
 
-    public function detail($id)
+    public function getDetail($id)
     {
         $product = $this->produkModel->find($id);
         if (empty($product)) {
@@ -49,10 +49,10 @@ class Product extends BaseController
         return view('pages/product-detail', $data);
     }
 
-    public function category($id)
+    public function getCategory($id)
     {
         $category = $this->kategoriModel->find($id);
-        
+
         if (!$category) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Category not found');
         }
@@ -66,10 +66,10 @@ class Product extends BaseController
         return view('pages/category', $data);
     }
 
-    public function search()
+    public function getSearch()
     {
         $keyword = $this->request->getGet('q');
-        
+
         $data = [
             'title' => 'Search Results for: ' . $keyword,
             'products' => $this->produkModel->searchProducts($keyword),
@@ -80,7 +80,7 @@ class Product extends BaseController
         return view('pages/products', $data);
     }
 
-    public function kategori()
+    public function getKategori()
     {
         $kategoriModel = new Kategori();
         $data = [
