@@ -101,7 +101,7 @@
                     <div class="product-card">
                         <div class="product-image">
                             <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>"
-                                alt="<?= esc($product['nama_produk']) ?>"
+                                alt="<?= esc($product['nama']) ?>"
                                 onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
                             <?php if (isset($product['discount']) && $product['discount'] > 0): ?>
                                 <div class="product-badge">-<?= $product['discount'] ?>%</div>
@@ -120,7 +120,7 @@
                                 <i class="bi bi-tag"></i>
                                 <?= $product['kategori'] ?? 'Uncategorized' ?>
                             </div>
-                            <h3 class="product-title"><?= esc($product['nama_produk']) ?></h3>
+                            <h3 class="product-title"><?= esc($product['nama']) ?></h3>
                             <p class="product-description"><?= substr($product['deskripsi_singkat'] ?? '', 0, 100) ?>...</p>
                             <div class="product-footer">
                                 <div class="product-price">

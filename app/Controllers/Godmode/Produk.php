@@ -62,7 +62,7 @@ class Produk extends BaseController
         log_message('debug', 'FILES Data: ' . json_encode($this->request->getFiles()));
 
         $rules = [
-            'nama_produk' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -79,7 +79,7 @@ class Produk extends BaseController
 
         try {
             $data = [
-                'nama_produk' => $this->request->getPost('nama_produk'),
+                'nama' => $this->request->getPost('nama'),
                 'harga' => str_replace(',', '', $this->request->getPost('harga')),
                 'stok' => $this->request->getPost('stok'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
@@ -132,7 +132,7 @@ class Produk extends BaseController
         }
 
         $rules = [
-            'nama_produk' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -148,7 +148,7 @@ class Produk extends BaseController
 
         try {
             $data = [
-                'nama_produk' => $this->request->getPost('nama_produk'),
+                'nama' => $this->request->getPost('nama'),
                 'harga' => $this->request->getPost('harga'),
                 'stok' => $this->request->getPost('stok'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
