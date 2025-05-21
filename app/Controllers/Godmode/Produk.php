@@ -22,18 +22,18 @@ class Produk extends BaseController
     public function getIndex()
     {
         // Ambil semua produk dengan kategori dari database
-        $produks = $this->produkModel->withKategori()->findAll();
+        $produks = $this->produkModel->getProductsWithCategory();
 
         // Format data produk untuk view
         $formattedProduks = [];
         foreach ($produks as $produk) {
             $formattedProduks[] = [
                 'id' => $produk['id'],
-                'nama_produk' => $produk['nama_produk'],
+                'nama_produk' => $produk['nama'],
                 'harga' => $produk['harga'],
                 'stok' => $produk['stok'],
                 'deskripsi' => $produk['deskripsi'],
-                'kategori_nama' => $produk['kategori_nama'] ?? 'Tidak ada kategori',
+                'kategori_nama' => $produk['kategori'] ?? 'Tidak ada kategori',
                 'created_at' => $produk['created_at'],
                 'updated_at' => $produk['updated_at'],
                 'gambar' => $produk['gambar']
