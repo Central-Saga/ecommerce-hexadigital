@@ -223,3 +223,30 @@
     margin-right: auto;
     box-shadow: 0 2px 8px rgba($emerald-200, 0.1);
 }
+
+.products-section .product-actions {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+.products-section .product-card:hover .product-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.products-section .product-actions .action-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.35rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.products-section .product-actions .action-btn:hover {
+    color: $emerald-400;
+}
