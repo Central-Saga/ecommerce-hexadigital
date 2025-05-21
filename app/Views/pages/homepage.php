@@ -64,16 +64,18 @@
             <p class="section-description">Temukan berbagai kategori produk digital yang sesuai dengan kebutuhan Anda</p>
         </div>
 
-        <div class="categories-grid">
+        <div class="row">
             <?php if (isset($categories) && !empty($categories)): ?>
                 <?php foreach ($categories as $category): ?>
-                    <div class="category-card">
-                        <div class="card-icon">
-                            <i class="bi <?= $category['icon'] ?? 'bi-collection' ?>"></i>
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <div class="category-card h-100">
+                            <div class="card-icon">
+                                <i class="bi <?= $category['icon'] ?? 'bi-collection' ?>"></i>
+                            </div>
+                            <h3><?= esc($category['nama_kategori']) ?></h3>
+                            <p><?= substr($category['deskripsi'] ?? 'Lihat koleksi produk kami', 0, 100) ?>...</p>
+                            <a href="<?= base_url('kategori/' . $category['id']) ?>" class="stretched-link"></a>
                         </div>
-                        <h3><?= esc($category['nama_kategori']) ?></h3>
-                        <p><?= substr($category['deskripsi'] ?? 'Lihat koleksi produk kami', 0, 100) ?>...</p>
-                        <a href="<?= base_url('kategori/' . $category['id']) ?>" class="stretched-link"></a>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -95,43 +97,45 @@
             <p class="section-description">Produk terbaik yang telah kami pilih khusus untuk Anda</p>
         </div>
 
-        <div class="products-grid">
+        <div class="row">
             <?php if (isset($featured_products) && !empty($featured_products)): ?>
                 <?php foreach ($featured_products as $product): ?>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>"
-                                alt="<?= esc($product['nama']) ?>"
-                                onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
-                            <?php if (isset($product['discount']) && $product['discount'] > 0): ?>
-                                <div class="product-badge">-<?= $product['discount'] ?>%</div>
-                            <?php endif; ?>
-                            <div class="product-actions">
-                                <button class="action-btn" onclick="addToCart(<?= $product['id'] ?>)">
-                                    <i class="bi bi-cart-plus"></i>
-                                </button>
-                                <a href="<?= base_url('produk/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
-                                    <i class="bi bi-eye"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-category">
-                                <i class="bi bi-tag"></i>
-                                <?= $product['kategori'] ?? 'Uncategorized' ?>
-                            </div>
-                            <h3 class="product-title"><?= esc($product['nama']) ?></h3>
-                            <p class="product-description"><?= substr($product['deskripsi_singkat'] ?? '', 0, 100) ?>...</p>
-                            <div class="product-footer">
-                                <div class="product-price">
-                                    <?php if (isset($product['harga_asli']) && $product['harga_asli'] > $product['harga']): ?>
-                                        <del class="original-price">Rp <?= number_format($product['harga_asli'], 0, ',', '.') ?></del>
-                                    <?php endif; ?>
-                                    <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="product-card h-100">
+                            <div class="product-image">
+                                <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>"
+                                    alt="<?= esc($product['nama']) ?>"
+                                    onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
+                                <?php if (isset($product['discount']) && $product['discount'] > 0): ?>
+                                    <div class="product-badge">-<?= $product['discount'] ?>%</div>
+                                <?php endif; ?>
+                                <div class="product-actions">
+                                    <button class="action-btn" onclick="addToCart(<?= $product['id'] ?>)">
+                                        <i class="bi bi-cart-plus"></i>
+                                    </button>
+                                    <a href="<?= base_url('produk/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                 </div>
-                                <div class="product-rating">
-                                    <i class="bi bi-star-fill"></i>
-                                    <span>4.5</span>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category">
+                                    <i class="bi bi-tag"></i>
+                                    <?= $product['kategori'] ?? 'Uncategorized' ?>
+                                </div>
+                                <h3 class="product-title"><?= esc($product['nama']) ?></h3>
+                                <p class="product-description"><?= substr($product['deskripsi_singkat'] ?? '', 0, 100) ?>...</p>
+                                <div class="product-footer">
+                                    <div class="product-price">
+                                        <?php if (isset($product['harga_asli']) && $product['harga_asli'] > $product['harga']): ?>
+                                            <del class="original-price">Rp <?= number_format($product['harga_asli'], 0, ',', '.') ?></del>
+                                        <?php endif; ?>
+                                        <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
+                                    </div>
+                                    <div class="product-rating">
+                                        <i class="bi bi-star-fill"></i>
+                                        <span>4.5</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

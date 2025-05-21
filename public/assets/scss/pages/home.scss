@@ -52,3 +52,174 @@
         padding-right: 2rem;
     }
 }
+
+// Home Page Theme
+.categories-section .category-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 2px solid $emerald-400;
+    box-shadow: 0 2px 12px rgba($emerald-200, 0.15);
+}
+.categories-section .category-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) scale(1.03);
+    border-color: $emerald-600;
+    box-shadow: 0 6px 24px rgba($emerald-400, 0.18);
+}
+.categories-section .card-icon {
+    color: $emerald-600;
+    background: $emerald-100;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba($emerald-200, 0.1);
+}
+
+.products-section .product-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    padding: 1rem 1rem 1.5rem 1rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    min-height: 370px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 12px rgba($emerald-100, 0.1);
+}
+.products-section .product-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px) scale(1.03);
+    border-color: $emerald-500;
+    box-shadow: 0 6px 24px rgba($emerald-300, 0.18);
+}
+.products-section .product-image {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f8f9fa;
+}
+.products-section .product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.products-section .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.products-section .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.products-section .product-price {
+    font-weight: bold;
+    color: $emerald-700;
+    font-size: 1.1rem;
+}
+.products-section .original-price {
+    color: #aaa;
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+}
+.products-section .product-rating {
+    color: #ffc107;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+.products-section .product-rating i {
+    margin-right: 0.2rem;
+}
+.products-section .product-badge {
+    background: $emerald-500;
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.95rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba($emerald-400, 0.12);
+}
+
+// Center grid jika item sedikit
+.categories-section .row,
+.products-section .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+// Pastikan card tidak terlalu lebar jika item sedikit
+.categories-section .col-12,
+.products-section .col-12 {
+    max-width: 350px;
+}
+
+// Responsive fix: hilangkan max-width di layar kecil
+@media (max-width: 575.98px) {
+    .categories-section .col-12,
+    .products-section .col-12 {
+        max-width: 100%;
+    }
+}
+
+// Features/Keunggulan dengan emerald
+.features-section .feature-card {
+    border: 2px solid $emerald-100;
+    background: $emerald-50;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba($emerald-100, 0.1);
+    text-align: center;
+    padding: 2rem 1.2rem 1.2rem 1.2rem;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+.features-section .feature-card:hover {
+    border-color: $emerald-400;
+    box-shadow: 0 6px 24px rgba($emerald-300, 0.18);
+}
+.features-section .feature-icon {
+    color: $emerald-600;
+    background: $emerald-100;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba($emerald-200, 0.1);
+}
