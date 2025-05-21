@@ -1,3 +1,4 @@
+@use '../components';
 @use '../abstracts/variables' as *;
 
 // Container styles
@@ -52,6 +53,3 @@
         padding-right: 2rem;
     }
 }
-
-// Import semua komponen dari index components
-@use '../components';
