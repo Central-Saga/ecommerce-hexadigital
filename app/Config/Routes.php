@@ -7,34 +7,41 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Homepage Routes
-$routes->add('/', 'Homepage::index');
+$routes->get('/', 'Homepage::index');
 
 // Product Routes
-$routes->add('produk', 'Product::index');
-$routes->add('produk/(:segment)', 'Product::detail/$1');
-$routes->add('kategori/(:num)', 'Product::category/$1');
-$routes->add('search', 'Product::search');
+$routes->get('produk', 'Product::index');
+$routes->get('produk/(:segment)', 'Product::detail/$1');
+$routes->get('kategori', 'Product::kategori');
+$routes->get('kategori/(:num)', 'Product::category/$1');
+$routes->get('search', 'Product::search');
 
 // Cart Routes
-$routes->add('keranjang', 'Cart::index');
-$routes->add('keranjang/tambah', 'Cart::add', ['post']);
-$routes->add('keranjang/update', 'Cart::update', ['post']);
-$routes->add('keranjang/hapus', 'Cart::remove', ['post']);
+$routes->get('cart', 'Cart::index');
+$routes->post('cart/add', 'Cart::add');
+$routes->post('cart/update', 'Cart::update');
+$routes->post('cart/remove', 'Cart::remove');
+
+// (Tetap biarkan juga route keranjang untuk dukungan bahasa Indonesia)
+$routes->get('keranjang', 'Cart::index');
+$routes->post('keranjang/tambah', 'Cart::add');
+$routes->post('keranjang/update', 'Cart::update');
+$routes->post('keranjang/hapus', 'Cart::remove');
 
 // Auth Routes
-$routes->add('login', 'Auth::login');
-$routes->add('register', 'Auth::register');
-$routes->add('auth/login', 'Auth::attemptLogin', ['post']);
-$routes->add('auth/register', 'Auth::attemptRegister', ['post']);
-$routes->add('logout', 'Auth::logout');
+$routes->get('login', 'Auth::login');
+$routes->get('register', 'Auth::register');
+$routes->post('auth/login', 'Auth::attemptLogin');
+$routes->post('auth/register', 'Auth::attemptRegister');
+$routes->get('logout', 'Auth::logout');
 
 // Profile Routes with Auth Filter
-$routes->add('profil', 'Profile::index', ['filter' => 'auth']);
-$routes->add('profil/update', 'Profile::update', ['filter' => 'auth', 'post']);
+$routes->get('profil', 'Profile::index', ['filter' => 'auth']);
+$routes->post('profil/update', 'Profile::update', ['filter' => 'auth']);
 
 // Admin Routes
 $routes->group('godmode', ['filter' => 'role:admin'], static function($routes) {
-    $routes->add('/', 'Godmode\Dashboard::index');
+    $routes->get('/', 'Godmode\Dashboard::index');
     $routes->resource('products', ['controller' => 'Godmode\Products']);
     $routes->resource('categories', ['controller' => 'Godmode\Categories']);
     $routes->resource('orders', ['controller' => 'Godmode\Orders']);

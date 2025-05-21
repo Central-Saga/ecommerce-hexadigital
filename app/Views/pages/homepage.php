@@ -14,11 +14,11 @@
                 <h1 class="hero-title">Belanja Digital Lebih Mudah</h1>
                 <p class="hero-description">Temukan berbagai produk digital berkualitas untuk kebutuhan Anda dengan harga terbaik dan pelayanan terpercaya.</p>
                 <div class="hero-buttons">
-                    <a href="<?= base_url('products') ?>" class="btn btn-primary btn-lg">
+                    <a href="<?= base_url('produk') ?>" class="btn btn-primary btn-lg">
                         <i class="bi bi-cart-plus"></i>
                         Mulai Belanja
                     </a>
-                    <a href="<?= base_url('categories') ?>" class="btn btn-outline-primary btn-lg">
+                    <a href="<?= base_url('kategori') ?>" class="btn btn-outline-primary btn-lg">
                         <i class="bi bi-grid"></i>
                         Lihat Kategori
                     </a>
@@ -72,7 +72,7 @@
                     </div>
                     <h3><?= esc($category['nama_kategori']) ?></h3>
                     <p><?= substr($category['deskripsi'] ?? 'Lihat koleksi produk kami', 0, 100) ?>...</p>
-                    <a href="<?= base_url('category/' . $category['id']) ?>" class="stretched-link"></a>
+                    <a href="<?= base_url('kategori/' . $category['id']) ?>" class="stretched-link"></a>
                 </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -180,31 +180,17 @@
     </div>
 </section>
 
-<!-- Newsletter Section -->
-<section class="newsletter-section">    <div class="content-container">
-        <div class="newsletter-content">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h2>Dapatkan Update & Penawaran Terbaru</h2>
-                    <p>Berlangganan newsletter kami untuk mendapatkan informasi produk terbaru dan penawaran eksklusif</p>
-                </div>
-                <div class="col-lg-6">
-                    <form class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Masukkan email Anda">
-                            <button class="btn btn-primary" type="submit">Berlangganan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</section>
-
 <script>
 function addToCart(productId) {
-    // Implementasi logika menambah ke keranjang
+    let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+    if (cart[productId]) {
+        cart[productId] += 1;
+    } else {
+        cart[productId] = 1;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if (window.updateCartCount) updateCartCount();
+    else if (window.parent && window.parent.updateCartCount) window.parent.updateCartCount();
     alert('Produk ditambahkan ke keranjang!');
 }
 

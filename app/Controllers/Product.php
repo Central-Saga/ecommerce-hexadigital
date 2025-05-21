@@ -29,14 +29,22 @@ class Product extends BaseController
 
     public function detail($id)
     {
-        $data = [
-            'title' => 'Product Detail',
-            'product' => $this->produkModel->find($id)
-        ];
-
-        if (empty($data['product'])) {
+        $product = $this->produkModel->find($id);
+        if (empty($product)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Product not found');
         }
+
+        // Ambil data kategori
+        $kategori = null;
+        if (!empty($product['kategori_id'])) {
+            $kategori = $this->kategoriModel->find($product['kategori_id']);
+        }
+
+        $data = [
+            'title' => 'Product Detail',
+            'product' => $product,
+            'kategori' => $kategori
+        ];
 
         return view('pages/product-detail', $data);
     }
@@ -50,13 +58,12 @@ class Product extends BaseController
         }
 
         $data = [
-            'title' => 'Products - ' . $category['nama'],
-            'products' => $this->produkModel->getProductsByCategory($id),
-            'category' => $category,
-            'categories' => $this->kategoriModel->findAll()
+            'title' => 'Kategori: ' . $category['nama_kategori'],
+            'products' => $this->produkModel->where('kategori_id', $id)->findAll(),
+            'category' => $category
         ];
 
-        return view('pages/products', $data);
+        return view('pages/category', $data);
     }
 
     public function search()
@@ -71,5 +78,15 @@ class Product extends BaseController
         ];
 
         return view('pages/products', $data);
+    }
+
+    public function kategori()
+    {
+        $kategoriModel = new Kategori();
+        $data = [
+            'title' => 'Semua Kategori',
+            'categories' => $kategoriModel->findAll()
+        ];
+        return view('pages/kategori', $data);
     }
 }
