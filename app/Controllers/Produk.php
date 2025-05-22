@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\Produk;
+use App\Models\Produk as ProdukModel;
 use App\Models\Kategori;
 
-class Product extends BaseController
+class Produk extends BaseController
 {
     protected $produkModel;
     protected $kategoriModel;
 
     public function __construct()
     {
-        $this->produkModel = new Produk();
+        $this->produkModel = new ProdukModel();
         $this->kategoriModel = new Kategori();
     }
 
