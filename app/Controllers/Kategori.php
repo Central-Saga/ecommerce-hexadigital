@@ -18,26 +18,17 @@ class Kategori extends BaseController
 
     public function getIndex($id = null)
     {
-        if ($id === null) {
-            // Tampilkan semua kategori
-            $data = [
-                'title' => 'Semua Kategori',
-                'categories' => $this->kategoriModel->findAll()
-            ];
-            return view('pages/kategori', $data);
-        } else {
-            // Tampilkan detail kategori + produk
-            $category = $this->kategoriModel->find($id);
-            if (!$category) {
-                throw new \CodeIgniter\Exceptions\PageNotFoundException('Kategori tidak ditemukan');
-            }
-            $products = $this->produkModel->where('kategori_id', $id)->findAll();
-            $data = [
-                'title' => 'Kategori: ' . $category['nama_kategori'],
-                'products' => $products,
-                'category' => $category
-            ];
-            return view('pages/category', $data);
+        // Tampilkan detail kategori + produk
+        $category = $this->kategoriModel->find($id);
+        if (!$category) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kategori tidak ditemukan');
         }
+        $products = $this->produkModel->where('kategori_id', $id)->findAll();
+        $data = [
+            'title' => 'Kategori: ' . $category['nama_kategori'],
+            'products' => $products,
+            'category' => $category
+        ];
+        return view('pages/kategori-detail', $data);
     }
 }

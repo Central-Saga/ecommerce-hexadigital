@@ -63,7 +63,7 @@ class Product extends BaseController
             'category' => $category
         ];
 
-        return view('pages/category', $data);
+        return view('pages/kategori-detail', $data);
     }
 
     public function getSearch()
@@ -78,15 +78,5 @@ class Product extends BaseController
         ];
 
         return view('pages/products', $data);
-    }
-
-    public function getKategori()
-    {
-        $kategoriModel = new Kategori();
-        $data = [
-            'title' => 'Semua Kategori',
-            'categories' => $kategoriModel->findAll()
-        ];
-        return view('pages/kategori', $data);
     }
 }

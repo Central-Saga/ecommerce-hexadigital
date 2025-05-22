@@ -53,6 +53,6 @@ class Homepage extends BaseController
             'category' => $category
         ];
 
-        return view('pages/category', $data);
+        return view('pages/kategori-detail', $data);
     }
 }

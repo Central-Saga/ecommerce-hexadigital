@@ -1,6 +1,6 @@
 <?= $this->extend('layouts/wrapper') ?>
 <?= $this->section('content') ?>
-<section class="category-detail-section">
+<section class="kategori-detail-section pb-5">
     <div class="content-container">
         <div class="section-header text-center">
             <h6 class="section-subtitle mt-5">Kategori</h6>
@@ -10,7 +10,7 @@
         <div class="products-grid">
             <?php if (isset($products) && !empty($products)): ?>
                 <?php foreach ($products as $product): ?>
-                    <div class="product-card">
+                    <div class="product-card emerald-border">
                         <div class="product-image">
                             <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
                         </div>
@@ -28,7 +28,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <img src="<?= base_url('assets/images/empty-products.svg') ?>" alt="No Products">
+                    <img src="<?= base_url('assets/images/empty-products.svg') ?>" alt="Tidak ada Produk">
                     <p>Belum ada produk pada kategori ini</p>
                 </div>
             <?php endif; ?>

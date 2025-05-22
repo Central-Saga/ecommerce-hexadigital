@@ -201,3 +201,13 @@
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
 }
+
+.product-card.emerald-border {
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.product-card.emerald-border:hover {
+    border: 2px solid $emerald-500;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.18);
+}
