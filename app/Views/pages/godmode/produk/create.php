@@ -40,17 +40,17 @@
                 <div class="row g-4">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label for="nama_produk" class="form-label">
+                            <label for="nama" class="form-label">
                                 <i class="bi bi-box me-1"></i>Nama Produk
                             </label>
                             <input type="text"
-                                class="form-control <?= session('errors.nama_produk') ? 'is-invalid' : '' ?>"
-                                id="nama_produk"
-                                name="nama_produk"
-                                value="<?= old('nama_produk') ?>"
+                                class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>"
+                                id="nama"
+                                name="nama"
+                                value="<?= old('nama') ?>"
                                 required>
                             <div class="invalid-feedback">
-                                <?= session('errors.nama_produk') ?>
+                                <?= session('errors.nama') ?>
                             </div>
                         </div>
 

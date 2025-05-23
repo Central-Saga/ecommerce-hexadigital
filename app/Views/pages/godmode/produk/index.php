@@ -70,7 +70,7 @@
                                     <td class="text-center">
                                         <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
                                             <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
-                                                alt="<?= esc($produk['nama_produk']) ?>"
+                                                alt="<?= esc($produk['nama']) ?>"
                                                 class="product-image"
                                                 onerror="this.src='<?= base_url('assets/img/no-image.png') ?>'">
                                         <?php else: ?>
@@ -80,7 +80,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <div class="fw-semibold"><?= esc($produk['nama_produk']) ?></div>
+                                        <div class="fw-semibold"><?= esc($produk['nama']) ?></div>
                                     </td>
                                     <td>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></td>
                                     <td class="text-center">
@@ -106,7 +106,7 @@
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-danger"
-                                                onclick="deleteProduk(<?= $produk['id'] ?>, '<?= esc($produk['nama_produk']) ?>')"
+                                                onclick="deleteProduk(<?= $produk['id'] ?>, '<?= esc($produk['nama']) ?>')"
                                                 data-bs-toggle="tooltip" title="Hapus">
                                                 <i class="bi bi-trash"></i>
                                             </button>
