@@ -31,7 +31,7 @@
     <div class="card">
         <div class="card-header d-flex align-items-center gap-2">
             <i class="bi bi-box-seam text-primary fs-4"></i>
-            <h5 class="mb-0">Edit Produk: <?= esc($produk['nama_produk']) ?></h5>
+            <h5 class="mb-0">Edit Produk: <?= esc($produk['nama']) ?></h5>
         </div>
         <div class="card-body">
             <form action="<?= site_url('godmode/produk/update/' . $produk['id']) ?>" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
@@ -41,17 +41,17 @@
                 <div class="row g-4">
                     <div class="col-md-8">
                         <div class="form-group">
-                            <label for="nama_produk" class="form-label">
+                            <label for="nama" class="form-label">
                                 <i class="bi bi-box me-1"></i>Nama Produk
                             </label>
                             <input type="text"
-                                class="form-control <?= session('errors.nama_produk') ? 'is-invalid' : '' ?>"
-                                id="nama_produk"
-                                name="nama_produk"
-                                value="<?= old('nama_produk', $produk['nama_produk']) ?>"
+                                class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>"
+                                id="nama"
+                                name="nama"
+                                value="<?= old('nama', $produk['nama']) ?>"
                                 required>
                             <div class="invalid-feedback">
-                                <?= session('errors.nama_produk') ?>
+                                <?= session('errors.nama') ?>
                             </div>
                         </div>
 
@@ -141,7 +141,7 @@
                                     <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
                                         <img id="preview-image"
                                             src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
-                                            alt="<?= esc($produk['nama_produk']) ?>"
+                                            alt="<?= esc($produk['nama']) ?>"
                                             class="img-thumbnail mb-2"
                                             style="max-height: 200px;">
                                     <?php else: ?>

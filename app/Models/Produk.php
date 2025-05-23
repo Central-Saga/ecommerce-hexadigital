@@ -6,76 +6,56 @@ use CodeIgniter\Model;
 
 class Produk extends Model
 {
-    protected $table            = 'produk'; // Nama tabel sesuai migration
-    protected $primaryKey       = 'id';
+    protected $table = 'produk';
+    protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [
-        'nama_produk',
-        'harga',
-        'deskripsi',
-        'stok',
-        'kategori_id',
-        'gambar'
-    ];
+    protected $returnType = 'array';
+    protected $allowedFields = ['nama', 'slug', 'deskripsi', 'harga', 'stok', 'gambar', 'kategori_id'];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
-
-    protected array $casts = [
-        'harga' => 'float',
-        'stok' => 'integer',
-        'kategori_id' => 'integer'
-    ];
-
-    // Dates
-    protected $useTimestamps = true; // Aktifkan timestamps
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-
-    // Validation
     protected $validationRules = [
-        'nama_produk' => 'required|min_length[3]|max_length[255]',
+        'nama' => 'required|min_length[3]|max_length[255]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
+        'kategori_id' => 'required|integer'
     ];
 
-    protected $validationMessages = [
-        'nama_produk' => [
-            'required' => 'Nama produk harus diisi',
-            'min_length' => 'Nama produk minimal 3 karakter',
-            'max_length' => 'Nama produk maksimal 255 karakter'
-        ],
-        'harga' => [
-            'required' => 'Harga produk harus diisi',
-            'numeric' => 'Harga produk harus berupa angka'
-        ],
-        'stok' => [
-            'required' => 'Stok produk harus diisi',
-            'integer' => 'Stok produk harus berupa angka bulat'
-        ]
-    ];
-
-    protected $skipValidation = false;
-    protected $cleanValidationRules = true;
-
-    /**
-     * Get produk with kategori relation
-     */
-    public function withKategori()
+    public function getProducts($slug = false)
     {
-        return $this->select('produk.*, kategori.nama_kategori as kategori_nama')
-            ->join('kategori', 'kategori.id = produk.kategori_id', 'left');
+        if ($slug === false) {
+            return $this->findAll();
+        }
+
+        return $this->where(['slug' => $slug])->first();
     }
 
-    /**
-     * Get produk by kategori
-     */
-    public function getByKategori($kategori_id)
+    public function getProductsByCategory($kategori_id)
     {
-        return $this->where('kategori_id', $kategori_id)->findAll();
+        return $this->where(['kategori_id' => $kategori_id])->findAll();
+    }
+
+    public function searchProducts($keyword)
+    {
+        return $this->like('nama', $keyword)->orLike('deskripsi', $keyword)->findAll();
+    }
+
+    public function updateStock($id, $quantity)
+    {
+        $product = $this->find($id);
+        if ($product) {
+            $newStock = $product['stok'] - $quantity;
+            if ($newStock >= 0) {
+                $this->update($id, ['stok' => $newStock]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Ambil produk beserta nama kategori
+    public function getProductsWithCategory()
+    {
+        return $this->select('produk.*, kategori.nama_kategori as kategori')
+            ->join('kategori', 'kategori.id = produk.kategori_id', 'left')
+            ->findAll();
     }
 }

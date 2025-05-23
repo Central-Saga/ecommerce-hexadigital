@@ -41,14 +41,13 @@ class UserSeeder extends Seeder
             $existing = $users->where('username', $userData['username'])->first();
             if ($existing) {
                 continue; // Skip jika username sudah ada
-            }
-
-            // Cek apakah email sudah ada di tabel auth_identities
-            $identityModel = new \CodeIgniter\Shield\Models\IdentityModel();
-            $emailExists = $identityModel
+            }            // Cek apakah email sudah ada di tabel auth_identities
+            $db = db_connect();
+            $emailExists = $db->table('auth_identities')
                 ->where('type', 'email_password')
                 ->where('secret', $userData['email'])
-                ->first();
+                ->get()
+                ->getRow();
             if ($emailExists) {
                 continue; // Skip jika email sudah ada
             }

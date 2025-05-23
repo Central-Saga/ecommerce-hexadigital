@@ -152,7 +152,11 @@
                                         </label>
                                     </div>
                                     <div class="invalid-feedback">
-                                        <?= session('errors.gambar') ?? 'Gambar produk harus diupload' ?>
+                                        <?php
+                                        $errors = session('errors') ?? [];
+                                        $gambarError = isset($errors['gambar']) ? $errors['gambar'] : (isset($validation) && $validation->hasError('gambar') ? $validation->getError('gambar') : null);
+                                        echo $gambarError ?? 'Gambar produk harus diupload';
+                                        ?>
                                     </div>
                                     <small class="text-muted d-block mt-2">
                                         Format: JPG, PNG, GIF. Maks 2MB

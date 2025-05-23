@@ -15,7 +15,7 @@ class CreateProdukTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'nama_produk' => [
+            'nama' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],

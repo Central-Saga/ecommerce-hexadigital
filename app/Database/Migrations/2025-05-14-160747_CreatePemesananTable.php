@@ -47,7 +47,7 @@ class CreatePemesananTable extends Migration
                 'null' => true,
             ],
         ]);
-        
+
         $this->forge->addKey('id', true);
         // Removed foreign key constraint to pelanggans table
         $this->forge->createTable('pemesanan');

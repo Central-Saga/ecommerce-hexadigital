@@ -22,18 +22,18 @@ class Produk extends BaseController
     public function getIndex()
     {
         // Ambil semua produk dengan kategori dari database
-        $produks = $this->produkModel->withKategori()->findAll();
+        $produks = $this->produkModel->getProductsWithCategory();
 
         // Format data produk untuk view
         $formattedProduks = [];
         foreach ($produks as $produk) {
             $formattedProduks[] = [
                 'id' => $produk['id'],
-                'nama_produk' => $produk['nama_produk'],
+                'nama_produk' => $produk['nama'],
                 'harga' => $produk['harga'],
                 'stok' => $produk['stok'],
                 'deskripsi' => $produk['deskripsi'],
-                'kategori_nama' => $produk['kategori_nama'] ?? 'Tidak ada kategori',
+                'kategori_nama' => $produk['kategori'] ?? 'Tidak ada kategori',
                 'created_at' => $produk['created_at'],
                 'updated_at' => $produk['updated_at'],
                 'gambar' => $produk['gambar']
@@ -62,7 +62,7 @@ class Produk extends BaseController
         log_message('debug', 'FILES Data: ' . json_encode($this->request->getFiles()));
 
         $rules = [
-            'nama_produk' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -79,7 +79,7 @@ class Produk extends BaseController
 
         try {
             $data = [
-                'nama_produk' => $this->request->getPost('nama_produk'),
+                'nama' => $this->request->getPost('nama'),
                 'harga' => str_replace(',', '', $this->request->getPost('harga')),
                 'stok' => $this->request->getPost('stok'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
@@ -132,7 +132,7 @@ class Produk extends BaseController
         }
 
         $rules = [
-            'nama_produk' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -148,7 +148,7 @@ class Produk extends BaseController
 
         try {
             $data = [
-                'nama_produk' => $this->request->getPost('nama_produk'),
+                'nama' => $this->request->getPost('nama'),
                 'harga' => $this->request->getPost('harga'),
                 'stok' => $this->request->getPost('stok'),
                 'deskripsi' => $this->request->getPost('deskripsi'),

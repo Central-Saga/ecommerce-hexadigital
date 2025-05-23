@@ -5,6 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Homepage::getIndex');
 
-service('auth')->routes($routes);
+// Homepage Routes
+$routes->get('/', 'Homepage::index');
+
+// Tambahkan route Shield
+defined('SHIELD_ROUTE') || service('auth')->routes($routes);
