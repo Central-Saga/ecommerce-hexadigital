@@ -29,6 +29,10 @@
                 <div class="desc-content"><?= esc($product['deskripsi']) ?></div>
             </div>
             <?php if ($product['stok'] > 0): ?>
+                <div class="mb-2">
+                    <label for="qtyInput" class="form-label">Jumlah</label>
+                    <input type="number" id="qtyInput" class="form-control" value="1" min="1" max="<?= $product['stok'] ?>" style="width:120px;display:inline-block;">
+                </div>
                 <button class="btn btn-primary add-to-cart">
                     <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
                 </button>
@@ -69,16 +73,23 @@
     }
     document.querySelector('.add-to-cart')?.addEventListener('click', function() {
         let productId = <?= $product['id'] ?>;
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        if (cart[productId]) {
-            cart[productId] += 1;
-        } else {
-            cart[productId] = 1;
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        if (window.updateCartCount) updateCartCount();
-        else if (window.parent && window.parent.updateCartCount) window.parent.updateCartCount();
-        alert('Produk ditambahkan ke keranjang!');
+        let qty = parseInt(document.getElementById('qtyInput')?.value || '1');
+        fetch('<?= site_url('cart/cart') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'product_id=' + productId + '&qty=' + qty
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Produk ditambahkan ke keranjang!');
+                    if (window.updateCartCount) updateCartCount(data.cart_count);
+                } else {
+                    alert(data.message || 'Gagal menambah ke keranjang');
+                }
+            });
     });
 </script>
 <?= $this->endSection() ?>

@@ -1,10 +1,5 @@
 <?php
-$cart = [];
-if (isset($_COOKIE['cart'])) {
-    $cart = json_decode($_COOKIE['cart'], true) ?? [];
-} elseif (isset($_SESSION['cart'])) {
-    $cart = $_SESSION['cart'];
-}
+$cart = session()->get('cart') ?? [];
 $productIds = array_keys($cart);
 $products = [];
 $total = 0;
@@ -71,29 +66,33 @@ if (!empty($productIds)) {
     </div>
 </div>
 <script>
-    function renderCart() {
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        document.cookie = 'cart=' + JSON.stringify(cart) + ';path=/';
-    }
-    renderCart();
     // Update quantity
     $(document).on('change', '.qty-input', function() {
         var id = $(this).data('id');
         var qty = $(this).val();
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        cart[id] = parseInt(qty);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCart();
-        location.reload();
+        $.post('<?= site_url('cart/update') ?>', {
+            product_id: id,
+            qty: qty
+        }, function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Gagal update jumlah');
+            }
+        }, 'json');
     });
     // Remove item
     $(document).on('click', '.remove-btn', function() {
         var id = $(this).data('id');
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        delete cart[id];
-        localStorage.setItem('cart', JSON.stringify(cart));
-        renderCart();
-        location.reload();
+        $.post('<?= site_url('cart/remove') ?>', {
+            product_id: id
+        }, function(data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Gagal menghapus produk');
+            }
+        }, 'json');
     });
 </script>
 <?= $this->endSection() ?>
