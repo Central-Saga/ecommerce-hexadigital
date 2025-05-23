@@ -49,6 +49,9 @@
         <img id="modalImg" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:1.2rem;box-shadow:0 8px 32px rgba(0,0,0,0.25);background:#fff;" />
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
     const productImage = document.getElementById('productImage');
     const imageModal = document.getElementById('imageModal');
@@ -84,10 +87,25 @@
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alert('Produk ditambahkan ke keranjang!');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Produk ditambahkan ke keranjang!',
+                        showConfirmButton: false,
+                        timer: 1200
+                    }).then(() => {
+                        window.location.href = '<?= site_url('cart') ?>';
+                    });
+                    setTimeout(function() {
+                        window.location.href = '<?= site_url('cart') ?>';
+                    }, 1300);
                     if (window.updateCartCount) updateCartCount(data.cart_count);
                 } else {
-                    alert(data.message || 'Gagal menambah ke keranjang');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: data.message || 'Gagal menambah ke keranjang'
+                    });
                 }
             });
     });

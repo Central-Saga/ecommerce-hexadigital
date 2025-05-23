@@ -10,8 +10,8 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/style.min.css') ?>"
-        </head>
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.min.css') ?>">
+</head>
 
 <body>
     <?= $this->include('layouts/header') ?>
@@ -22,7 +22,10 @@
     <?= $this->include('layouts/footer') ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- <script src="/assets/js/main.js"></script> -->
+    <?= $this->renderSection('scripts') ?>
 </body>
 
 </html>

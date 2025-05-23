@@ -1,19 +1,3 @@
-<?php
-$cart = session()->get('cart') ?? [];
-$productIds = array_keys($cart);
-$products = [];
-$total = 0;
-if (!empty($productIds)) {
-    $db = \Config\Database::connect();
-    $builder = $db->table('produk');
-    $products = $builder->whereIn('id', $productIds)->get()->getResultArray();
-    foreach ($products as &$product) {
-        $product['qty'] = $cart[$product['id']];
-        $product['subtotal'] = $product['qty'] * $product['harga'];
-        $total += $product['subtotal'];
-    }
-}
-?>
 <?= $this->extend('layouts/wrapper') ?>
 
 <?= $this->section('content') ?>
@@ -40,13 +24,17 @@ if (!empty($productIds)) {
                                         <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" width="60" class="me-2">
                                         <?= esc($product['nama']) ?>
                                     </td>
-                                    <td>Rp <?= number_format($product['harga'], 0, ',', '.') ?></td>
                                     <td>
-                                        <input type="number" min="1" value="<?= $product['qty'] ?>" class="form-control form-control-sm qty-input" data-id="<?= $product['id'] ?>">
+                                        <span class="harga-produk" data-harga="<?= $product['harga'] ?>">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
                                     </td>
-                                    <td>Rp <?= number_format($product['subtotal'], 0, ',', '.') ?></td>
                                     <td>
-                                        <button class="btn btn-danger btn-sm remove-btn" data-id="<?= $product['id'] ?>"><i class="bi bi-trash"></i></button>
+                                        <input type="number" min="1" value="<?= $product['jumlah'] ?>" class="form-control form-control-sm qty-input" data-id="<?= $product['produk_id'] ?>" data-harga="<?= $product['harga'] ?>" style="width:80px;">
+                                    </td>
+                                    <td>
+                                        <span class="subtotal-produk">Rp <?= number_format($product['subtotal'], 0, ',', '.') ?></span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm remove-btn" data-id="<?= $product['produk_id'] ?>"><i class="bi bi-trash"></i></button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -65,39 +53,70 @@ if (!empty($productIds)) {
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
-    // Update quantity
-    $(document).on('change', '.qty-input', function() {
-        var id = $(this).data('id');
-        var qty = $(this).val();
-        $.post('<?= site_url('cart/update') ?>', {
-            product_id: id,
-            qty: qty
-        }, function(data) {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert(data.message || 'Gagal update jumlah');
-            }
-        }, 'json');
-    });
-    // Remove item
-    $(document).on('click', '.remove-btn', function() {
-        var id = $(this).data('id');
-        $.post('<?= site_url('cart/remove') ?>', {
-            product_id: id
-        }, function(data) {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Gagal menghapus produk');
-            }
-        }, 'json');
+    $(function() {
+        // Fungsi untuk format angka ke rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toLocaleString('id-ID');
+        }
+        // Update subtotal dan total dinamis
+        $(document).on('input', '.qty-input', function() {
+            var qty = parseInt($(this).val());
+            if (isNaN(qty) || qty < 1) qty = 1;
+            var harga = parseInt($(this).data('harga'));
+            var subtotal = harga * qty;
+            $(this).closest('tr').find('.subtotal-produk').text(formatRupiah(subtotal));
+            // Update total
+            var total = 0;
+            $('.subtotal-produk').each(function() {
+                var sub = parseInt($(this).text().replace(/[^\d]/g, ''));
+                if (!isNaN(sub)) total += sub;
+            });
+            $('h4:contains("Total")').text('Total: ' + formatRupiah(total));
+        });
+        // Update quantity ke backend saat blur
+        $(document).on('change', '.qty-input', function() {
+            var id = $(this).data('id');
+            var qty = $(this).val();
+            $.post('<?= site_url('cart/update') ?>', {
+                product_id: id,
+                qty: qty
+            }, function(data) {
+                if (!data.success) {
+                    alert(data.message || 'Gagal update jumlah');
+                    location.reload();
+                }
+            }, 'json');
+        });
+        // Remove item dengan SweetAlert2
+        $(document).on('click', '.remove-btn', function() {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Hapus Produk?',
+                text: 'Apakah Anda yakin ingin menghapus produk ini dari keranjang?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post('<?= site_url('cart/remove') ?>', {
+                        product_id: id
+                    }, function(data) {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            Swal.fire('Gagal', 'Gagal menghapus produk', 'error');
+                        }
+                    }, 'json');
+                }
+            });
+        });
     });
 </script>
 <?= $this->endSection() ?>
-<style>
-    .main-cart-wrapper {
-        min-height: 100vh;
-    }
-</style>
