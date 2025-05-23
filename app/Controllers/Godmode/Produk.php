@@ -29,7 +29,7 @@ class Produk extends BaseController
         foreach ($produks as $produk) {
             $formattedProduks[] = [
                 'id' => $produk['id'],
-                'nama_produk' => $produk['nama'],
+                'nama' => $produk['nama'],
                 'harga' => $produk['harga'],
                 'stok' => $produk['stok'],
                 'deskripsi' => $produk['deskripsi'],

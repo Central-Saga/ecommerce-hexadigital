@@ -29,6 +29,10 @@
                 <div class="desc-content"><?= esc($product['deskripsi']) ?></div>
             </div>
             <?php if ($product['stok'] > 0): ?>
+                <div class="mb-2">
+                    <label for="qtyInput" class="form-label">Jumlah</label>
+                    <input type="number" id="qtyInput" class="form-control" value="1" min="1" max="<?= $product['stok'] ?>" style="width:120px;display:inline-block;">
+                </div>
                 <button class="btn btn-primary add-to-cart">
                     <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
                 </button>
@@ -45,6 +49,9 @@
         <img id="modalImg" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:1.2rem;box-shadow:0 8px 32px rgba(0,0,0,0.25);background:#fff;" />
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
 <script>
     const productImage = document.getElementById('productImage');
     const imageModal = document.getElementById('imageModal');
@@ -69,16 +76,38 @@
     }
     document.querySelector('.add-to-cart')?.addEventListener('click', function() {
         let productId = <?= $product['id'] ?>;
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        if (cart[productId]) {
-            cart[productId] += 1;
-        } else {
-            cart[productId] = 1;
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        if (window.updateCartCount) updateCartCount();
-        else if (window.parent && window.parent.updateCartCount) window.parent.updateCartCount();
-        alert('Produk ditambahkan ke keranjang!');
+        let qty = parseInt(document.getElementById('qtyInput')?.value || '1');
+        fetch('<?= site_url('cart/cart') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'product_id=' + productId + '&qty=' + qty
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Produk ditambahkan ke keranjang!',
+                        showConfirmButton: false,
+                        timer: 1200
+                    }).then(() => {
+                        window.location.href = '<?= site_url('cart') ?>';
+                    });
+                    setTimeout(function() {
+                        window.location.href = '<?= site_url('cart') ?>';
+                    }, 1300);
+                    if (window.updateCartCount) updateCartCount(data.cart_count);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: data.message || 'Gagal menambah ke keranjang'
+                    });
+                }
+            });
     });
 </script>
 <?= $this->endSection() ?>

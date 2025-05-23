@@ -17,23 +17,36 @@ class Cart extends BaseController
         $this->produkModel = new Produk();
     }
 
-    public function index()
+    // Helper untuk ambil pelanggan_id dari user login Shield
+    private function getPelangganId()
     {
-        // Ambil cart dari cookie (sinkron dengan localStorage)
-        $cart = [];
-        if (isset($_COOKIE['cart'])) {
-            $cart = json_decode($_COOKIE['cart'], true) ?? [];
-        } elseif (session()->has('cart')) {
-            $cart = session('cart');
+        $user = auth()->user();
+        if (!$user) return null;
+        $pelanggan = (new \App\Models\Pelanggan())->where('user_id', $user->id)->first();
+        return $pelanggan['id'] ?? null;
+    }
+
+    // Tampilkan isi keranjang dari database
+    public function getIndex()
+    {
+        $pelanggan_id = $this->getPelangganId();
+        if (!$pelanggan_id) {
+            return redirect()->to('/login');
         }
+        $items = $this->keranjangModel->where('pelanggan_id', $pelanggan_id)->findAll();
         $products = [];
         $total = 0;
-        if (!empty($cart)) {
-            $products = $this->produkModel->whereIn('id', array_keys($cart))->findAll();
-            foreach ($products as &$product) {
-                $product['qty'] = $cart[$product['id']];
-                $product['subtotal'] = $product['qty'] * $product['harga'];
-                $total += $product['subtotal'];
+        if (!empty($items)) {
+            foreach ($items as &$item) {
+                $produk = $this->produkModel->find($item['produk_id']);
+                if ($produk) {
+                    $item['nama'] = $produk['nama'];
+                    $item['harga'] = $produk['harga'];
+                    $item['gambar'] = $produk['gambar'];
+                    $item['subtotal'] = $item['jumlah'] * $produk['harga'];
+                    $total += $item['subtotal'];
+                    $products[] = $item;
+                }
             }
         }
         return view('pages/cart', [
@@ -42,39 +55,74 @@ class Cart extends BaseController
         ]);
     }
 
-    public function add()
+    // Tambah produk ke keranjang (database)
+    public function postCart()
     {
         $productId = $this->request->getPost('product_id');
-        $qty = $this->request->getPost('qty') ?? 1;
-        $cart = session()->get('cart') ?? [];
-        if (isset($cart[$productId])) {
-            $cart[$productId] += $qty;
-        } else {
-            $cart[$productId] = $qty;
+        $qty = (int) ($this->request->getPost('qty') ?? 1);
+        if ($qty < 1) $qty = 1;
+        $pelanggan_id = $this->getPelangganId();
+        if (!$pelanggan_id) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Anda harus login']);
         }
-        session()->set('cart', $cart);
-        return $this->response->setJSON(['success' => true, 'cart_count' => array_sum($cart)]);
+        $product = $this->produkModel->find($productId);
+        if (!$product || $product['stok'] < $qty) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Stok tidak cukup atau produk tidak ditemukan']);
+        }
+        $item = $this->keranjangModel->where(['pelanggan_id' => $pelanggan_id, 'produk_id' => $productId])->first();
+        if ($item) {
+            $newQty = $item['jumlah'] + $qty;
+            if ($newQty > $product['stok']) $newQty = $product['stok'];
+            $this->keranjangModel->update($item['id'], [
+                'jumlah' => $newQty,
+                'subtotal' => $newQty * $product['harga']
+            ]);
+        } else {
+            $this->keranjangModel->insert([
+                'pelanggan_id' => $pelanggan_id,
+                'produk_id' => $productId,
+                'jumlah' => $qty,
+                'subtotal' => $qty * $product['harga']
+            ]);
+        }
+        $cart_count = $this->keranjangModel->where('pelanggan_id', $pelanggan_id)->selectSum('jumlah')->first()['jumlah'] ?? 0;
+        return $this->response->setJSON(['success' => true, 'cart_count' => $cart_count]);
     }
 
-    public function update()
+    // Update jumlah produk di keranjang (database)
+    public function postUpdate()
     {
         $productId = $this->request->getPost('product_id');
-        $qty = $this->request->getPost('qty');
-        $cart = session()->get('cart') ?? [];
-        if (isset($cart[$productId])) {
-            $cart[$productId] = $qty;
-            session()->set('cart', $cart);
+        $qty = (int) $this->request->getPost('qty');
+        $pelanggan_id = $this->getPelangganId();
+        if (!$pelanggan_id) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Anda harus login']);
+        }
+        $product = $this->produkModel->find($productId);
+        if (!$product || $qty < 1 || $qty > $product['stok']) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Jumlah tidak valid atau stok tidak cukup']);
+        }
+        $item = $this->keranjangModel->where(['pelanggan_id' => $pelanggan_id, 'produk_id' => $productId])->first();
+        if ($item) {
+            $this->keranjangModel->update($item['id'], [
+                'jumlah' => $qty,
+                'subtotal' => $qty * $product['harga']
+            ]);
         }
         return $this->response->setJSON(['success' => true]);
     }
 
-    public function remove()
+    // Hapus produk dari keranjang (database)
+    public function postRemove()
     {
         $productId = $this->request->getPost('product_id');
-        $cart = session()->get('cart') ?? [];
-        if (isset($cart[$productId])) {
-            unset($cart[$productId]);
-            session()->set('cart', $cart);
+        $pelanggan_id = $this->getPelangganId();
+        if (!$pelanggan_id) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Anda harus login']);
+        }
+        $item = $this->keranjangModel->where(['pelanggan_id' => $pelanggan_id, 'produk_id' => $productId])->first();
+        if ($item) {
+            $this->keranjangModel->delete($item['id']);
         }
         return $this->response->setJSON(['success' => true]);
     }
