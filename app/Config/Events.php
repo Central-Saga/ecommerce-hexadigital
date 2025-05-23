@@ -33,7 +33,7 @@ Events::on('pre_system', static function (): void {
             ob_end_flush();
         }
 
-        ob_start(static fn ($buffer) => $buffer);
+        ob_start(static fn($buffer) => $buffer);
     }
 
     /*
@@ -52,4 +52,17 @@ Events::on('pre_system', static function (): void {
             });
         }
     }
+});
+
+// Set session pelanggan_id saat login Shield
+Events::on('login', function ($user) {
+    $pelanggan = (new \App\Models\Pelanggan())->where('user_id', $user->id)->first();
+    if ($pelanggan) {
+        session()->set('pelanggan_id', $pelanggan['id']);
+    }
+});
+
+// Hapus session pelanggan_id saat logout
+Events::on('logout', function () {
+    session()->remove('pelanggan_id');
 });

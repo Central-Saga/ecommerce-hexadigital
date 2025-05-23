@@ -45,7 +45,10 @@
                     <h4>Total: Rp <?= number_format($total, 0, ',', '.') ?></h4>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                    <a href="#" class="btn btn-success">Checkout</a>
+                    <form method="post" action="<?= site_url('godmode/pemesanan/checkout') ?>">
+                        <input type="hidden" name="pelanggan_id" value="<?= esc($pelanggan_id ?? session('pelanggan_id')) ?>">
+                        <button type="submit" class="btn btn-success">Checkout</button>
+                    </form>
                 </div>
             <?php else: ?>
                 <div class="alert alert-info">Keranjang belanja Anda kosong.</div>

@@ -68,7 +68,13 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <?php if (auth()->loggedIn()): ?>
                                 <li><a class="dropdown-item" href="/profile"><i class="bi bi-person-circle me-2"></i>Profil Saya</a></li>
-                                <li><a class="dropdown-item" href="/orders"><i class="bi bi-bag me-2"></i>Pesanan Saya</a></li>
+                                <li>
+                                    <form action="/orders" method="get" style="margin:0;">
+                                        <button type="submit" class="dropdown-item" style="width:100%;text-align:left;">
+                                            <i class="bi bi-bag me-2"></i>Pesanan Saya
+                                        </button>
+                                    </form>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -93,4 +99,23 @@
     }
     updateCartCount();
     window.addEventListener('storage', updateCartCount);
+
+    // Tutup dropdown saat link di dalamnya diklik
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.dropdown-menu a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                var dropdown = link.closest('.dropdown-menu');
+                if (dropdown) {
+                    var parent = dropdown.parentElement;
+                    if (parent && parent.classList.contains('dropdown')) {
+                        var toggle = parent.querySelector('[data-bs-toggle="dropdown"]');
+                        if (toggle) {
+                            var dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(toggle);
+                            dropdownInstance.hide();
+                        }
+                    }
+                }
+            });
+        });
+    });
 </script>

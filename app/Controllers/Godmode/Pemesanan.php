@@ -24,7 +24,7 @@ class Pemesanan extends BaseController
         // Aktifkan debugging sementara untuk melihat data
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
-        
+
         // Tampilkan konten tabel pemesanan untuk debugging
         try {
             $query = $this->pemesananModel->db->query("DESCRIBE pemesanan");
@@ -33,7 +33,7 @@ class Pemesanan extends BaseController
         } catch (\Exception $e) {
             log_message('error', 'Gagal mengambil struktur tabel: ' . $e->getMessage());
         }
-        
+
         // Direct query untuk memastikan data diambil
         try {
             $query = $this->pemesananModel->db->query("SELECT * FROM pemesanan");
@@ -43,19 +43,19 @@ class Pemesanan extends BaseController
             log_message('error', 'Gagal mengambil data pemesanan: ' . $e->getMessage());
             $rawPemesanans = [];
         }
-        
+
         // Ambil semua pemesanan dari database dengan model
         $pemesanans = $this->pemesananModel->findAll();
-        
+
         // Debug: Tambahkan log
         log_message('debug', 'Pemesanans from model: ' . json_encode($pemesanans));
-        
+
         // Format data pemesanan untuk view
         $formattedPemesanans = [];
-        
+
         // Jika data dari model kosong, gunakan data dari query langsung
         $dataToProcess = !empty($pemesanans) ? $pemesanans : $rawPemesanans;
-        
+
         foreach ($dataToProcess as $pemesanan) {
             try {
                 // Ambil data pelanggan - tangani jika gagal
@@ -63,7 +63,7 @@ class Pemesanan extends BaseController
                 if (!empty($pemesanan['pelanggan_id'])) {
                     $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
                 }
-                
+
                 $formattedPemesanans[] = [
                     'id' => $pemesanan['id'],
                     'pelanggan_nama' => $pelanggan ? ($pelanggan['username'] ?? 'Tidak ada nama') : 'Pelanggan tidak ditemukan',
@@ -89,7 +89,7 @@ class Pemesanan extends BaseController
                 ];
             }
         }
-        
+
         log_message('debug', 'Formatted data: ' . json_encode($formattedPemesanans));
 
         return view('pages/godmode/pemesanan/index', [
@@ -100,7 +100,7 @@ class Pemesanan extends BaseController
     public function getCreate()
     {
         $pelanggans = $this->pelangganModel->withUser()->findAll();
-        
+
         return view('pages/godmode/pemesanan/create', [
             'pelanggans' => $pelanggans
         ]);
@@ -111,7 +111,7 @@ class Pemesanan extends BaseController
         // Aktifkan debugging
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
-        
+
         $rules = [
             'pelanggan_id' => 'required|integer',
             'tanggal_pemesanan' => 'required|valid_date',
@@ -133,10 +133,10 @@ class Pemesanan extends BaseController
         try {
             // Debug
             log_message('debug', 'POST data: ' . json_encode($_POST));
-            
+
             // Persiapkan data, pastikan hilangkan format angka ribuan
             $totalHarga = str_replace([',', '.'], '', $this->request->getPost('total_harga'));
-            
+
             $data = [
                 'pelanggan_id' => $this->request->getPost('pelanggan_id'),
                 'tanggal_pemesanan' => $this->request->getPost('tanggal_pemesanan'),
@@ -144,7 +144,7 @@ class Pemesanan extends BaseController
                 'status_pemesanan' => $this->request->getPost('status_pemesanan'),
                 'catatan' => $this->request->getPost('catatan')
             ];
-            
+
             // Debug data yang akan disimpan
             log_message('debug', 'Data to be inserted: ' . json_encode($data));
 
@@ -152,7 +152,7 @@ class Pemesanan extends BaseController
             try {
                 $insertId = $this->pemesananModel->insert($data);
                 log_message('debug', 'Insert result menggunakan model: ' . ($insertId ? 'Success with ID: ' . $insertId : 'Failed'));
-                
+
                 // Jika gagal insert dengan model, coba dengan query langsung
                 if (!$insertId) {
                     $db = \Config\Database::connect();
@@ -163,7 +163,7 @@ class Pemesanan extends BaseController
                 }
             } catch (\Exception $modelException) {
                 log_message('error', 'Error saat insert model: ' . $modelException->getMessage());
-                
+
                 // Coba dengan query langsung sebagai fallback
                 $db = \Config\Database::connect();
                 $builder = $db->table('pemesanan');
@@ -171,7 +171,7 @@ class Pemesanan extends BaseController
                 $insertId = $db->insertID();
                 log_message('debug', 'Insert result fallback: ' . ($result ? 'Success with ID: ' . $insertId : 'Failed'));
             }
-            
+
             // Jika masih gagal, lempar exception
             if (!$insertId) {
                 throw new \Exception('Gagal menyimpan pemesanan');
@@ -227,7 +227,7 @@ class Pemesanan extends BaseController
         try {
             // Persiapkan data, pastikan hilangkan format angka ribuan
             $totalHarga = str_replace([',', '.'], '', $this->request->getPost('total_harga'));
-            
+
             $data = [
                 'pelanggan_id' => $this->request->getPost('pelanggan_id'),
                 'tanggal_pemesanan' => $this->request->getPost('tanggal_pemesanan'),
@@ -283,7 +283,7 @@ class Pemesanan extends BaseController
                 ->with('error', 'Gagal menghapus pemesanan: ' . $e->getMessage());
         }
     }
-    
+
     public function getDetail($id)
     {
         $pemesanan = $this->pemesananModel->find($id);
@@ -291,12 +291,72 @@ class Pemesanan extends BaseController
             return redirect()->to('/godmode/pemesanan')
                 ->with('error', 'Pemesanan tidak ditemukan');
         }
-        
+
         $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
-        
+
         return view('pages/godmode/pemesanan/detail', [
             'pemesanan' => $pemesanan,
             'pelanggan' => $pelanggan
         ]);
+    }
+
+    public function postCheckout()
+    {
+        $keranjangModel = new \App\Models\Keranjang();
+        $detailPemesananModel = new \App\Models\DetailPemesanan();
+        $produkModel = new \App\Models\Produk();
+
+        $pelanggan_id = $this->request->getPost('pelanggan_id');
+        if (!$pelanggan_id) {
+            return redirect()->back()->with('error', 'Pelanggan tidak valid');
+        }
+
+        // Ambil semua item keranjang milik pelanggan
+        $keranjangItems = $keranjangModel->where('pelanggan_id', $pelanggan_id)->findAll();
+        if (empty($keranjangItems)) {
+            return redirect()->back()->with('error', 'Keranjang belanja kosong');
+        }
+
+        // Hitung total harga
+        $total_harga = array_sum(array_column($keranjangItems, 'subtotal'));
+
+        // Simpan ke tabel pemesanan
+        $pemesananData = [
+            'pelanggan_id' => $pelanggan_id,
+            'tanggal_pemesanan' => date('Y-m-d'),
+            'total_harga' => $total_harga,
+            'status_pemesanan' => 'menunggu',
+            'catatan' => $this->request->getPost('catatan')
+        ];
+        $pemesananId = $this->pemesananModel->insert($pemesananData, true);
+        if (!$pemesananId) {
+            return redirect()->back()->with('error', 'Gagal membuat pemesanan');
+        }
+
+        // Siapkan data detail pemesanan
+        $detailData = [];
+        foreach ($keranjangItems as $item) {
+            // Ambil harga produk saat ini (untuk keamanan)
+            $produk = $produkModel->find($item['produk_id']);
+            $harga = $produk ? $produk['harga'] : $item['subtotal'] / $item['jumlah'];
+            $detailData[] = [
+                'pemesanan_id' => $pemesananId,
+                'produk_id' => $item['produk_id'],
+                'jumlah' => $item['jumlah'],
+                'harga' => $harga,
+                'subtotal' => $harga * $item['jumlah'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ];
+            // Update stok produk
+            $produkModel->updateStock($item['produk_id'], $item['jumlah']);
+        }
+        // Simpan detail pemesanan (batch)
+        $detailPemesananModel->insertBatch($detailData);
+
+        // Hapus keranjang setelah checkout
+        $keranjangModel->where('pelanggan_id', $pelanggan_id)->delete();
+
+        return redirect()->to('/orders')->with('success', 'Checkout berhasil, pemesanan telah dibuat!');
     }
 }
