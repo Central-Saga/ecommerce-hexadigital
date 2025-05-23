@@ -34,6 +34,34 @@ class UserSeeder extends Seeder
                 'active'   => 1,
                 'role'     => 'pelanggan'
             ],
+            [
+                'username' => 'pelanggan2',
+                'email'    => 'pelanggan2@example.com',
+                'password' => 'pelanggan1234',
+                'active'   => 1,
+                'role'     => 'pelanggan'
+            ],
+            [
+                'username' => 'pelanggan3',
+                'email'    => 'pelanggan3@example.com',
+                'password' => 'pelanggan1234',
+                'active'   => 1,
+                'role'     => 'pelanggan'
+            ],
+            [
+                'username' => 'pelanggan4',
+                'email'    => 'pelanggan4@example.com',
+                'password' => 'pelanggan1234',
+                'active'   => 1,
+                'role'     => 'pelanggan'
+            ],
+            [
+                'username' => 'pelanggan5',
+                'email'    => 'pelanggan5@example.com',
+                'password' => 'pelanggan1234',
+                'active'   => 1,
+                'role'     => 'pelanggan'
+            ],
         ];
 
         foreach ($data as $userData) {
@@ -63,6 +91,17 @@ class UserSeeder extends Seeder
             $savedUser = $users->findById($users->getInsertID());
             if ($savedUser) {
                 $savedUser->addGroup($userData['role']);
+                // Jika role pelanggan, buat juga data di tabel pelanggans
+                if ($userData['role'] === 'pelanggan') {
+                    $db->table('pelanggans')->insert([
+                        'user_id' => $savedUser->id,
+                        'alamat' => 'Alamat default',
+                        'no_telepon' => '08xxxxxxxxxx',
+                        'jenis_kelamin' => 'L',
+                        'umur' => 20,
+                        'status' => 'active'
+                    ]);
+                }
             }
         }
     }
