@@ -28,7 +28,7 @@
                 <!-- Navigation Links -->
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="/product">
+                        <a class="nav-link" href="/produk">
                             <i class="bi bi-grid me-1"></i>
                             Semua Produk
                         </a>

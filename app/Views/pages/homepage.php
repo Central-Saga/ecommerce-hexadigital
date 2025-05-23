@@ -113,7 +113,7 @@
                                     <button class="action-btn" onclick="addToCart(<?= $product['id'] ?>)">
                                         <i class="bi bi-cart-plus"></i>
                                     </button>
-                                    <a href="<?= base_url('produk/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
+                                    <a href="<?= base_url('produk/detail/' . $product['id']) ?>" class="action-btn" title="Lihat Detail">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 </div>

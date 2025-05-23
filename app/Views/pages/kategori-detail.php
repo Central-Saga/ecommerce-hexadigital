@@ -22,7 +22,7 @@
                                     <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
                                 </div>
                             </div>
-                            <a href="<?= base_url('produk/' . $product['id']) ?>" class="btn btn-outline-primary btn-sm mt-2">Lihat Detail</a>
+                            <a href="<?= base_url('produk/detail/' . $product['id']) ?>" class="btn btn-outline-primary btn-sm mt-2">Lihat Detail</a>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -11,11 +11,6 @@
                 <img src="<?= base_url('assets/images/no-image.jpg') ?>" alt="No Image" id="productImage" style="cursor: zoom-in;" />
             <?php endif; ?>
         </div>
-        <!-- Popup Modal for Full Image -->
-        <div id="imageModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
-            <span id="closeModal" style="position:absolute;top:32px;right:48px;font-size:3rem;color:#fff;cursor:pointer;font-weight:bold;z-index:10001;">&times;</span>
-            <img id="modalImg" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:1.2rem;box-shadow:0 8px 32px rgba(0,0,0,0.25);background:#fff;" />
-        </div>
         <div class="product-info">
             <h1 class="product-title mb-1"><?= esc($product['nama']) ?></h1>
             <div class="product-price mb-2">Rp <?= number_format($product['harga'], 0, ',', '.') ?></div>
@@ -43,6 +38,11 @@
                 </button>
             <?php endif; ?>
         </div>
+    </div>
+    <!-- Popup Modal for Full Image -->
+    <div id="imageModal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+        <span id="closeModal" style="position:absolute;top:32px;right:48px;font-size:3rem;color:#fff;cursor:pointer;font-weight:bold;z-index:10001;">&times;</span>
+        <img id="modalImg" src="" alt="Full Image" style="max-width:90vw;max-height:90vh;border-radius:1.2rem;box-shadow:0 8px 32px rgba(0,0,0,0.25);background:#fff;" />
     </div>
 </div>
 <script>
