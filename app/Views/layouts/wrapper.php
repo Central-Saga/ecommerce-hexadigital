@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/style.min.css') ?>">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <?= $this->include('layouts/header') ?>
-    <main>
+    <main class="flex-fill">
         <?= $this->renderSection('content') ?>
     </main>
 
