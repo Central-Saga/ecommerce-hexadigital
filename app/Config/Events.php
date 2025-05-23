@@ -5,6 +5,7 @@ namespace Config;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
+use App\Listeners\RegisterPelangganListener;
 
 /*
  * --------------------------------------------------------------------
@@ -54,15 +55,18 @@ Events::on('pre_system', static function (): void {
     }
 });
 
-// Set session pelanggan_id saat login Shield
-Events::on('login', function ($user) {
-    $pelanggan = (new \App\Models\Pelanggan())->where('user_id', $user->id)->first();
-    if ($pelanggan) {
-        session()->set('pelanggan_id', $pelanggan['id']);
-    }
-});
+// // Set session pelanggan_id saat login Shield
+// Events::on('login', function ($user) {
+//     $pelanggan = (new \App\Models\Pelanggan())->where('user_id', $user->id)->first();
+//     if ($pelanggan) {
+//         session()->set('pelanggan_id', $pelanggan['id']);
+//     }
+// });
 
-// Hapus session pelanggan_id saat logout
-Events::on('logout', function () {
-    session()->remove('pelanggan_id');
-});
+// // Hapus session pelanggan_id saat logout
+// Events::on('logout', function () {
+//     session()->remove('pelanggan_id');
+// });
+
+// Daftarkan event listener untuk Shield register
+Events::on('register', [RegisterPelangganListener::class, 'handle']);
