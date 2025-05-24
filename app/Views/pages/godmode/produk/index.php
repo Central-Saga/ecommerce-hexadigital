@@ -72,9 +72,9 @@
                                             <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
                                                 alt="<?= esc($produk['nama']) ?>"
                                                 class="product-image"
-                                                onerror="this.src='<?= base_url('assets/img/no-image.png') ?>'">
+                                                onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
                                         <?php else: ?>
-                                            <img src="<?= base_url('assets/img/no-image.png') ?>"
+                                            <img src="<?= base_url('assets/images/product-placeholder.png') ?>"
                                                 alt="No Image"
                                                 class="product-image">
                                         <?php endif; ?>

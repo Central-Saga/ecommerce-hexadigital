@@ -15,7 +15,7 @@ class ProdukSeeder extends Seeder
                 'harga' => 7000000,
                 'stok' => 10,
                 'deskripsi' => 'Laptop berkualitas tinggi',
-                'gambar' => 'uploads/produk/assets/images/laptop.jpg'
+                'gambar' => 'laptop.jpg'
             ],
             [
                 'nama' => 'Kaos',
@@ -23,7 +23,7 @@ class ProdukSeeder extends Seeder
                 'harga' => 100000,
                 'stok' => 50,
                 'deskripsi' => 'Kaos nyaman dipakai',
-                'gambar' => 'uploads/produk/assets/images/kaos.jpg'
+                'gambar' => 'kaos.jpg'
             ],
             [
                 'nama' => 'Keripik',
@@ -31,7 +31,7 @@ class ProdukSeeder extends Seeder
                 'harga' => 20000,
                 'stok' => 100,
                 'deskripsi' => 'Keripik renyah dan gurih',
-                'gambar' => 'uploads/produk/assets/images/keripik.jpg'
+                'gambar' => 'keripik.jpg'
             ],
         ];
 

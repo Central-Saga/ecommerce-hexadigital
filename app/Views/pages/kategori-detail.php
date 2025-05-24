@@ -12,7 +12,7 @@
                 <?php foreach ($products as $product): ?>
                     <div class="product-card emerald-border">
                         <div class="product-image">
-                            <img src="<?= base_url(($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
+                            <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title"><?= esc($product['nama']) ?></h3>

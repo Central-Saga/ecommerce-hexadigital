@@ -103,7 +103,7 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                         <div class="product-card h-100">
                             <div class="product-image">
-                                <img src="<?= base_url(($product['gambar'] ?? 'default.jpg')) ?>"
+                                <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>"
                                     alt="<?= esc($product['nama']) ?>"
                                     onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
                                 <?php if (isset($product['discount']) && $product['discount'] > 0): ?>
