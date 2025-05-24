@@ -126,4 +126,15 @@ class Cart extends BaseController
         }
         return $this->response->setJSON(['success' => true]);
     }
+
+    // Endpoint untuk jumlah item di keranjang (AJAX)
+    public function getCount()
+    {
+        $pelanggan_id = $this->getPelangganId();
+        if (!$pelanggan_id) {
+            return $this->response->setJSON(['count' => 0]);
+        }
+        $count = $this->keranjangModel->where('pelanggan_id', $pelanggan_id)->selectSum('jumlah')->first()['jumlah'] ?? 0;
+        return $this->response->setJSON(['count' => (int)$count]);
+    }
 }

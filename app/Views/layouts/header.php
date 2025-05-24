@@ -92,10 +92,11 @@
 </header>
 <script>
     function updateCartCount() {
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        let count = 0;
-        for (let id in cart) count += cart[id];
-        document.getElementById('cart-count').textContent = count;
+        fetch('/cart/count')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('cart-count').textContent = data.count || 0;
+            });
     }
     updateCartCount();
     window.addEventListener('storage', updateCartCount);
