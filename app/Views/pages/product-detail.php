@@ -6,9 +6,9 @@
     <div class="product-container two-col">
         <div class="product-image" id="productImageContainer">
             <?php if ($product['gambar']): ?>
-                <img src="<?= base_url('uploads/produk/' . $product['gambar']) ?>" alt="<?= $product['nama'] ?>" id="productImage" style="cursor: zoom-in;" />
+                <img src="<?= base_url($product['gambar']) ?>" alt="<?= $product['nama'] ?>" id="productImage" style="cursor: zoom-in;" onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'" />
             <?php else: ?>
-                <img src="<?= base_url('assets/images/no-image.jpg') ?>" alt="No Image" id="productImage" style="cursor: zoom-in;" />
+                <img src="<?= base_url('assets/images/product-placeholder.png') ?>" alt="No Image" id="productImage" style="cursor: zoom-in;" onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'" />
             <?php endif; ?>
         </div>
         <div class="product-info">
