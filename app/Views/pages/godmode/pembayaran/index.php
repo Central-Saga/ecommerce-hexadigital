@@ -33,9 +33,9 @@
                 <i class="bi bi-credit-card-2-front-fill me-2 text-primary fs-4"></i>
                 <h5 class="mb-0">Daftar Pembayaran</h5>
             </div>
-            <a href="<?= base_url('godmode/pembayaran/create') ?>" class="btn btn-primary">
+            <!-- <a href="<?= base_url('godmode/pembayaran/create') ?>" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-1"></i> Tambah Pembayaran
-            </a>
+            </a> -->
         </div>
         <div class="card-body">
             <?php if (empty($pembayarans)) : ?>
