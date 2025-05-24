@@ -12,7 +12,7 @@
                 <?php foreach ($products as $product): ?>
                     <div class="product-card emerald-border">
                         <div class="product-image">
-                            <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
+                            <img src="<?= base_url(($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title"><?= esc($product['nama']) ?></h3>
@@ -27,8 +27,8 @@
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="empty-state">
-                    <img src="<?= base_url('assets/images/empty-products.svg') ?>" alt="Tidak ada Produk">
+                <div class="empty-state text-center">
+                    <img src="<?= base_url('assets/images/empty-products.svg') ?>" alt="No Products">
                     <p>Belum ada produk pada kategori ini</p>
                 </div>
             <?php endif; ?>

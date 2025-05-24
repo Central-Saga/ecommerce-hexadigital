@@ -45,7 +45,7 @@
                     <h4>Total: Rp <?= number_format($total, 0, ',', '.') ?></h4>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                    <form method="post" action="<?= site_url('godmode/pemesanan/checkout') ?>">
+                    <form method="post" action="<?= site_url('checkout/store') ?>">
                         <input type="hidden" name="pelanggan_id" value="<?= esc($pelanggan_id ?? session('pelanggan_id')) ?>">
                         <button type="submit" class="btn btn-success">Checkout</button>
                     </form>
