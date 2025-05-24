@@ -137,6 +137,58 @@
         margin-top: 2rem;
         text-align: center;
     }
+    .upload-pembayaran-form {
+        background: linear-gradient(90deg, $emerald-50 0%, $emerald-100 100%);
+        border: 1.5px dashed $emerald-200;
+        border-radius: 0.7rem;
+        padding: 1.2rem 1.5rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        box-shadow: 0 2px 8px rgba($emerald-200, 0.08);
+        .form-label {
+            font-weight: 600;
+            color: $emerald-700;
+            margin-bottom: 0.4rem;
+        }
+        .form-control[type='file'] {
+            border: 1.5px solid $emerald-200;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.7rem;
+            background: $emerald-50;
+            color: $emerald-900;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            &:focus {
+                border-color: $emerald-400;
+                outline: none;
+            }
+        }
+        .btn-primary {
+            background: linear-gradient(
+                90deg,
+                $emerald-500 0%,
+                $emerald-600 100%
+            );
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 0.6rem 1.5rem;
+            box-shadow: 0 2px 8px rgba($emerald-400, 0.1);
+            transition: background 0.2s, transform 0.2s;
+            &:hover {
+                background: linear-gradient(
+                    90deg,
+                    $emerald-600 0%,
+                    $emerald-700 100%
+                );
+                transform: translateY(-2px) scale(1.03);
+            }
+        }
+    }
 }
 
 // Responsive
@@ -147,6 +199,9 @@
         .table tbody td {
             padding: 0.7rem 0.7rem;
         }
+    }
+    .orders-page .upload-pembayaran-form {
+        padding: 0.8rem 0.7rem;
     }
 }
 @include media-breakpoint-down(sm) {
