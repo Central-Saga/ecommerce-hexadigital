@@ -16,8 +16,10 @@ class Pengiriman extends Model
         'pesanan_id',
         'tanggal_kirim',
         'tanggal_terima',
+        'status',
         'deskripsi',
-        'status'
+        'created_at',
+        'updated_at'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -25,8 +27,6 @@ class Pengiriman extends Model
 
     protected array $casts = [
         'pesanan_id' => 'integer',
-        'tanggal_kirim' => 'date',
-        'tanggal_terima' => 'date'
     ];
     protected array $castHandlers = [];
 
@@ -35,14 +35,33 @@ class Pengiriman extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    protected $deletedField  = '';
 
     // Validation
     protected $validationRules      = [
-        'pesanan_id' => 'permit_empty|integer',
-        'status' => 'required|in_list[diproses,dikirim,diterima,dibatalkan]'
+        'pesanan_id' => 'required|integer',
+        'tanggal_kirim' => 'permit_empty|valid_date',
+        'tanggal_terima' => 'permit_empty|valid_date',
+        'status' => 'required|in_list[menunggu,dikirim,diterima,dibatalkan]'
     ];
-    protected $validationMessages   = [];
+
+    protected $validationMessages   = [
+        'pesanan_id' => [
+            'required' => 'Pesanan harus dipilih',
+            'integer' => 'ID Pesanan harus berupa angka',
+        ],
+        'tanggal_kirim' => [
+            'valid_date' => 'Tanggal kirim harus berupa tanggal yang valid'
+        ],
+        'tanggal_terima' => [
+            'valid_date' => 'Tanggal terima harus berupa tanggal yang valid'
+        ],
+        'status' => [
+            'required' => 'Status pengiriman harus diisi',
+            'in_list' => 'Status pengiriman tidak valid'
+        ]
+    ];
+
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
@@ -63,6 +82,6 @@ class Pengiriman extends Model
     public function withPesanan()
     {
         return $this->select('pengiriman.*, pesanan.nomor_pesanan')
-                    ->join('pesanan', 'pesanan.id = pengiriman.pesanan_id', 'left');
+            ->join('pesanan', 'pesanan.id = pengiriman.pesanan_id', 'left');
     }
 }
