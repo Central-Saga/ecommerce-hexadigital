@@ -57,6 +57,14 @@ class Orders extends Controller
             return redirect()->back()->with('error', 'File tidak valid atau belum dipilih.');
         }
 
+        // Ambil total_harga dari pesanan
+        $pemesananModel = new \App\Models\Pemesanan();
+        $order = $pemesananModel->find($id);
+        if (!$order) {
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan.');
+        }
+        $total_harga = $order['total_harga'] ?? 0;
+
         // Pastikan folder uploads/pembayaran ada
         $uploadPath = FCPATH . 'uploads/pembayaran/';
         if (!is_dir($uploadPath)) {
@@ -72,7 +80,7 @@ class Orders extends Controller
             'pesanan_id'        => $id,
             'metode_pembayaran' => 'manual', // Bisa diganti sesuai kebutuhan
             'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
-            'total_harga'       => 0, // Bisa diisi sesuai kebutuhan
+            'total_harga'       => $total_harga, // Diisi dari pesanan
             'status'            => 'pending',
             'tanggal_pembayaran' => date('Y-m-d H:i:s'),
         ]);
@@ -149,6 +157,14 @@ class Orders extends Controller
         if ($catatan_user) {
             $catatan .= "\nCatatan: $catatan_user";
         }
+        // Ambil total_harga dari pesanan
+        $pemesananModel = new \App\Models\Pemesanan();
+        $order = $pemesananModel->find($id);
+        if (!$order) {
+            return redirect()->back()->with('error', 'Pesanan tidak ditemukan.');
+        }
+        $total_harga = $order['total_harga'] ?? 0;
+
         $uploadPath = FCPATH . 'uploads/pembayaran/';
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
@@ -160,7 +176,7 @@ class Orders extends Controller
             'pesanan_id'        => $id,
             'metode_pembayaran' => $bank,
             'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
-            'total_harga'       => 0, // Bisa diisi sesuai kebutuhan
+            'total_harga'       => $total_harga, // Diisi dari pesanan
             'status'            => 'pending',
             'tanggal_pembayaran' => date('Y-m-d H:i:s'),
             'catatan'           => $catatan,

@@ -49,7 +49,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 60px">ID</th>
-                                <th>Pesanan</th>
+                                <th>Customer</th>
                                 <th>Nama Pengirim</th>
                                 <th>Metode</th>
                                 <th class="text-center">Total</th>
@@ -61,7 +61,7 @@
                             <?php foreach ($pembayarans as $pembayaran): ?>
                                 <tr>
                                     <td class="text-center"><?= esc($pembayaran['id']) ?></td>
-                                    <td><?= esc($pembayaran['pesanan_id']) ?></td>
+                                    <td><?= esc($pembayaran['nama_pelanggan'] ?? '-') ?></td>
                                     <td><?= esc($pembayaran['nama_pengirim']) ?></td>
                                     <td><?= esc($pembayaran['metode_pembayaran']) ?></td>
                                     <td class="text-center">Rp<?= number_format($pembayaran['total_harga'], 0, ',', '.') ?></td>

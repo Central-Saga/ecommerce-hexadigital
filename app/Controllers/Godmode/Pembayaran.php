@@ -24,10 +24,11 @@ class Pembayaran extends BaseController
         $pembayarans = $this->pembayaranModel->findAll();
         $formattedPembayarans = [];
         foreach ($pembayarans as $pembayaran) {
-            $pemesanan = $this->pemesananModel->find($pembayaran['pesanan_id']);
+            $pemesanan = $this->pemesananModel->withPelanggan()->where('pemesanan.id', $pembayaran['pesanan_id'])->first();
             $formattedPembayarans[] = [
                 'id' => $pembayaran['id'],
                 'pesanan_id' => $pembayaran['pesanan_id'],
+                'nama_pelanggan' => $pemesanan['nama_pelanggan'] ?? '-',
                 'nama_pengirim' => $pembayaran['nama_pengirim'],
                 'metode_pembayaran' => $pembayaran['metode_pembayaran'],
                 'bukti_pembayaran' => $pembayaran['bukti_pembayaran'],
