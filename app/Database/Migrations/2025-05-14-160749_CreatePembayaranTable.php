@@ -44,6 +44,15 @@ class CreatePembayaranTable extends Migration
                 'constraint' => ['pending', 'diterima', 'ditolak'],
                 'default'    => 'pending',
             ],
+            'nama_pengirim' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => true,
+            ],
+            'catatan' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

@@ -48,13 +48,7 @@
                         <div class="mt-2"><strong>Catatan:</strong> <?= esc($order['catatan']) ?></div>
                     <?php endif; ?>
                     <?php if ($order['status_pemesanan'] !== 'selesai' && $order['status_pemesanan'] !== 'dibatalkan'): ?>
-                        <form action="<?= site_url('orders/uploadPembayaran/' . $order['id']) ?>" method="post" enctype="multipart/form-data" class="mt-3 upload-pembayaran-form">
-                            <div class="mb-2">
-                                <label for="bukti_pembayaran_<?= $order['id'] ?>" class="form-label">Upload Bukti Pembayaran</label>
-                                <input type="file" name="bukti_pembayaran" id="bukti_pembayaran_<?= $order['id'] ?>" class="form-control" required accept="image/*,application/pdf">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Upload</button>
-                        </form>
+                        <a href="<?= site_url('orders/konfirmasi-pembayaran/' . $order['id']) ?>" class="btn btn-primary mt-3">Konfirmasi Pembayaran</a>
                     <?php endif; ?>
                 </div>
             </div>

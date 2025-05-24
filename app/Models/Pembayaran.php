@@ -21,6 +21,8 @@ class Pembayaran extends Model
         'status',
         'created_at',
         'updated_at',
+        'catatan',
+        'nama_pengirim',
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -44,7 +46,9 @@ class Pembayaran extends Model
         'pesanan_id' => 'required|integer',
         'metode_pembayaran' => 'required|string',
         'total_harga' => 'required|numeric',
-        'status' => 'required|in_list[pending,diterima,ditolak]'
+        'status' => 'required|in_list[pending,diterima,ditolak]',
+        'nama_pengirim' => 'permit_empty|string',
+        'catatan' => 'permit_empty|string',
     ];
 
     protected $validationMessages   = [
@@ -63,7 +67,13 @@ class Pembayaran extends Model
         'status' => [
             'required' => 'Status pembayaran harus diisi',
             'in_list' => 'Status pembayaran tidak valid',
-        ]
+        ],
+        'nama_pengirim' => [
+            'string' => 'Nama pengirim harus berupa teks',
+        ],
+        'catatan' => [
+            'string' => 'Catatan harus berupa teks',
+        ],
     ];
 
     protected $skipValidation       = false;

@@ -44,4 +44,123 @@ class Orders extends Controller
             'orders' => $orders
         ]);
     }
+
+    public function postUploadPembayaran($id)
+    {
+        $file = $this->request->getFile('bukti_pembayaran');
+        if (!$file || !$file->isValid()) {
+            return redirect()->back()->with('error', 'File tidak valid atau belum dipilih.');
+        }
+
+        // Pastikan folder uploads/pembayaran ada
+        $uploadPath = FCPATH . 'uploads/pembayaran/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+
+        $newName = $file->getRandomName();
+        $file->move($uploadPath, $newName);
+
+        // Simpan data pembayaran ke database
+        $pembayaranModel = new \App\Models\Pembayaran();
+        $pembayaranModel->save([
+            'pesanan_id'        => $id,
+            'metode_pembayaran' => 'manual', // Bisa diganti sesuai kebutuhan
+            'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
+            'total_harga'       => 0, // Bisa diisi sesuai kebutuhan
+            'status'            => 'pending',
+            'tanggal_pembayaran' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+    }
+
+    public function getKonfirmasiPembayaran($id)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->to('/login')->with('error', 'Silakan login untuk melakukan konfirmasi pembayaran');
+        }
+        $pemesananModel = new \App\Models\Pemesanan();
+        $order = $pemesananModel->find($id);
+        if (!$order) {
+            return redirect()->to('/orders')->with('error', 'Pesanan tidak ditemukan.');
+        }
+        $rekeningToko = [
+            'BCA' => [
+                'nomor' => '1234567890',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+            'Mandiri' => [
+                'nomor' => '9876543210',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+            'BRI' => [
+                'nomor' => '1122334455',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+        ];
+        return view('pages/orders_konfirmasi_pembayaran', [
+            'order' => $order,
+            'rekeningToko' => $rekeningToko
+        ]);
+    }
+
+    public function postKonfirmasiPembayaran($id)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->to('/login')->with('error', 'Silakan login untuk melakukan konfirmasi pembayaran');
+        }
+        $file = $this->request->getFile('bukti_pembayaran');
+        if (!$file || !$file->isValid()) {
+            return redirect()->back()->with('error', 'File tidak valid atau belum dipilih.');
+        }
+        $bank = $this->request->getPost('metode_pembayaran');
+        $nama_pengirim = $this->request->getPost('nama_pengirim');
+        $catatan_user = $this->request->getPost('catatan');
+        if (!$bank || !$nama_pengirim) {
+            return redirect()->back()->with('error', 'Semua field wajib diisi.');
+        }
+        $rekeningToko = [
+            'BCA' => [
+                'nomor' => '1234567890',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+            'Mandiri' => [
+                'nomor' => '9876543210',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+            'BRI' => [
+                'nomor' => '1122334455',
+                'nama' => 'PT Hexadigital Indonesia'
+            ],
+        ];
+        $detailRek = $rekeningToko[$bank] ?? null;
+        if (!$detailRek) {
+            return redirect()->back()->with('error', 'Rekening tujuan tidak valid.');
+        }
+        $catatan = "Rekening tujuan: $bank - {$detailRek['nomor']} a.n {$detailRek['nama']}";
+        if ($catatan_user) {
+            $catatan .= "\nCatatan: $catatan_user";
+        }
+        $uploadPath = FCPATH . 'uploads/pembayaran/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
+        }
+        $newName = $file->getRandomName();
+        $file->move($uploadPath, $newName);
+        $pembayaranModel = new \App\Models\Pembayaran();
+        $pembayaranModel->save([
+            'pesanan_id'        => $id,
+            'metode_pembayaran' => $bank,
+            'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
+            'total_harga'       => 0, // Bisa diisi sesuai kebutuhan
+            'status'            => 'pending',
+            'tanggal_pembayaran' => date('Y-m-d H:i:s'),
+            'catatan'           => $catatan,
+            'nama_pengirim'     => $nama_pengirim,
+        ]);
+        return redirect()->to('/orders')->with('success', 'Konfirmasi pembayaran berhasil dikirim.');
+    }
 }
