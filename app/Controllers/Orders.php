@@ -25,11 +25,12 @@ class Orders extends Controller
         $pemesananModel = new Pemesanan();
         $detailPemesananModel = new DetailPemesanan();
         $produkModel = new Produk();
+        $pembayaranModel = new \App\Models\Pembayaran();
 
         // Ambil semua pesanan milik pelanggan
         $orders = $pemesananModel->where('pelanggan_id', $pelanggan_id)->orderBy('created_at', 'DESC')->findAll();
 
-        // Ambil detail produk untuk setiap pesanan
+        // Ambil detail produk & status pembayaran untuk setiap pesanan
         foreach ($orders as &$order) {
             $details = $detailPemesananModel->where('pemesanan_id', $order['id'])->findAll();
             foreach ($details as &$detail) {
@@ -38,6 +39,10 @@ class Orders extends Controller
                 $detail['produk_gambar'] = $produk['gambar'] ?? null;
             }
             $order['details'] = $details;
+
+            // Ambil status pembayaran
+            $pembayaran = $pembayaranModel->where('pesanan_id', $order['id'])->orderBy('id', 'DESC')->first();
+            $order['pembayaran_status'] = $pembayaran['status'] ?? null;
         }
 
         return view('pages/orders', [
