@@ -25,7 +25,6 @@ class Pemesanan extends Model
 
     protected array $casts = [
         'pelanggan_id' => 'integer',
-        'tanggal_pemesanan' => 'date',
         'total_harga' => 'float'
     ];
     protected array $castHandlers = [];

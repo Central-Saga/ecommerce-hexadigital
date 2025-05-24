@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/wrapper') ?>
 
 <?= $this->section('content') ?>
-<div class="container py-5">
+<div class="container py-5 orders-page">
     <h2 class="mb-4">Pesanan Saya</h2>
     <?php if (!empty($orders)): ?>
         <?php foreach ($orders as $order): ?>

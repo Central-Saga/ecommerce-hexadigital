@@ -1,0 +1,158 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Cart Page Styles
+.cart-page,
+.main-cart-wrapper {
+    background: $emerald-50;
+    min-height: 100vh;
+    .container {
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+    }
+    h2 {
+        color: $emerald-700;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    .table {
+        background: $white;
+        border-radius: 1rem;
+        overflow: hidden;
+        @include box-shadow(2);
+        thead th {
+            background: $emerald-100;
+            color: $emerald-700;
+            font-weight: 700;
+            border: none;
+            padding: 1rem 1.25rem;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+        tbody tr {
+            background: $emerald-50;
+            @include transition(box-shadow, 0.2s);
+            &:hover {
+                box-shadow: 0 4px 16px rgba($emerald-400, 0.13);
+                transform: translateY(-2px);
+            }
+            td {
+                padding: 1rem 1.25rem;
+                vertical-align: middle;
+                color: $emerald-900;
+                border: none;
+                font-weight: 500;
+                &:first-child {
+                    border-top-left-radius: 0.5rem;
+                    border-bottom-left-radius: 0.5rem;
+                }
+                &:last-child {
+                    border-top-right-radius: 0.5rem;
+                    border-bottom-right-radius: 0.5rem;
+                }
+                img {
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 0.5rem;
+                    object-fit: cover;
+                    margin-right: 0.7rem;
+                    border: 1.5px solid $emerald-100;
+                    background: $emerald-50;
+                }
+                .form-control-sm {
+                    border-radius: 0.5rem;
+                    border: 1px solid $emerald-200;
+                    font-size: 1rem;
+                    color: $emerald-900;
+                    @include transition(border-color, 0.2s);
+                    &:focus {
+                        border-color: $emerald-500;
+                        box-shadow: 0 0 0 2px rgba($emerald-400, 0.15);
+                    }
+                }
+                .remove-btn {
+                    background: linear-gradient(
+                        135deg,
+                        #ef4444 0%,
+                        #dc2626 100%
+                    ) !important;
+                    color: $white !important;
+                    border: none;
+                    border-radius: 0.5rem;
+                    @include transition(all, 0.2s);
+                    &:hover {
+                        background: linear-gradient(
+                            135deg,
+                            #dc2626 0%,
+                            #b91c1c 100%
+                        ) !important;
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
+    }
+    .d-flex.justify-content-end h4 {
+        color: $emerald-700;
+        font-weight: 700;
+        margin-top: 1.5rem;
+    }
+    .btn-success {
+        background: linear-gradient(
+            135deg,
+            $emerald-500 0%,
+            $emerald-600 100%
+        ) !important;
+        color: $white !important;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 700;
+        padding: 0.7rem 2rem;
+        @include transition(all, 0.2s);
+        &:hover {
+            background: linear-gradient(
+                135deg,
+                $emerald-600 0%,
+                $emerald-700 100%
+            ) !important;
+            transform: translateY(-2px);
+        }
+    }
+    .alert-info {
+        background: linear-gradient(90deg, $emerald-100 0%, $emerald-50 100%);
+        color: $emerald-700;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 1.2rem 1.5rem;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        text-align: center;
+    }
+}
+
+// Responsive
+@include media-breakpoint-down(md) {
+    .cart-page .table tbody td,
+    .main-cart-wrapper .table tbody td {
+        padding: 0.7rem 0.7rem;
+    }
+}
+@include media-breakpoint-down(sm) {
+    .cart-page .container,
+    .main-cart-wrapper .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .cart-page .table thead th,
+    .main-cart-wrapper .table thead th,
+    .cart-page .table tbody td,
+    .main-cart-wrapper .table tbody td {
+        padding: 0.5rem 0.5rem;
+        font-size: 0.95rem;
+    }
+    .cart-page .d-flex.justify-content-end h4,
+    .main-cart-wrapper .d-flex.justify-content-end h4 {
+        font-size: 1rem;
+    }
+}
