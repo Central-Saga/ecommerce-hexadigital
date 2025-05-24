@@ -95,12 +95,9 @@
                                             <a href="<?= base_url('godmode/pembayaran/edit/' . $pembayaran['id']) ?>" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <form action="<?= base_url('godmode/pembayaran/delete/' . $pembayaran['id']) ?>" method="post" style="display:inline-block" onsubmit="return confirm('Yakin hapus pembayaran ini?')">
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip" title="Hapus">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="deletePembayaran(<?= $pembayaran['id'] ?>)" data-bs-toggle="tooltip" title="Hapus">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,6 +111,54 @@
 </div>
 
 <script>
+    function deletePembayaran(id) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data pembayaran yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/godmode/pembayaran/pembayaran/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: data.message,
+                                icon: 'success'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: data.message,
+                                icon: 'error'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat menghapus pembayaran',
+                            icon: 'error'
+                        });
+                    });
+            }
+        });
+    }
+
     // Inisialisasi toast
     document.addEventListener('DOMContentLoaded', function() {
         const toastElList = document.querySelectorAll('.toast');
