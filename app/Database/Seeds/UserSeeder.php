@@ -93,14 +93,18 @@ class UserSeeder extends Seeder
                 $savedUser->addGroup($userData['role']);
                 // Jika role pelanggan, buat juga data di tabel pelanggans
                 if ($userData['role'] === 'pelanggan') {
-                    $db->table('pelanggans')->insert([
-                        'user_id' => $savedUser->id,
-                        'alamat' => 'Alamat default',
-                        'no_telepon' => '08xxxxxxxxxx',
-                        'jenis_kelamin' => 'L',
-                        'umur' => 20,
-                        'status' => 'active'
-                    ]);
+                    // Cek apakah user_id sudah ada di pelanggans
+                    $pelangganExists = $db->table('pelanggans')->where('user_id', $savedUser->id)->get()->getRow();
+                    if (!$pelangganExists) {
+                        $db->table('pelanggans')->insert([
+                            'user_id' => $savedUser->id,
+                            'alamat' => 'Alamat default',
+                            'no_telepon' => '08xxxxxxxxxx',
+                            'jenis_kelamin' => 'L',
+                            'umur' => 20,
+                            'status' => 'active'
+                        ]);
+                    }
                 }
             }
         }

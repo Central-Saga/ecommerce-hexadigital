@@ -51,6 +51,16 @@ class PelangganSeeder extends Seeder
             ],
         ];
 
-        $this->db->table('pelanggans')->insertBatch($data);
+        // Filter data agar hanya user_id yang belum ada di pelanggans yang diinsert
+        $filteredData = [];
+        foreach ($data as $row) {
+            $exists = $this->db->table('pelanggans')->where('user_id', $row['user_id'])->get()->getRow();
+            if (!$exists) {
+                $filteredData[] = $row;
+            }
+        }
+        if (!empty($filteredData)) {
+            $this->db->table('pelanggans')->insertBatch($filteredData);
+        }
     }
 }
