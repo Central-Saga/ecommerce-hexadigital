@@ -30,7 +30,7 @@
                                 <?php foreach ($order['details'] as $detail): ?>
                                     <tr>
                                         <td>
-                                            <img src="<?= base_url('uploads/produk/' . ($detail['produk_gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($detail['produk_nama']) ?>" width="50" class="me-2">
+                                            <img src="<?= base_url(($detail['produk_gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($detail['produk_nama']) ?>" width="50" class="me-2">
                                             <?= esc($detail['produk_nama']) ?>
                                         </td>
                                         <td>Rp <?= number_format($detail['harga'], 0, ',', '.') ?></td>

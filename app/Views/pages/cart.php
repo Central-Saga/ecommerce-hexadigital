@@ -21,7 +21,7 @@
                             <?php foreach ($products as $product): ?>
                                 <tr>
                                     <td>
-                                        <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" width="60" class="me-2">
+                                        <img src="<?= base_url(($product['gambar'] ?? 'default.jpg')) ?>" alt="<?= esc($product['nama']) ?>" width="60" class="me-2">
                                         <?= esc($product['nama']) ?>
                                     </td>
                                     <td>
