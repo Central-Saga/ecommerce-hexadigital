@@ -5,6 +5,7 @@ namespace App\Controllers\Godmode;
 use App\Controllers\BaseController;
 use App\Models\Pemesanan as PemesananModel;
 use App\Models\Pelanggan as PelangganModel;
+use App\Models\Pembayaran;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Pemesanan extends BaseController
@@ -12,11 +13,13 @@ class Pemesanan extends BaseController
     protected $helpers = ['form'];
     protected $pemesananModel;
     protected $pelangganModel;
+    protected $pembayaranModel;
 
     public function __construct()
     {
         $this->pemesananModel = new PemesananModel();
         $this->pelangganModel = new PelangganModel();
+        $this->pembayaranModel = new Pembayaran();
     }
 
     public function getIndex()
@@ -212,9 +215,6 @@ class Pemesanan extends BaseController
         }
 
         $rules = [
-            'pelanggan_id' => 'required|integer',
-            'tanggal_pemesanan' => 'required|valid_date',
-            'total_harga' => 'required|decimal',
             'status_pemesanan' => 'required|in_list[menunggu,diproses,selesai,dibatalkan]'
         ];
 
@@ -225,25 +225,19 @@ class Pemesanan extends BaseController
         }
 
         try {
-            // Persiapkan data, pastikan hilangkan format angka ribuan
-            $totalHarga = str_replace([',', '.'], '', $this->request->getPost('total_harga'));
-
             $data = [
-                'pelanggan_id' => $this->request->getPost('pelanggan_id'),
-                'tanggal_pemesanan' => $this->request->getPost('tanggal_pemesanan'),
-                'total_harga' => $totalHarga,
                 'status_pemesanan' => $this->request->getPost('status_pemesanan'),
-                'catatan' => $this->request->getPost('catatan')
+                'catatan' => $this->request->getPost('catatan'),
             ];
 
             $this->pemesananModel->update($id, $data);
 
             return redirect()->to('/godmode/pemesanan')
-                ->with('success', 'Pemesanan berhasil diperbarui');
+                ->with('success', 'Status pemesanan berhasil diperbarui');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Gagal memperbarui pemesanan: ' . $e->getMessage());
+                ->with('error', 'Gagal memperbarui status pemesanan: ' . $e->getMessage());
         }
     }
 
@@ -294,9 +288,22 @@ class Pemesanan extends BaseController
 
         $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
 
+        // Ambil detail pemesanan beserta nama produk
+        $db = \Config\Database::connect();
+        $details = $db->table('detail_pemesanan')
+            ->select('detail_pemesanan.*, produk.nama as nama_produk, produk.gambar as gambar_produk')
+            ->join('produk', 'produk.id = detail_pemesanan.produk_id', 'left')
+            ->where('detail_pemesanan.pemesanan_id', $id)
+            ->get()->getResultArray();
+
+        // Ambil pembayaran terkait pesanan ini (ambil pembayaran terakhir jika ada)
+        $pembayaran = $this->pembayaranModel->where('pesanan_id', $id)->orderBy('id', 'DESC')->first();
+
         return view('pages/godmode/pemesanan/detail', [
             'pemesanan' => $pemesanan,
-            'pelanggan' => $pelanggan
+            'pelanggan' => $pelanggan,
+            'details' => $details,
+            'pembayaran' => $pembayaran,
         ]);
     }
 

@@ -35,9 +35,9 @@
                 <i class="bi bi-cart-fill me-2 text-primary fs-4"></i>
                 <h5 class="mb-0">Daftar Pemesanan</h5>
             </div>
-            <a href="/godmode/pemesanan/create" class="btn btn-primary">
+            <!-- <a href="/godmode/pemesanan/create" class="btn btn-primary">
                 <i class="bi bi-plus-circle me-1"></i> Tambah Pemesanan
-            </a>
+            </a> -->
         </div>
         <div class="card-body">
             <?php if (empty($pemesanans)) : ?>
@@ -66,7 +66,8 @@
                                         <div class="d-flex align-items-center">
                                             <div class="customer-icon me-2">
                                                 <i class="bi bi-person-circle fs-4 text-primary"></i>
-                                            </div>                                            <div>
+                                            </div>
+                                            <div>
                                                 <div class="fw-semibold"><?= $pemesanan['pelanggan_nama'] ?></div>
                                                 <small class="text-muted"><?= $pemesanan['email'] ?? '-' ?></small>
                                             </div>
@@ -75,28 +76,28 @@
                                     <td><?= date('d/m/Y', strtotime($pemesanan['tanggal_pemesanan'])) ?></td>
                                     <td class="text-center">Rp <?= number_format($pemesanan['total_harga'], 0, ',', '.') ?></td>
                                     <td class="text-center">
-                                        <?php                                            $badge_class = '';
-                                            switch ($pemesanan['status_pemesanan']) {
-                                                case 'menunggu':
-                                                    $badge_class = 'bg-warning';
-                                                    $status_text = 'Menunggu';
-                                                    break;
-                                                case 'diproses':
-                                                    $badge_class = 'bg-info';
-                                                    $status_text = 'Diproses';
-                                                    break;
-                                                case 'selesai':
-                                                    $badge_class = 'bg-success';
-                                                    $status_text = 'Selesai';
-                                                    break;
-                                                case 'dibatalkan':
-                                                    $badge_class = 'bg-danger';
-                                                    $status_text = 'Dibatalkan';
-                                                    break;
-                                                default:
-                                                    $badge_class = 'bg-secondary';
-                                                    $status_text = ucfirst($pemesanan['status_pemesanan']);
-                                            }
+                                        <?php $badge_class = '';
+                                        switch ($pemesanan['status_pemesanan']) {
+                                            case 'menunggu':
+                                                $badge_class = 'bg-warning';
+                                                $status_text = 'Menunggu';
+                                                break;
+                                            case 'diproses':
+                                                $badge_class = 'bg-info';
+                                                $status_text = 'Diproses';
+                                                break;
+                                            case 'selesai':
+                                                $badge_class = 'bg-success';
+                                                $status_text = 'Selesai';
+                                                break;
+                                            case 'dibatalkan':
+                                                $badge_class = 'bg-danger';
+                                                $status_text = 'Dibatalkan';
+                                                break;
+                                            default:
+                                                $badge_class = 'bg-secondary';
+                                                $status_text = ucfirst($pemesanan['status_pemesanan']);
+                                        }
                                         ?>
                                         <span class="badge <?= $badge_class ?>"><?= $status_text ?></span>
                                     </td>

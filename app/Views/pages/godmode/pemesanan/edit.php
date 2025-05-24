@@ -37,62 +37,28 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="pelanggan_id" class="form-label">
+                            <label class="form-label">
                                 <i class="bi bi-person me-1"></i>Pelanggan
                             </label>
-                            <select class="form-select <?= session('errors.pelanggan_id') ? 'is-invalid' : '' ?>"
-                                id="pelanggan_id"
-                                name="pelanggan_id"
-                                required>
-                                <option value="" disabled>Pilih Pelanggan</option>
-                                <?php if (isset($pelanggans) && count($pelanggans) > 0): ?>
-                                    <?php foreach ($pelanggans as $pelanggan): ?>
-                                        <option value="<?= $pelanggan['id'] ?>" <?= old('pelanggan_id', $pemesanan['pelanggan_id']) == $pelanggan['id'] ? 'selected' : '' ?>>
-                                            <?= esc($pelanggan['name']) ?> (<?= esc($pelanggan['email']) ?>)
-                                        </option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                <?= session('errors.pelanggan_id') ?>
-                            </div>
+                            <input type="text" class="form-control" value="<?= esc($pelanggans[array_search($pemesanan['pelanggan_id'], array_column($pelanggans, 'id'))]['name'] ?? '-') ?> (<?= esc($pelanggans[array_search($pemesanan['pelanggan_id'], array_column($pelanggans, 'id'))]['email'] ?? '-') ?>)" readonly>
                         </div>
                     </div>
-                    
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tanggal_pemesanan" class="form-label">
+                            <label class="form-label">
                                 <i class="bi bi-calendar me-1"></i>Tanggal Pemesanan
                             </label>
-                            <input type="date"
-                                class="form-control <?= session('errors.tanggal_pemesanan') ? 'is-invalid' : '' ?>"
-                                id="tanggal_pemesanan"
-                                name="tanggal_pemesanan"
-                                value="<?= old('tanggal_pemesanan', $pemesanan['tanggal_pemesanan']) ?>"
-                                required>
-                            <div class="invalid-feedback">
-                                <?= session('errors.tanggal_pemesanan') ?>
-                            </div>
+                            <input type="date" class="form-control" value="<?= esc(date('Y-m-d', strtotime($pemesanan['tanggal_pemesanan']))) ?>" readonly>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="total_harga" class="form-label">
+                            <label class="form-label">
                                 <i class="bi bi-currency-dollar me-1"></i>Total Harga (Rp)
                             </label>
-                            <input type="text"
-                                class="form-control <?= session('errors.total_harga') ? 'is-invalid' : '' ?>"
-                                id="total_harga"
-                                name="total_harga"
-                                value="<?= old('total_harga', number_format($pemesanan['total_harga'], 0, ',', '.')) ?>"
-                                required>
-                            <div class="invalid-feedback">
-                                <?= session('errors.total_harga') ?>
-                            </div>
+                            <input type="text" class="form-control" value="<?= number_format($pemesanan['total_harga'], 0, ',', '.') ?>" readonly>
                         </div>
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="status_pemesanan" class="form-label">
@@ -102,8 +68,8 @@
                                 id="status_pemesanan"
                                 name="status_pemesanan"
                                 required>
-                                <option value="pending" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'pending' ? 'selected' : '' ?>>Pending</option>
-                                <option value="proses" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'proses' ? 'selected' : '' ?>>Proses</option>
+                                <option value="menunggu" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'menunggu' ? 'selected' : '' ?>>Menunggu</option>
+                                <option value="diproses" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'diproses' ? 'selected' : '' ?>>Diproses</option>
                                 <option value="selesai" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'selesai' ? 'selected' : '' ?>>Selesai</option>
                                 <option value="dibatalkan" <?= old('status_pemesanan', $pemesanan['status_pemesanan']) === 'dibatalkan' ? 'selected' : '' ?>>Dibatalkan</option>
                             </select>
@@ -112,20 +78,17 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="catatan" class="form-label">
+                            <label class="form-label">
                                 <i class="bi bi-card-text me-1"></i>Catatan (Opsional)
                             </label>
-                            <textarea 
-                                class="form-control <?= session('errors.catatan') ? 'is-invalid' : '' ?>"
-                                id="catatan"
-                                name="catatan"
-                                rows="4"><?= old('catatan', $pemesanan['catatan']) ?></textarea>
-                            <div class="invalid-feedback">
-                                <?= session('errors.catatan') ?>
-                            </div>
+                            <textarea class="form-control <?= session('errors.catatan') ? 'is-invalid' : '' ?>" id="catatan" name="catatan" rows="4"><?= old('catatan', $pemesanan['catatan']) ?></textarea>
+                            <?php if (session('errors.catatan')): ?>
+                                <div class="invalid-feedback">
+                                    <?= session('errors.catatan') ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -163,26 +126,6 @@
                 }
                 form.classList.add('was-validated');
             }, false);
-        });
-        
-        // Format input total harga dengan separator ribuan
-        const hargaInput = document.getElementById('total_harga');
-        hargaInput.addEventListener('input', function(e) {
-            // Ambil hanya digit angka
-            let value = this.value.replace(/[^0-9]/g, '');
-            if (value.length > 0) {
-                // Format ribuan
-                this.value = parseInt(value, 10).toLocaleString('id-ID');
-            } else {
-                this.value = '';
-            }
-        });
-
-        // Pastikan harga hanya angka sebelum submit
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(e) {
-            const hargaInput = document.getElementById('total_harga');
-            hargaInput.value = hargaInput.value.replace(/[^0-9]/g, '');
         });
     });
 </script>
