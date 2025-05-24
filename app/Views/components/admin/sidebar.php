@@ -99,11 +99,11 @@ function isActive($path)
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/transactions') ?>" href="/godmode/transactions">
+                        <a class="nav-link <?= isActive('/godmode/transactions') ?>" href="/godmode/pembayaran">
                             <div class="icon-wrapper">
                                 <i class="bi bi-credit-card"></i>
                             </div>
-                            <span>Kelola Transaksi</span>
+                            <span>Kelola Pembayaran</span>
                         </a>
                     </li>
                     <li class="nav-item">
