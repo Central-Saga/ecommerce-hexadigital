@@ -81,7 +81,18 @@ class Pengiriman extends Model
      */
     public function withPemesanan()
     {
-        return $this->select('pengiriman.*, pemesanan.id as pemesanan_id, pemesanan.tanggal_pemesanan, pemesanan.total_harga, pemesanan.status_pemesanan, pemesanan.catatan')
-            ->join('pemesanan', 'pemesanan.id = pengiriman.pemesanan_id', 'left');
+        return $this->select('
+            pengiriman.*,
+            pemesanan.id as pemesanan_id,
+            pemesanan.id as nomor_pemesanan,
+            pemesanan.tanggal_pemesanan,
+            pemesanan.total_harga,
+            pemesanan.status_pemesanan,
+            pemesanan.catatan,
+            users.username as nama_pelanggan
+        ')
+            ->join('pemesanan', 'pemesanan.id = pengiriman.pemesanan_id', 'left')
+            ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
+            ->join('users', 'users.id = pelanggans.user_id', 'left');
     }
 }

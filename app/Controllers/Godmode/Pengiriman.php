@@ -36,12 +36,12 @@ class Pengiriman extends BaseController
      */
     public function getCreate()
     {
-        // Load model pesanan jika diperlukan untuk dropdown
-        // $pesananModel = model('App\Models\Pesanan');
-        // $data['pesanan'] = $pesananModel->findAll();
+        $pemesananModel = new \App\Models\Pemesanan();
+        $pemesanan = $pemesananModel->findAll();
 
         $data = [
             'title' => 'Tambah Pengiriman Baru',
+            'pemesanan' => $pemesanan,
             'validation' => \Config\Services::validation()
         ];
 
@@ -92,14 +92,14 @@ class Pengiriman extends BaseController
             return redirect()->to('godmode/pengiriman');
         }
 
-        // Load model pesanan jika diperlukan untuk dropdown
-        // $pesananModel = model('App\Models\Pesanan');
-        // $data['pesanan'] = $pesananModel->findAll();
+        $pemesananModel = new \App\Models\Pemesanan();
+        $pemesanan = $pemesananModel->findAll();
 
         $data = [
             'title' => 'Edit Pengiriman',
             'validation' => \Config\Services::validation(),
-            'pengiriman' => $pengiriman
+            'pengiriman' => $pengiriman,
+            'pemesanan' => $pemesanan
         ];
 
         return view('pages/godmode/pengiriman/edit', $data);
