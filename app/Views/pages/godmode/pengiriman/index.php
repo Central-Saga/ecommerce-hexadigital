@@ -99,9 +99,6 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-1">
-                                            <a href="<?= base_url('godmode/pengiriman/detail/' . $p['id']) ?>" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Detail">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
                                             <a href="<?= base_url('godmode/pengiriman/edit/' . $p['id']) ?>" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
@@ -133,8 +130,8 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/godmode/pengiriman/delete/${id}`, {
-                        method: 'POST',
+                fetch(`/godmode/pengiriman/pengiriman/${id}`, {
+                        method: 'DELETE',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

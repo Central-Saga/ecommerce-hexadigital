@@ -43,7 +43,9 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="pemesanan_id" class="form-label">Nomor Pemesanan</label>
+                            <label for="pemesanan_id" class="form-label">
+                                <i class="bi bi-receipt me-1"></i>Nomor Pemesanan
+                            </label>
                             <select class="form-select <?= session('errors.pemesanan_id') ? 'is-invalid' : '' ?>" id="pemesanan_id" name="pemesanan_id" required>
                                 <option value="" selected disabled>Pilih Nomor Pemesanan</option>
                                 <?php if (isset($pemesanan) && !empty($pemesanan)) : ?>
@@ -59,23 +61,28 @@
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="tanggal_kirim" class="form-label">Tanggal Kirim</label>
-                            <input type="date" class="form-control <?= session('errors.tanggal_kirim') ? 'is-invalid' : '' ?>" id="tanggal_kirim" name="tanggal_kirim" value="<?= old('tanggal_kirim', $pengiriman['tanggal_kirim']) ?>" required>
+                            <label for="tanggal_kirim" class="form-label">
+                                <i class="bi bi-calendar-date me-1"></i>Tanggal Kirim
+                            </label>
+                            <input type="date" class="form-control <?= session('errors.tanggal_kirim') ? 'is-invalid' : '' ?>" id="tanggal_kirim" name="tanggal_kirim" value="<?= old('tanggal_kirim', isset($pengiriman['tanggal_kirim']) ? substr($pengiriman['tanggal_kirim'], 0, 10) : '') ?>" required>
                             <div class="invalid-feedback">
                                 <?= session('errors.tanggal_kirim') ?>
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="tanggal_terima" class="form-label">Tanggal Terima</label>
-                            <input type="date" class="form-control <?= session('errors.tanggal_terima') ? 'is-invalid' : '' ?>" id="tanggal_terima" name="tanggal_terima" value="<?= old('tanggal_terima', $pengiriman['tanggal_terima']) ?>">
+                            <label for="tanggal_terima" class="form-label">
+                                <i class="bi bi-calendar-check me-1"></i>Tanggal Terima
+                            </label>
+                            <input type="date" class="form-control <?= session('errors.tanggal_terima') ? 'is-invalid' : '' ?>" id="tanggal_terima" name="tanggal_terima" value="<?= old('tanggal_terima', isset($pengiriman['tanggal_terima']) ? substr($pengiriman['tanggal_terima'], 0, 10) : '') ?>">
                             <div class="invalid-feedback">
                                 <?= session('errors.tanggal_terima') ?>
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="status" class="form-label">Status Pengiriman</label>
+                            <label for="status" class="form-label">
+                                <i class="bi bi-tag me-1"></i>Status Pengiriman
+                            </label>
                             <select class="form-select <?= session('errors.status') ? 'is-invalid' : '' ?>" id="status" name="status" required>
-                                <option value="" selected disabled>Pilih Status</option>
                                 <option value="menunggu" <?= old('status', $pengiriman['status']) == 'menunggu' ? 'selected' : '' ?>>Menunggu</option>
                                 <option value="dikirim" <?= old('status', $pengiriman['status']) == 'dikirim' ? 'selected' : '' ?>>Dikirim</option>
                                 <option value="diterima" <?= old('status', $pengiriman['status']) == 'diterima' ? 'selected' : '' ?>>Diterima</option>
@@ -88,7 +95,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
-                            <label for="deskripsi" class="form-label">Deskripsi Pengiriman</label>
+                            <label for="deskripsi" class="form-label">
+                                <i class="bi bi-card-text me-1"></i>Deskripsi Pengiriman (Opsional)
+                            </label>
                             <textarea class="form-control <?= session('errors.deskripsi') ? 'is-invalid' : '' ?>" id="deskripsi" name="deskripsi" rows="10" placeholder="Detail pengiriman, catatan khusus, dll..."><?= old('deskripsi', $pengiriman['deskripsi']) ?></textarea>
                             <?php if (session('errors.deskripsi')): ?>
                                 <div class="invalid-feedback">

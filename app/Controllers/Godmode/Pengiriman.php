@@ -111,7 +111,7 @@ class Pengiriman extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function postUpdate($id = null)
+    public function putUpdate($id = null)
     {
         // Validasi input
         $rules = $this->pengirimanModel->getValidationRules();
