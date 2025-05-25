@@ -13,7 +13,7 @@ class Pengiriman extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'pesanan_id',
+        'pemesanan_id',
         'tanggal_kirim',
         'tanggal_terima',
         'status',
@@ -26,7 +26,7 @@ class Pengiriman extends Model
     protected bool $updateOnlyChanged = true;
 
     protected array $casts = [
-        'pesanan_id' => 'integer',
+        'pemesanan_id' => 'integer',
     ];
     protected array $castHandlers = [];
 
@@ -39,16 +39,16 @@ class Pengiriman extends Model
 
     // Validation
     protected $validationRules      = [
-        'pesanan_id' => 'required|integer',
+        'pemesanan_id' => 'required|integer',
         'tanggal_kirim' => 'permit_empty|valid_date',
         'tanggal_terima' => 'permit_empty|valid_date',
         'status' => 'required|in_list[menunggu,dikirim,diterima,dibatalkan]'
     ];
 
     protected $validationMessages   = [
-        'pesanan_id' => [
-            'required' => 'Pesanan harus dipilih',
-            'integer' => 'ID Pesanan harus berupa angka',
+        'pemesanan_id' => [
+            'required' => 'Pemesanan harus dipilih',
+            'integer' => 'ID Pemesanan harus berupa angka',
         ],
         'tanggal_kirim' => [
             'valid_date' => 'Tanggal kirim harus berupa tanggal yang valid'
@@ -77,11 +77,11 @@ class Pengiriman extends Model
     protected $afterDelete    = [];
 
     /**
-     * Get pengiriman with pesanan relation
+     * Get pengiriman with pemesanan relation
      */
-    public function withPesanan()
+    public function withPemesanan()
     {
-        return $this->select('pengiriman.*, pesanan.nomor_pesanan')
-            ->join('pesanan', 'pesanan.id = pengiriman.pesanan_id', 'left');
+        return $this->select('pengiriman.*, pemesanan.id as pemesanan_id, pemesanan.tanggal_pemesanan, pemesanan.total_harga, pemesanan.status_pemesanan, pemesanan.catatan')
+            ->join('pemesanan', 'pemesanan.id = pengiriman.pemesanan_id', 'left');
     }
 }

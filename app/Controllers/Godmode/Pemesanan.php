@@ -297,7 +297,7 @@ class Pemesanan extends BaseController
             ->get()->getResultArray();
 
         // Ambil pembayaran terkait pesanan ini (ambil pembayaran terakhir jika ada)
-        $pembayaran = $this->pembayaranModel->where('pesanan_id', $id)->orderBy('id', 'DESC')->first();
+        $pembayaran = $this->pembayaranModel->where('pemesanan_id', $id)->orderBy('id', 'DESC')->first();
 
         return view('pages/godmode/pemesanan/detail', [
             'pemesanan' => $pemesanan,

@@ -108,7 +108,7 @@ function isActive($path)
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/shipping') ?>" href="/godmode/shipping">
+                        <a class="nav-link <?= isActive('/godmode/pengiriman') ?>" href="/godmode/pengiriman">
                             <div class="icon-wrapper">
                                 <i class="bi bi-truck"></i>
                             </div>

@@ -1,4 +1,6 @@
-<?php /** @var \CodeIgniter\View\View $this */ ?>
+<?php
+
+/** @var \CodeIgniter\View\View $this */ ?>
 <?= $this->extend('layouts/admin_layout'); ?>
 
 <?= $this->section('title') ?>Edit Pengiriman<?= $this->endSection() ?>
@@ -23,38 +25,38 @@
                             </ul>
                         </div>
                     <?php endif; ?>
-                    
+
                     <form action="<?= base_url('godmode/pengiriman/update/' . $pengiriman['id']) ?>" method="post">
                         <?= csrf_field() ?>
-                        
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="pesanan_id" name="pesanan_id">
-                                        <option value="" selected disabled>Pilih Nomor Pesanan</option>
-                                        <?php if (isset($pesanan) && !empty($pesanan)) : ?>
-                                            <?php foreach ($pesanan as $p) : ?>
-                                                <option value="<?= $p['id'] ?>" <?= (old('pesanan_id', $pengiriman['pesanan_id']) == $p['id']) ? 'selected' : '' ?>>
-                                                    <?= esc($p['nomor_pesanan'] ?? 'Pesanan #' . $p['id']) ?>
+                                    <select class="form-select" id="pemesanan_id" name="pemesanan_id">
+                                        <option value="" selected disabled>Pilih Nomor Pemesanan</option>
+                                        <?php if (isset($pemesanan) && !empty($pemesanan)) : ?>
+                                            <?php foreach ($pemesanan as $p) : ?>
+                                                <option value="<?= $p['id'] ?>" <?= (old('pemesanan_id', $pengiriman['pemesanan_id']) == $p['id']) ? 'selected' : '' ?>>
+                                                    <?= esc($p['nomor_pemesanan'] ?? 'Pemesanan #' . $p['id']) ?>
                                                 </option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
-                                    <label for="pesanan_id">Nomor Pesanan</label>
+                                    <label for="pemesanan_id">Nomor Pemesanan</label>
                                 </div>
-                                
+
                                 <div class="form-floating mb-3">
-                                    <input type="date" class="form-control" id="tanggal_kirim" name="tanggal_kirim" 
-                                          value="<?= old('tanggal_kirim', $pengiriman['tanggal_kirim']) ?>">
+                                    <input type="date" class="form-control" id="tanggal_kirim" name="tanggal_kirim"
+                                        value="<?= old('tanggal_kirim', $pengiriman['tanggal_kirim']) ?>">
                                     <label for="tanggal_kirim">Tanggal Kirim</label>
                                 </div>
-                                
+
                                 <div class="form-floating mb-3">
-                                    <input type="date" class="form-control" id="tanggal_terima" name="tanggal_terima" 
-                                          value="<?= old('tanggal_terima', $pengiriman['tanggal_terima']) ?>">
+                                    <input type="date" class="form-control" id="tanggal_terima" name="tanggal_terima"
+                                        value="<?= old('tanggal_terima', $pengiriman['tanggal_terima']) ?>">
                                     <label for="tanggal_terima">Tanggal Terima</label>
                                 </div>
-                                
+
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="status" name="status">
                                         <option value="" selected disabled>Pilih Status</option>
@@ -66,18 +68,18 @@
                                     <label for="status">Status Pengiriman</label>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="deskripsi" class="form-label">Deskripsi Pengiriman</label>
-                                    <textarea class="form-control" id="deskripsi" name="deskripsi" 
-                                              rows="10" placeholder="Detail pengiriman, catatan khusus, dll..."><?= old('deskripsi', $pengiriman['deskripsi']) ?></textarea>
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi"
+                                        rows="10" placeholder="Detail pengiriman, catatan khusus, dll..."><?= old('deskripsi', $pengiriman['deskripsi']) ?></textarea>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr>
-                        
+
                         <div class="d-flex justify-content-between">
                             <a href="<?= base_url('godmode/pengiriman') ?>" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left me-1"></i> Kembali

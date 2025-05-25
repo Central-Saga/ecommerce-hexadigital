@@ -24,10 +24,10 @@ class Pembayaran extends BaseController
         $pembayarans = $this->pembayaranModel->findAll();
         $formattedPembayarans = [];
         foreach ($pembayarans as $pembayaran) {
-            $pemesanan = $this->pemesananModel->withPelanggan()->where('pemesanan.id', $pembayaran['pesanan_id'])->first();
+            $pemesanan = $this->pemesananModel->withPelanggan()->where('pemesanan.id', $pembayaran['pemesanan_id'])->first();
             $formattedPembayarans[] = [
                 'id' => $pembayaran['id'],
-                'pesanan_id' => $pembayaran['pesanan_id'],
+                'pemesanan_id' => $pembayaran['pemesanan_id'],
                 'nama_pelanggan' => $pemesanan['nama_pelanggan'] ?? '-',
                 'nama_pengirim' => $pembayaran['nama_pengirim'],
                 'metode_pembayaran' => $pembayaran['metode_pembayaran'],
@@ -57,7 +57,7 @@ class Pembayaran extends BaseController
     public function postStore()
     {
         $rules = [
-            'pesanan_id' => 'required|integer',
+            'pemesanan_id' => 'required|integer',
             'metode_pembayaran' => 'required|string',
             'total_harga' => 'required|numeric',
             'status' => 'required|in_list[pending,diterima,ditolak]',
@@ -70,7 +70,7 @@ class Pembayaran extends BaseController
                 ->with('errors', $this->validator->getErrors());
         }
         $data = [
-            'pesanan_id' => $this->request->getPost('pesanan_id'),
+            'pemesanan_id' => $this->request->getPost('pemesanan_id'),
             'metode_pembayaran' => $this->request->getPost('metode_pembayaran'),
             'bukti_pembayaran' => $this->request->getPost('bukti_pembayaran'),
             'total_harga' => $this->request->getPost('total_harga'),
@@ -159,7 +159,7 @@ class Pembayaran extends BaseController
             return redirect()->to('/godmode/pembayaran')
                 ->with('error', 'Pembayaran tidak ditemukan');
         }
-        $pemesanan = $this->pemesananModel->find($pembayaran['pesanan_id']);
+        $pemesanan = $this->pemesananModel->find($pembayaran['pemesanan_id']);
         return view('pages/godmode/pembayaran/detail', [
             'pembayaran' => $pembayaran,
             'pemesanan' => $pemesanan

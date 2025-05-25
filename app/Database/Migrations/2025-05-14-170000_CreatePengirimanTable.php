@@ -15,7 +15,7 @@ class CreatePengirimanTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'pesanan_id' => [
+            'pemesanan_id' => [
                 'type'       => 'BIGINT',
                 'constraint' => 20,
                 'unsigned'   => true,
@@ -48,7 +48,7 @@ class CreatePengirimanTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        // Anda bisa menambahkan foreign key ke pesanan_id jika ingin
+        // Anda bisa menambahkan foreign key ke pemesanan_id jika ingin
         $this->forge->createTable('pengiriman');
     }
 

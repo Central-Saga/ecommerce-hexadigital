@@ -13,7 +13,7 @@ class Pembayaran extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'pesanan_id',
+        'pemesanan_id',
         'metode_pembayaran',
         'bukti_pembayaran',
         'total_harga',
@@ -29,7 +29,7 @@ class Pembayaran extends Model
     protected bool $updateOnlyChanged = true;
 
     protected array $casts = [
-        'pesanan_id' => 'integer',
+        'pemesanan_id' => 'integer',
         'total_harga' => 'float',
     ];
     protected array $castHandlers = [];
@@ -43,7 +43,7 @@ class Pembayaran extends Model
 
     // Validation
     protected $validationRules      = [
-        'pesanan_id' => 'required|integer',
+        'pemesanan_id' => 'required|integer',
         'metode_pembayaran' => 'required|string',
         'total_harga' => 'required|numeric',
         'status' => 'required|in_list[pending,diterima,ditolak]',
@@ -52,9 +52,9 @@ class Pembayaran extends Model
     ];
 
     protected $validationMessages   = [
-        'pesanan_id' => [
-            'required' => 'Pesanan harus dipilih',
-            'integer' => 'ID Pesanan harus berupa angka',
+        'pemesanan_id' => [
+            'required' => 'Pemesanan harus dipilih',
+            'integer' => 'ID Pemesanan harus berupa angka',
         ],
         'metode_pembayaran' => [
             'required' => 'Metode pembayaran harus diisi',

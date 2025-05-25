@@ -24,8 +24,8 @@
                                 <td width="60%">#<?= esc($pembayaran['id']) ?></td>
                             </tr>
                             <tr>
-                                <td class="fw-bold">ID Pesanan</td>
-                                <td>#<?= esc($pembayaran['pesanan_id']) ?></td>
+                                <td class="fw-bold">ID Pemesanan</td>
+                                <td>#<?= esc($pembayaran['pemesanan_id']) ?></td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Nama Pengirim</td>

@@ -41,7 +41,7 @@ class Orders extends Controller
             $order['details'] = $details;
 
             // Ambil status pembayaran
-            $pembayaran = $pembayaranModel->where('pesanan_id', $order['id'])->orderBy('id', 'DESC')->first();
+            $pembayaran = $pembayaranModel->where('pemesanan_id', $order['id'])->orderBy('id', 'DESC')->first();
             $order['pembayaran_status'] = $pembayaran['status'] ?? null;
         }
 
@@ -77,7 +77,7 @@ class Orders extends Controller
         // Simpan data pembayaran ke database
         $pembayaranModel = new \App\Models\Pembayaran();
         $pembayaranModel->save([
-            'pesanan_id'        => $id,
+            'pemesanan_id'        => $id,
             'metode_pembayaran' => 'manual', // Bisa diganti sesuai kebutuhan
             'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
             'total_harga'       => $total_harga, // Diisi dari pesanan
@@ -173,7 +173,7 @@ class Orders extends Controller
         $file->move($uploadPath, $newName);
         $pembayaranModel = new \App\Models\Pembayaran();
         $pembayaranModel->save([
-            'pesanan_id'        => $id,
+            'pemesanan_id'        => $id,
             'metode_pembayaran' => $bank,
             'bukti_pembayaran'  => 'uploads/pembayaran/' . $newName,
             'total_harga'       => $total_harga, // Diisi dari pesanan

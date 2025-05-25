@@ -15,7 +15,7 @@ class CreatePembayaranTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'pesanan_id' => [
+            'pemesanan_id' => [
                 'type'       => 'BIGINT',
                 'constraint' => 20,
                 'unsigned'   => true,
@@ -63,7 +63,7 @@ class CreatePembayaranTable extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('pesanan_id', 'pemesanan', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('pemesanan_id', 'pemesanan', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('pembayaran');
     }
 

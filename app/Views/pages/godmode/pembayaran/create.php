@@ -5,11 +5,11 @@
     <form action="<?= base_url('godmode/pembayaran/store') ?>" method="post" enctype="multipart/form-data">
         <?= csrf_field() ?>
         <div class="mb-3">
-            <label for="pesanan_id" class="form-label">Pesanan</label>
-            <select name="pesanan_id" id="pesanan_id" class="form-control" required>
-                <option value="">-- Pilih Pesanan --</option>
-                <?php foreach ($pemesanans as $pesanan): ?>
-                    <option value="<?= $pesanan['id'] ?>">#<?= $pesanan['id'] ?> - <?= esc($pesanan['tanggal_pemesanan']) ?></option>
+            <label for="pemesanan_id" class="form-label">Pemesanan</label>
+            <select name="pemesanan_id" id="pemesanan_id" class="form-control" required>
+                <option value="">-- Pilih Pemesanan --</option>
+                <?php foreach ($pemesanans as $pemesanan): ?>
+                    <option value="<?= $pemesanan['id'] ?>">#<?= $pemesanan['id'] ?> - <?= esc($pemesanan['tanggal_pemesanan']) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
