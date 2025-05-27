@@ -9,6 +9,7 @@
             </div>
             <div class="profile-name"><?= esc($user->username ?? '-') ?></div>
             <div class="profile-email"><?= esc($user->email ?? '-') ?></div>
+            <a href="/profile/edit" class="btn btn-outline-primary btn-edit-profile">Edit Profil</a>
         </div>
         <div class="card-body">
             <h5 class="card-title mb-3">Informasi Akun</h5>
