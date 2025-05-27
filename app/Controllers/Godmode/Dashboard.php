@@ -25,6 +25,12 @@ class Dashboard extends BaseController
 
         // Recent Orders (5 terakhir)
         $recentOrders = $pemesananModel->withPelanggan()->orderBy('pemesanan.created_at', 'DESC')->findAll(5);
+        // Pastikan total_harga tidak null
+        foreach ($recentOrders as &$order) {
+            if (!isset($order['total_harga']) || $order['total_harga'] === null) {
+                $order['total_harga'] = 0;
+            }
+        }
 
         // Top Products (berdasarkan jumlah order di detail_pemesanan)
         $db = \Config\Database::connect();
