@@ -44,6 +44,16 @@ class App extends BaseConfig
 
     /**
      * --------------------------------------------------------------------------
+     * Method Spoofing
+     * --------------------------------------------------------------------------
+     *
+     * If true, enables the use of the _method input field to spoof the HTTP method.
+     * This is useful when you want to use PUT, PATCH, or DELETE in forms.
+     */
+    public bool $methodSpoofing = true;
+
+    /**
+     * --------------------------------------------------------------------------
      * URI PROTOCOL
      * --------------------------------------------------------------------------
      *
@@ -133,7 +143,7 @@ class App extends BaseConfig
      * @see https://www.php.net/manual/en/timezones.php for list of timezones
      *      supported by PHP.
      */
-    public string $appTimezone = 'UTC';
+    public string $appTimezone = 'Asia/Makassar';
 
     /**
      * --------------------------------------------------------------------------

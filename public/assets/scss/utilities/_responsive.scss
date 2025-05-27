@@ -1,0 +1,18 @@
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: calc(-1 * $sidebar-width);
+    }
+
+    .main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .sidebar.active {
+        margin-left: 0;
+    }
+
+    .main.active {
+        margin-left: $sidebar-width;
+    }
+}

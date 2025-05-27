@@ -1,0 +1,202 @@
+/**
+ * Header Component
+ * 
+ * Menyediakan gaya untuk header website.
+ * 
+ * @use '../abstracts/variables' as *;
+ * @use '../abstracts/mixins' as *;
+ */
+
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// Gaya untuk header
+header {
+  .navbar {
+    background-color: $emerald;
+    padding: 1rem 0;
+
+    &.navbar-categories {
+      background-color: lighten($emerald, 55%);
+      padding: 0.5rem 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+      .nav-link {
+        color: $emerald-800;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: $emerald-100;
+          color: $emerald-700;
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+
+      .dropdown-menu {
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+
+        .dropdown-item {
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          color: $emerald-800;
+
+          &:hover {
+            background-color: $emerald-50;
+          }
+        }
+      }
+    }
+
+    .navbar-brand {
+      color: $white;
+      font-weight: 600;
+      font-size: 1.5rem;
+
+      &:hover {
+        color: rgba($white, 0.9);
+      }
+
+      i {
+        font-size: 1.75rem;
+        vertical-align: middle;
+      }
+    }
+
+    .nav-link {
+      color: rgba($white, 0.9);
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &:hover {
+        color: $white;
+      }
+
+      i {
+        font-size: 1.25rem;
+        vertical-align: -3px;
+      }
+
+      .badge {
+        font-weight: 500;
+        padding: 0.25rem 0.5rem;
+      }
+    }
+
+    .dropdown-menu {
+      margin-top: 0.5rem;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 0.5rem;
+
+      .dropdown-item {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        color: $gray-700;
+
+        &:hover {
+          background-color: $emerald-50;
+          color: $emerald;
+        }
+
+        i {
+          color: $emerald;
+        }
+      }
+    }
+
+    // Form pencarian
+    .input-group {
+      .form-control {
+        border: none;
+        padding: 0.625rem 1rem;
+        font-size: 0.95rem;
+        background-color: rgba($white, 0.1);
+        color: $white;
+        border-radius: 8px 0 0 8px;
+
+        &::placeholder {
+          color: rgba($white, 0.7);
+        }
+
+        &:focus {
+          background-color: $white;
+          color: $gray-700;
+          box-shadow: none;
+
+          &::placeholder {
+            color: $gray-500;
+          }
+        }
+      }
+
+      .btn {
+        padding: 0.625rem 1.25rem;
+        background-color: rgba($white, 0.1);
+        border: none;
+        color: $white;
+        border-radius: 0 8px 8px 0;
+
+        &:hover {
+          background-color: rgba($white, 0.2);
+        }
+      }
+    }
+
+    // Hamburger menu untuk mobile
+    .navbar-toggler {
+      color: $white;
+      border-color: rgba($white, 0.2);
+      padding: 0.5rem;
+
+      &:focus {
+        box-shadow: none;
+      }
+
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+      }
+    }
+  }
+
+  // Responsif
+  @media (max-width: 991.98px) {
+    .navbar {
+      padding: 0.75rem 0;
+
+      .navbar-collapse {
+        background-color: $emerald;
+        margin: 0 -1rem;
+        padding: 1rem;
+        border-radius: 0 0 8px 8px;
+      }
+
+      &.navbar-categories {
+        .navbar-nav {
+          flex-direction: row;
+          overflow-x: auto;
+          padding: 0.5rem 0;
+          -webkit-overflow-scrolling: touch;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .nav-item {
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+@use '../abstracts/variables' as *;
+@use 'sass:map';
+
+/*
+ * Typography
+ *
+ * Tujuan:
+ * Mendefinisikan gaya tipografi global untuk body, heading, paragraf, dll.,
+ * menggunakan font Poppins untuk tampilan modern.
+ *
+ * Isi Utama:
+ * - Font Poppins untuk body dan heading dengan ukuran proporsional.
+ * - Jarak konsisten menggunakan $spacer.
+ * - Gaya untuk elemen seperti blockquote.
+ *
+ * Contoh Penggunaan:
+ * <h1>Judul Utama</h1>
+ * <p>Paragraf dengan font Poppins.</p>
+ *
+ * Catatan:
+ * - Pastikan Poppins diimpor via Google Fonts di view atau tersedia di assets/fonts/.
+ * - File ini bergantung pada variabel $font-family-base, $font-size-base, dan $spacer.
+ */
+
+body {
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+    line-height: $line-height-base;
+    color: map.get($theme-colors, 'light-text');
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    margin-bottom: $spacer;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: $font-size-base * 2.5;
+}
+
+h2 {
+    font-size: $font-size-base * 2;
+}
+
+h3 {
+    font-size: $font-size-base * 1.75;
+}
+
+h5 {
+    font-size: $font-size-base * 1.25;
+}
+
+h6 {
+    font-size: $font-size-base;
+}
+
+p {
+    margin-bottom: $spacer;
+}
+
+blockquote {
+    border-left: 4px solid $primary;
+    padding-left: $spacer;
+    margin: $spacer 0;
+    font-style: italic;
+}

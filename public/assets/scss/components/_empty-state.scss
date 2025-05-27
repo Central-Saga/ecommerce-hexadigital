@@ -1,0 +1,16 @@
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.empty-state img {
+  width: 200px;
+  margin-bottom: 24px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  color: var(--text-light);
+  font-size: 1.125rem;
+}

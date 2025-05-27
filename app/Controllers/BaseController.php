@@ -45,14 +45,27 @@ abstract class BaseController extends Controller
 
     /**
      * @return void
-     */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+     */    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
+        // Share categories data for navigation
+        $kategoriModel = new \App\Models\Kategori();
+        $categories = $kategoriModel->findAll();
+        
+        // Format categories for navigation
+        $navCategories = [];
+        foreach ($categories as $category) {
+            $navCategories[] = [
+                'id' => $category['id'],
+                'nama_kategori' => $category['nama_kategori'],
+                'icon' => 'bi-tag' // Default icon for nav
+            ];
+        }
 
-        // E.g.: $this->session = service('session');
+        // Share data with all views through view service
+        $viewService = \Config\Services::renderer();
+        $viewService->setVar('categories', $navCategories);
     }
 }

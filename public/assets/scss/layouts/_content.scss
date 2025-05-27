@@ -1,0 +1,36 @@
+@use '../abstracts/variables' as *;
+
+.main {
+    width: calc(100% - $sidebar-width);
+    margin-left: $sidebar-width;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+
+    @media (max-width: $breakpoint-lg) {
+        width: calc(100% - $sidebar-collapsed-width);
+        margin-left: $sidebar-collapsed-width;
+    }
+}
+
+.content {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+
+    @media (max-width: $breakpoint-xl) {
+        padding: 1.25rem;
+    }
+
+    @media (max-width: $breakpoint-md) {
+        padding: 1rem;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+        padding: 0.875rem;
+    }
+}

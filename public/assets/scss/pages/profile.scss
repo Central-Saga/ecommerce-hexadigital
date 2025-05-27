@@ -1,0 +1,125 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Profile Page Styles
+.profile-page {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .profile-card {
+        width: 100%;
+        max-width: 480px;
+        border: none;
+        @include box-shadow(2);
+        border-radius: $border-radius * 2;
+        overflow: hidden;
+        background: $white;
+        @include transition(transform, 0.2s, ease-in-out);
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 1;
+
+        &:hover {
+            transform: translateY(-4px) scale(1.01);
+            @include box-shadow(3);
+        }
+
+        .profile-header {
+            background: linear-gradient(
+                135deg,
+                $emerald-500 0%,
+                $emerald-700 100%
+            );
+            padding: 2.5rem 1.5rem 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid $white;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+            margin-bottom: 1rem;
+            background: $gray-200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: $emerald-700;
+        }
+
+        .profile-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: $white;
+            margin-bottom: 0.25rem;
+        }
+        .profile-email {
+            color: $emerald-100;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    .card-body {
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+    }
+
+    .card-title {
+        font-weight: 600;
+        color: $emerald-600;
+        font-size: 1.1rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .list-group-item {
+        font-size: 1rem;
+        color: $gray-800;
+        background: transparent;
+        border: none;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        strong {
+            color: $emerald-600;
+            min-width: 120px;
+            display: inline-block;
+        }
+    }
+    .badge-status {
+        display: inline-block;
+        padding: 0.4em 1em;
+        border-radius: 1em;
+        font-size: 0.85em;
+        font-weight: 600;
+        background: linear-gradient(90deg, $emerald-400 0%, $emerald-600 100%);
+        color: $white;
+        margin-left: 0.5rem;
+    }
+    .alert-warning {
+        border-radius: $border-radius;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    @include media-breakpoint-down(md) {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        .profile-card {
+            max-width: 100%;
+            border-radius: $border-radius;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+    }
+}

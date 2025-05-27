@@ -5,6 +5,7 @@ namespace Config;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
+use App\Listeners\RegisterPelangganListener;
 
 /*
  * --------------------------------------------------------------------
@@ -33,7 +34,7 @@ Events::on('pre_system', static function (): void {
             ob_end_flush();
         }
 
-        ob_start(static fn ($buffer) => $buffer);
+        ob_start(static fn($buffer) => $buffer);
     }
 
     /*
@@ -53,3 +54,6 @@ Events::on('pre_system', static function (): void {
         }
     }
 });
+
+// Daftarkan event listener untuk Shield register
+// Events::on('register', [RegisterPelangganListener::class, 'handle']);

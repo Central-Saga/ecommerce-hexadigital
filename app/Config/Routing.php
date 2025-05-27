@@ -48,7 +48,7 @@ class Routing extends BaseRouting
      *
      * Default: 'Home'
      */
-    public string $defaultController = 'Home';
+    public string $defaultController = 'Homepage';
 
     /**
      * For Defined Routes and Auto Routing.
@@ -94,7 +94,7 @@ class Routing extends BaseRouting
      *
      * If FALSE, will stop searching and do NO automatic routing.
      */
-    public bool $autoRoute = false;
+    public bool $autoRoute = true;
 
     /**
      * For Defined Routes.

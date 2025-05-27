@@ -3,6 +3,9 @@
 namespace Config;
 
 use CodeIgniter\Config\BaseService;
+use CodeIgniter\Shield\Authentication\Authentication;
+use CodeIgniter\Shield\Authentication\AuthenticationService;
+use CodeIgniter\Shield\Authorization\AuthorizationService;
 
 /**
  * Services Configuration file.
@@ -29,4 +32,13 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    public static function authorization($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('authorization');
+        }
+
+        return new AuthorizationService();
+    }
 }

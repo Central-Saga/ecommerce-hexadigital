@@ -1,0 +1,226 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+// Orders Page Styles
+.orders-page {
+    .card {
+        border: none;
+        @include box-shadow(2);
+        border-radius: 1rem;
+        overflow: hidden;
+        background: $white;
+        @include transition(transform, 0.2s);
+        margin-bottom: 2rem;
+        &:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 32px rgba($emerald-400, 0.13);
+        }
+        .card-header {
+            background: linear-gradient(
+                135deg,
+                $emerald-50 0%,
+                $emerald-100 100%
+            );
+            border-bottom: 1px solid $emerald-100;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            .badge {
+                font-size: 0.95rem;
+                font-weight: 600;
+                border-radius: 0.5rem;
+                padding: 0.5em 1.1em;
+                &.bg-success {
+                    background: linear-gradient(
+                        135deg,
+                        $emerald-500 0%,
+                        $emerald-600 100%
+                    ) !important;
+                    color: $white;
+                }
+                &.bg-danger {
+                    background: linear-gradient(
+                        135deg,
+                        #ef4444 0%,
+                        #dc2626 100%
+                    ) !important;
+                    color: $white;
+                }
+                &.bg-warning {
+                    background: linear-gradient(
+                        135deg,
+                        #f59e0b 0%,
+                        #d97706 100%
+                    ) !important;
+                    color: $white;
+                }
+            }
+        }
+        .card-body {
+            padding: 1.5rem;
+            .table {
+                margin-bottom: 0;
+                border-collapse: separate;
+                border-spacing: 0 0.5rem;
+                thead th {
+                    background: transparent;
+                    border: none;
+                    font-weight: 700;
+                    color: $emerald-700;
+                    padding: 1rem 1.25rem;
+                    text-transform: uppercase;
+                    font-size: 0.85rem;
+                    letter-spacing: 0.5px;
+                }
+                tbody tr {
+                    background: $emerald-50;
+                    box-shadow: 0 2px 8px rgba($emerald-200, 0.08);
+                    border-radius: 0.5rem;
+                    @include transition(box-shadow, 0.2s);
+                    &:hover {
+                        box-shadow: 0 4px 16px rgba($emerald-400, 0.13);
+                        transform: translateY(-2px);
+                    }
+                    td {
+                        padding: 1rem 1.25rem;
+                        vertical-align: middle;
+                        color: $emerald-900;
+                        border: none;
+                        font-weight: 500;
+                        &:first-child {
+                            border-top-left-radius: 0.5rem;
+                            border-bottom-left-radius: 0.5rem;
+                        }
+                        &:last-child {
+                            border-top-right-radius: 0.5rem;
+                            border-bottom-right-radius: 0.5rem;
+                        }
+                        img {
+                            width: 48px;
+                            height: 48px;
+                            border-radius: 0.5rem;
+                            object-fit: cover;
+                            margin-right: 0.7rem;
+                            border: 1.5px solid $emerald-100;
+                            background: $emerald-50;
+                        }
+                    }
+                }
+            }
+            .total {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 1.5rem;
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: $emerald-700;
+            }
+            .catatan {
+                margin-top: 1rem;
+                background: $emerald-100;
+                border-radius: 0.5rem;
+                padding: 0.75rem 1rem;
+                color: $emerald-800;
+                font-size: 0.98rem;
+            }
+        }
+    }
+    .alert-info {
+        background: linear-gradient(90deg, $emerald-100 0%, $emerald-50 100%);
+        color: $emerald-700;
+        border: none;
+        border-radius: 0.75rem;
+        padding: 1.2rem 1.5rem;
+        font-size: 1.1rem;
+        margin-top: 2rem;
+        text-align: center;
+    }
+    .upload-pembayaran-form {
+        background: linear-gradient(90deg, $emerald-50 0%, $emerald-100 100%);
+        border: 1.5px dashed $emerald-200;
+        border-radius: 0.7rem;
+        padding: 1.2rem 1.5rem;
+        margin-top: 1.2rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        box-shadow: 0 2px 8px rgba($emerald-200, 0.08);
+        .form-label {
+            font-weight: 600;
+            color: $emerald-700;
+            margin-bottom: 0.4rem;
+        }
+        .form-control[type='file'] {
+            border: 1.5px solid $emerald-200;
+            border-radius: 0.5rem;
+            padding: 0.5rem 0.7rem;
+            background: $emerald-50;
+            color: $emerald-900;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            &:focus {
+                border-color: $emerald-400;
+                outline: none;
+            }
+        }
+        .btn-primary {
+            background: linear-gradient(
+                90deg,
+                $emerald-500 0%,
+                $emerald-600 100%
+            );
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 0.6rem 1.5rem;
+            box-shadow: 0 2px 8px rgba($emerald-400, 0.1);
+            transition: background 0.2s, transform 0.2s;
+            &:hover {
+                background: linear-gradient(
+                    90deg,
+                    $emerald-600 0%,
+                    $emerald-700 100%
+                );
+                transform: translateY(-2px) scale(1.03);
+            }
+        }
+    }
+}
+
+// Responsive
+@include media-breakpoint-down(md) {
+    .orders-page .card-body {
+        padding: 1rem;
+        .table thead th,
+        .table tbody td {
+            padding: 0.7rem 0.7rem;
+        }
+    }
+    .orders-page .upload-pembayaran-form {
+        padding: 0.8rem 0.7rem;
+    }
+}
+@include media-breakpoint-down(sm) {
+    .orders-page .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.7rem;
+        font-size: 1rem;
+        padding: 1rem 0.7rem;
+    }
+    .orders-page .card-body {
+        padding: 0.7rem;
+        .table thead th,
+        .table tbody td {
+            padding: 0.5rem 0.5rem;
+            font-size: 0.95rem;
+        }
+        .total {
+            font-size: 1rem;
+        }
+    }
+}
