@@ -83,7 +83,18 @@ class Pemesanan extends Model
      */
     public function withPelanggan()
     {
-        return $this->select('pemesanan.*, users.username as nama_pelanggan, auth_identities.secret as email_pelanggan')
+        return $this->select('
+            pemesanan.id,
+            pemesanan.pelanggan_id,
+            pemesanan.tanggal_pemesanan,
+            pemesanan.total_harga,
+            pemesanan.status_pemesanan,
+            pemesanan.catatan,
+            pemesanan.created_at,
+            pemesanan.updated_at,
+            users.username as nama_pelanggan,
+            auth_identities.secret as email_pelanggan
+        ')
             ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
             ->join('users', 'users.id = pelanggans.user_id', 'left')
             ->join('auth_identities', 'auth_identities.user_id = users.id AND auth_identities.type = "email_password"', 'left');
