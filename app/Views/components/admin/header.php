@@ -7,8 +7,7 @@
                     <span>Admin</span>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="/admin/profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="/admin/settings">Settings</a></li>
+                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
