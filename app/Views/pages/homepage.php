@@ -105,7 +105,7 @@
                             <div class="product-image">
                                 <img src="<?= base_url('uploads/produk/' . ($product['gambar'] ?? 'default.jpg')) ?>"
                                     alt="<?= esc($product['nama']) ?>"
-                                    onerror="this.src='<?= base_url('assets/images/product-placeholder.jpg') ?>'">
+                                    onerror="this.src='<?= base_url('assets/images/product-placeholder.png') ?>'">
                                 <?php if (isset($product['discount']) && $product['discount'] > 0): ?>
                                     <div class="product-badge">-<?= $product['discount'] ?>%</div>
                                 <?php endif; ?>

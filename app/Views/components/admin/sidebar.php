@@ -7,7 +7,8 @@ function isActive($path)
 ?>
 <nav class="admin-sidebar">
     <div class="admin-sidebar-header">
-        <h3>HexaDigital</h3>
+        <span class="sidebar-logo-icon"><i class="bi bi-hexagon-fill"></i></span>
+        <span class="sidebar-logo-text">Hexadigital</span>
     </div>
 
     <ul class="nav flex-column">
@@ -99,15 +100,15 @@ function isActive($path)
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/transactions') ?>" href="/godmode/transactions">
+                        <a class="nav-link <?= isActive('/godmode/transactions') ?>" href="/godmode/pembayaran">
                             <div class="icon-wrapper">
                                 <i class="bi bi-credit-card"></i>
                             </div>
-                            <span>Kelola Transaksi</span>
+                            <span>Kelola Pembayaran</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= isActive('/godmode/shipping') ?>" href="/godmode/shipping">
+                        <a class="nav-link <?= isActive('/godmode/pengiriman') ?>" href="/godmode/pengiriman">
                             <div class="icon-wrapper">
                                 <i class="bi bi-truck"></i>
                             </div>
@@ -116,15 +117,6 @@ function isActive($path)
                     </li>
                 </ul>
             </div>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link <?= isActive('/godmode/settings') ?>" href="/godmode/settings">
-                <div class="icon-wrapper">
-                    <i class="bi bi-gear"></i>
-                </div>
-                <span>Settings</span>
-            </a>
         </li>
     </ul>
 </nav>

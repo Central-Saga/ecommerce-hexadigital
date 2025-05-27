@@ -21,7 +21,7 @@ class CreatePemesananTable extends Migration
                 'unsigned'   => true,
             ],
             'tanggal_pemesanan' => [
-                'type' => 'DATE',
+                'type' => 'DATETIME',
                 'null' => false,
             ],
             'total_harga' => [

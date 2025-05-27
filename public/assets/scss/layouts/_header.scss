@@ -10,10 +10,11 @@
     &-content {
         height: 100%;
         @include center-content;
-        justify-content: space-between;
+        justify-content: flex-end;
     }
 
     &-right {
         @include center-content;
+        justify-content: flex-end;
     }
 }

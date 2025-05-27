@@ -1,9 +1,5 @@
 <header class="admin-header">
     <div class="admin-header-content">
-        <button class="btn btn-link" id="sidebarToggle">
-            <i class="bi bi-list"></i>
-        </button>
-
         <div class="admin-header-right">
             <div class="dropdown">
                 <button class="btn btn-link dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">

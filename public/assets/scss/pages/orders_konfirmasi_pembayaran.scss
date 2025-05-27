@@ -1,0 +1,98 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.orders-konfirmasi-page {
+    .card {
+        border: none;
+        @include box-shadow(2);
+        border-radius: 1rem;
+        overflow: hidden;
+        background: $white;
+        @include transition(transform, 0.2s);
+        margin-bottom: 2rem;
+        &:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 32px rgba($emerald-400, 0.13);
+        }
+    }
+    .card-body {
+        padding: 2rem 1.5rem;
+    }
+    .form-label {
+        font-weight: 600;
+        color: $emerald-700;
+        margin-bottom: 0.4rem;
+    }
+    .form-check {
+        margin-bottom: 0.5rem;
+        .form-check-input {
+            border: 2px solid $emerald-200;
+            &:checked {
+                background-color: $emerald-500;
+                border-color: $emerald-500;
+            }
+        }
+        .form-check-label {
+            font-weight: 500;
+            color: $emerald-800;
+            margin-left: 0.5rem;
+        }
+    }
+    .form-control[type='file'] {
+        border: 1.5px solid $emerald-200;
+        border-radius: 0.5rem;
+        padding: 0.5rem 0.7rem;
+        background: $emerald-50;
+        color: $emerald-900;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+        &:focus {
+            border-color: $emerald-400;
+            outline: none;
+        }
+    }
+    .btn-success {
+        background: linear-gradient(
+            90deg,
+            $emerald-500 0%,
+            $emerald-600 100%
+        ) !important;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 0.6rem 1.5rem;
+        box-shadow: 0 2px 8px rgba($emerald-400, 0.1);
+        transition: background 0.2s, transform 0.2s;
+        &:hover {
+            background: linear-gradient(
+                90deg,
+                $emerald-600 0%,
+                $emerald-700 100%
+            ) !important;
+            transform: translateY(-2px) scale(1.03);
+        }
+    }
+    .btn-secondary {
+        background: $emerald-100;
+        color: $emerald-700;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 0.6rem 1.5rem;
+        margin-left: 0.5rem;
+        transition: background 0.2s, color 0.2s;
+        &:hover {
+            background: $emerald-200;
+            color: $emerald-900;
+        }
+    }
+}
+
+// Responsive
+@include media-breakpoint-down(md) {
+    .orders-konfirmasi-page .card-body {
+        padding: 1rem;
+    }
+}

@@ -25,7 +25,6 @@ class Pemesanan extends Model
 
     protected array $casts = [
         'pelanggan_id' => 'integer',
-        'tanggal_pemesanan' => 'date',
         'total_harga' => 'float'
     ];
     protected array $castHandlers = [];
@@ -84,9 +83,9 @@ class Pemesanan extends Model
      */
     public function withPelanggan()
     {
-        return $this->select('pemesanan.*, pelanggans.username as nama_pelanggan, auth_identities.secret as email_pelanggan')
-                   ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
-                   ->join('users', 'users.id = pelanggans.user_id', 'left')
-                   ->join('auth_identities', 'auth_identities.user_id = users.id AND auth_identities.type = "email_password"', 'left');
+        return $this->select('pemesanan.*, users.username as nama_pelanggan, auth_identities.secret as email_pelanggan')
+            ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
+            ->join('users', 'users.id = pelanggans.user_id', 'left')
+            ->join('auth_identities', 'auth_identities.user_id = users.id AND auth_identities.type = "email_password"', 'left');
     }
 }
