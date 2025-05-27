@@ -83,7 +83,7 @@
                                                 <?= esc(ucfirst($order['status_pemesanan'])) ?>
                                             </span>
                                         </td>
-                                        <td>Rp<?= number_format($order['total_harga'], 0, ',', '.') ?></td>
+                                        <td>Rp<?= number_format($order['total_harga'] ?? 0, 0, ',', '.') ?></td>
                                         <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
                                     </tr>
                                 <?php endforeach;
