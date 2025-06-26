@@ -54,7 +54,7 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 60px">ID</th>
+                                <th class="text-center" style="width: 60px">No</th>
                                 <th style="width: 100px">Gambar</th>
                                 <th>Nama Produk</th>
                                 <th>Deskripsi</th>
@@ -65,9 +65,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($produks as $produk): ?>
+                            <?php foreach ($produks as $index => $produk): ?>
                                 <tr>
-                                    <td class="text-center"><?= esc($produk['id']) ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td class="text-center">
                                         <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
                                             <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"

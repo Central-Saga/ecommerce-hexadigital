@@ -48,7 +48,7 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 60px">ID</th>
+                                <th class="text-center" style="width: 60px">No</th>
                                 <th>Customer</th>
                                 <th>Nama Pengirim</th>
                                 <th>Metode</th>
@@ -58,9 +58,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($pembayarans as $pembayaran): ?>
+                            <?php foreach ($pembayarans as $index => $pembayaran): ?>
                                 <tr>
-                                    <td class="text-center"><?= esc($pembayaran['id']) ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td><?= esc($pembayaran['nama_pelanggan'] ?? '-') ?></td>
                                     <td><?= esc($pembayaran['nama_pengirim']) ?></td>
                                     <td><?= esc($pembayaran['metode_pembayaran']) ?></td>
