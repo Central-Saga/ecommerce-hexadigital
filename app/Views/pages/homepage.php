@@ -74,7 +74,7 @@
                             </div>
                             <h3><?= esc($category['nama_kategori']) ?></h3>
                             <p><?= substr($category['deskripsi'] ?? 'Lihat koleksi produk kami', 0, 100) ?>...</p>
-                            <a href="<?= base_url('kategori/' . $category['id']) ?>" class="stretched-link"></a>
+                            <a href="<?= base_url('kategori/detail/' . $category['id']) ?>" class="stretched-link"></a>
                         </div>
                     </div>
                 <?php endforeach; ?>
