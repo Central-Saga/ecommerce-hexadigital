@@ -189,16 +189,61 @@
 
 <script>
     function addToCart(productId) {
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-        if (cart[productId]) {
-            cart[productId] += 1;
-        } else {
-            cart[productId] = 1;
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        if (window.updateCartCount) updateCartCount();
-        else if (window.parent && window.parent.updateCartCount) window.parent.updateCartCount();
-        alert('Produk ditambahkan ke keranjang!');
+        fetch('<?= site_url('cart/cart') ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'product_id=' + productId + '&qty=1'
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Produk ditambahkan ke keranjang!',
+                        showConfirmButton: false,
+                        timer: 1200
+                    });
+                    // Update cart count
+                    if (window.updateCartCount) {
+                        updateCartCount();
+                    }
+                } else {
+                    // Handle login required
+                    if (data.message && data.message.includes('login')) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Login Diperlukan',
+                            text: 'Anda harus login terlebih dahulu untuk menambahkan produk ke keranjang',
+                            showCancelButton: true,
+                            confirmButtonText: 'Login Sekarang',
+                            cancelButtonText: 'Batal',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#6c757d'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '<?= site_url('login') ?>';
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: data.message || 'Gagal menambah ke keranjang'
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: 'Terjadi kesalahan saat menambah ke keranjang'
+                });
+            });
     }
 
     function addToWishlist(productId) {
