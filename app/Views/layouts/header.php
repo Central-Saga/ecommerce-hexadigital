@@ -16,9 +16,9 @@
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="navbarMain">
                 <!-- Search Form -->
-                <form class="d-flex mx-auto my-2 my-lg-0" style="max-width: 500px; width: 100%;">
+                <form class="d-flex mx-auto my-2 my-lg-0" style="max-width: 500px; width: 100%;" action="<?= base_url('produk/search') ?>" method="GET">
                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="Cari produk..." aria-label="Search">
+                        <input class="form-control" type="search" name="q" placeholder="Cari produk..." aria-label="Search" value="<?= esc($keyword ?? '') ?>">
                         <button class="btn btn-light" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
