@@ -4,7 +4,7 @@
         <div class="container">
             <!-- Navbar Brand -->
             <a class="navbar-brand" href="<?= base_url() ?>">
-                <i class="bi bi-hexagon-fill text-white me-2"></i>
+                <img src="<?= base_url('assets/images/logo.png') ?>" alt="Hexadigital Store" style="height:42px; width:auto; object-fit:contain;" class="me-2">
                 Hexadigital Store
             </a>
 
