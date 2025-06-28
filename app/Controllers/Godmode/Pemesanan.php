@@ -366,4 +366,185 @@ class Pemesanan extends BaseController
 
         return redirect()->to('/orders')->with('success', 'Checkout berhasil, pemesanan telah dibuat!');
     }
+
+    /**
+     * Export data pemesanan ke PDF
+     */
+    public function getExportPdf()
+    {
+        // Ambil data pemesanan yang sama seperti di getIndex
+        $pemesanans = $this->pemesananModel->findAll();
+        $formattedPemesanans = [];
+
+        foreach ($pemesanans as $pemesanan) {
+            try {
+                $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'],
+                    'pelanggan_nama' => $pelanggan['username'] ?? 'Pelanggan tidak ditemukan',
+                    'email' => $pelanggan['email'] ?? '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
+                    'total_harga' => $pemesanan['total_harga'],
+                    'status_pemesanan' => $pemesanan['status_pemesanan'],
+                    'created_at' => $pemesanan['created_at'],
+                    'updated_at' => $pemesanan['updated_at']
+                ];
+            } catch (\Exception $e) {
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'],
+                    'pelanggan_nama' => 'Error: Pelanggan tidak ditemukan',
+                    'email' => '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
+                    'total_harga' => $pemesanan['total_harga'],
+                    'status_pemesanan' => $pemesanan['status_pemesanan'],
+                    'created_at' => $pemesanan['created_at'],
+                    'updated_at' => $pemesanan['updated_at']
+                ];
+            }
+        }
+
+        // Load DOMPDF dengan konfigurasi UTF-8
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Konfigurasi untuk mendukung UTF-8
+        $options = $dompdf->getOptions();
+        $options->setIsHtml5ParserEnabled(true);
+        $options->setIsPhpEnabled(true);
+        $options->setIsRemoteEnabled(true);
+        $dompdf->setOptions($options);
+
+        // Generate HTML content
+        $html = view('pages/godmode/pemesanan/export_pdf', [
+            'pemesanans' => $formattedPemesanans,
+            'tanggal_export' => date('d/m/Y H:i:s')
+        ]);
+
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->render();
+
+        // Output PDF
+        $dompdf->stream('daftar_pemesanan_' . date('Y-m-d_H-i-s') . '.pdf');
+    }
+
+    /**
+     * Export data pemesanan ke XLSX
+     */
+    public function getExportXlsx()
+    {
+        // Ambil data pemesanan yang sama seperti di getIndex
+        $pemesanans = $this->pemesananModel->findAll();
+        $formattedPemesanans = [];
+
+        foreach ($pemesanans as $pemesanan) {
+            try {
+                $pelanggan = $this->pelangganModel->withUser()->find($pemesanan['pelanggan_id']);
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'],
+                    'pelanggan_nama' => $pelanggan['username'] ?? 'Pelanggan tidak ditemukan',
+                    'email' => $pelanggan['email'] ?? '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
+                    'total_harga' => $pemesanan['total_harga'],
+                    'status_pemesanan' => $pemesanan['status_pemesanan'],
+                    'created_at' => $pemesanan['created_at'],
+                    'updated_at' => $pemesanan['updated_at']
+                ];
+            } catch (\Exception $e) {
+                $formattedPemesanans[] = [
+                    'id' => $pemesanan['id'],
+                    'pelanggan_nama' => 'Error: Pelanggan tidak ditemukan',
+                    'email' => '-',
+                    'tanggal_pemesanan' => $pemesanan['tanggal_pemesanan'],
+                    'total_harga' => $pemesanan['total_harga'],
+                    'status_pemesanan' => $pemesanan['status_pemesanan'],
+                    'created_at' => $pemesanan['created_at'],
+                    'updated_at' => $pemesanan['updated_at']
+                ];
+            }
+        }
+
+        // Create new Spreadsheet object
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set document properties
+        $spreadsheet->getProperties()
+            ->setCreator('E-Commerce System')
+            ->setLastModifiedBy('E-Commerce System')
+            ->setTitle('Daftar Pemesanan')
+            ->setSubject('Export Data Pemesanan')
+            ->setDescription('Data pemesanan yang diexport dari sistem e-commerce');
+
+        // Set headers
+        $headers = [
+            'No',
+            'ID Pemesanan',
+            'Nama Pelanggan',
+            'Email',
+            'Tanggal Pemesanan',
+            'Total Harga',
+            'Status',
+            'Tanggal Dibuat'
+        ];
+
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col . '1', $header);
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+            $col++;
+        }
+
+        // Style header
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '4472C4'],
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+        ];
+        $sheet->getStyle('A1:H1')->applyFromArray($headerStyle);
+
+        // Add data
+        $row = 2;
+        foreach ($formattedPemesanans as $index => $pemesanan) {
+            $sheet->setCellValue('A' . $row, $index + 1);
+            $sheet->setCellValue('B' . $row, $pemesanan['id']);
+            $sheet->setCellValue('C' . $row, $pemesanan['pelanggan_nama']);
+            $sheet->setCellValue('D' . $row, $pemesanan['email']);
+            $sheet->setCellValue('E' . $row, date('d/m/Y', strtotime($pemesanan['tanggal_pemesanan'])));
+            $sheet->setCellValue('F' . $row, 'Rp ' . number_format($pemesanan['total_harga'], 0, ',', '.'));
+            $sheet->setCellValue('G' . $row, ucfirst($pemesanan['status_pemesanan']));
+            $sheet->setCellValue('H' . $row, date('d/m/Y H:i', strtotime($pemesanan['created_at'])));
+            $row++;
+        }
+
+        // Style data rows
+        $dataStyle = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ];
+        $sheet->getStyle('A1:H' . ($row - 1))->applyFromArray($dataStyle);
+
+        // Create Excel file
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+
+        // Set headers for download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="daftar_pemesanan_' . date('Y-m-d_H-i-s') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        // Save file to PHP output
+        $writer->save('php://output');
+        exit;
+    }
 }
