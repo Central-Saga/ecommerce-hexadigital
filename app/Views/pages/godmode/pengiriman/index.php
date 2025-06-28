@@ -130,8 +130,8 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/godmode/pengiriman/pengiriman/${id}`, {
-                        method: 'DELETE',
+                fetch(`/godmode/pengiriman/delete/${id}`, {
+                        method: 'POST',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
