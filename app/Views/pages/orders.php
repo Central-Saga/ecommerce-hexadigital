@@ -72,6 +72,9 @@
                     ): ?>
                         <a href="<?= site_url('orders/konfirmasi-pembayaran/' . $order['id']) ?>" class="btn btn-primary mt-3">Konfirmasi Pembayaran</a>
                     <?php endif; ?>
+                    <a href="<?= site_url('orders/download-invoice/' . $order['id']) ?>" class="btn btn-success mt-3 ms-2">
+                        <i class="bi bi-download"></i> Download Invoice PDF
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>
