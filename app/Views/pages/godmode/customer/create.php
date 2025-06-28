@@ -145,7 +145,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="/godmode/customer" class="btn btn-secondary">
+                    <a href="/godmode/pelanggan" class="btn btn-secondary">
                         <i class="bi bi-arrow-left me-1"></i>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary">
