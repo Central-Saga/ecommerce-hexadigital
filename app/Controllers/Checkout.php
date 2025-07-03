@@ -7,6 +7,7 @@ use App\Models\Keranjang;
 use App\Models\DetailPemesanan;
 use App\Models\Pemesanan;
 use App\Models\Produk;
+use App\Services\EmailService;
 
 class Checkout extends BaseController
 {
@@ -65,6 +66,19 @@ class Checkout extends BaseController
 
         $keranjangModel->where('pelanggan_id', $pelanggan_id)->delete();
 
-        return redirect()->to('/orders')->with('success', 'Checkout berhasil, pemesanan telah dibuat!');
+        // Kirim email notifikasi dan invoice
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendOrderNotification($pemesananId);
+        $invoiceSent = $emailService->sendInvoiceEmail($pemesananId);
+
+        $message = 'Checkout berhasil, pemesanan telah dibuat!';
+        if ($emailSent) {
+            $message .= ' Email notifikasi telah dikirim.';
+        }
+        if ($invoiceSent) {
+            $message .= ' Invoice telah dikirim ke email Anda.';
+        }
+
+        return redirect()->to('/orders')->with('success', $message);
     }
 }

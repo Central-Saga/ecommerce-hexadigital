@@ -48,7 +48,10 @@ class CreatePengirimanTable extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-        // Anda bisa menambahkan foreign key ke pemesanan_id jika ingin
+
+        // Menambahkan foreign key constraint dengan ON DELETE CASCADE
+        $this->forge->addForeignKey('pemesanan_id', 'pemesanan', 'id', 'CASCADE', 'CASCADE');
+
         $this->forge->createTable('pengiriman');
     }
 

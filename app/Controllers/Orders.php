@@ -6,6 +6,7 @@ use App\Models\Pemesanan;
 use App\Models\DetailPemesanan;
 use App\Models\Produk;
 use App\Models\Pelanggan;
+use App\Services\EmailService;
 use CodeIgniter\Controller;
 
 class Orders extends Controller
@@ -85,7 +86,16 @@ class Orders extends Controller
             'tanggal_pembayaran' => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+        // Kirim email konfirmasi pembayaran
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendPaymentConfirmation($id);
+
+        $message = 'Bukti pembayaran berhasil diupload.';
+        if ($emailSent) {
+            $message .= ' Email konfirmasi telah dikirim.';
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     public function getKonfirmasiPembayaran($id)
@@ -182,6 +192,207 @@ class Orders extends Controller
             'catatan'           => $catatan,
             'nama_pengirim'     => $nama_pengirim,
         ]);
-        return redirect()->to('/orders')->with('success', 'Konfirmasi pembayaran berhasil dikirim.');
+
+        // Kirim email konfirmasi pembayaran
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendPaymentConfirmation($id);
+
+        $message = 'Konfirmasi pembayaran berhasil dikirim.';
+        if ($emailSent) {
+            $message .= ' Email konfirmasi telah dikirim.';
+        }
+
+        return redirect()->to('/orders')->with('success', $message);
+    }
+
+    public function getDownloadInvoice($id = null)
+    {
+        if (!$id) {
+            return redirect()->to('/orders')->with('error', 'ID pesanan tidak valid');
+        }
+
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->to('/login')->with('error', 'Silakan login untuk mengunduh invoice');
+        }
+
+        $pelanggan = (new Pelanggan())->withUser()->where('pelanggans.user_id', $user->id)->first();
+        $pelanggan_id = $pelanggan['id'] ?? null;
+        if (!$pelanggan_id) {
+            return redirect()->to('/login')->with('error', 'Akun pelanggan tidak ditemukan');
+        }
+
+        $pemesananModel = new Pemesanan();
+        $detailPemesananModel = new DetailPemesanan();
+        $produkModel = new Produk();
+        $pembayaranModel = new \App\Models\Pembayaran();
+
+        // Ambil pesanan dengan validasi kepemilikan
+        $order = $pemesananModel->where('id', $id)->where('pelanggan_id', $pelanggan_id)->first();
+        if (!$order) {
+            return redirect()->to('/orders')->with('error', 'Pesanan tidak ditemukan');
+        }
+
+        // Ambil detail pesanan
+        $details = $detailPemesananModel->where('pemesanan_id', $order['id'])->findAll();
+        foreach ($details as &$detail) {
+            $produk = $produkModel->find($detail['produk_id']);
+            $detail['produk_nama'] = $produk['nama'] ?? '-';
+            $detail['produk_gambar'] = $produk['gambar'] ?? null;
+        }
+
+        // Ambil status pembayaran
+        $pembayaran = $pembayaranModel->where('pemesanan_id', $order['id'])->orderBy('id', 'DESC')->first();
+
+        // Generate HTML untuk PDF
+        $html = $this->generateInvoiceHTML($order, $details, $pelanggan, $pembayaran);
+
+        // Load library TCPDF atau Dompdf
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Generate nama file
+        $filename = 'Invoice-' . $order['id'] . '-' . date('Y-m-d') . '.pdf';
+
+        // Output PDF
+        $dompdf->stream($filename, ['Attachment' => true]);
+    }
+
+    public function getSendInvoiceEmail($id = null)
+    {
+        if (!$id) {
+            return redirect()->to('/orders')->with('error', 'ID pesanan tidak valid');
+        }
+
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->to('/login')->with('error', 'Silakan login untuk mengirim invoice');
+        }
+
+        $pelanggan = (new Pelanggan())->withUser()->where('pelanggans.user_id', $user->id)->first();
+        $pelanggan_id = $pelanggan['id'] ?? null;
+        if (!$pelanggan_id) {
+            return redirect()->to('/login')->with('error', 'Akun pelanggan tidak ditemukan');
+        }
+
+        // Validasi kepemilikan pesanan
+        $pemesananModel = new Pemesanan();
+        $order = $pemesananModel->where('id', $id)->where('pelanggan_id', $pelanggan_id)->first();
+        if (!$order) {
+            return redirect()->to('/orders')->with('error', 'Pesanan tidak ditemukan');
+        }
+
+        // Kirim email invoice
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendInvoiceEmail($id);
+
+        if ($emailSent) {
+            return redirect()->to('/orders')->with('success', 'Invoice telah dikirim ke email Anda.');
+        } else {
+            return redirect()->to('/orders')->with('error', 'Gagal mengirim invoice ke email. Silakan coba lagi.');
+        }
+    }
+
+    private function generateInvoiceHTML($order, $details, $pelanggan, $pembayaran)
+    {
+        $html = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Invoice #' . $order['id'] . '</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                .company-info { margin-bottom: 20px; }
+                .invoice-info { margin-bottom: 20px; }
+                .customer-info { margin-bottom: 20px; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f2f2f2; }
+                .total { font-weight: bold; text-align: right; }
+                .footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>INVOICE</h1>
+                <h2>E-Commerce Hexadigital</h2>
+            </div>
+
+            <div class="invoice-info">
+                <table style="border: none;">
+                    <tr>
+                        <td style="border: none;"><strong>Invoice No:</strong></td>
+                        <td style="border: none;">#' . $order['id'] . '</td>
+                        <td style="border: none;"><strong>Tanggal:</strong></td>
+                        <td style="border: none;">' . date('d/m/Y', strtotime($order['tanggal_pemesanan'])) . '</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="customer-info">
+                <h3>Informasi Pelanggan:</h3>
+                <p><strong>Nama:</strong> ' . esc($pelanggan['username'] ?? 'N/A') . '<br>
+                <strong>Email:</strong> ' . esc($pelanggan['email'] ?? 'N/A') . '<br>
+                <strong>Telepon:</strong> ' . esc($pelanggan['no_telepon'] ?? 'N/A') . '<br>
+                <strong>Alamat:</strong> ' . esc($pelanggan['alamat'] ?? 'N/A') . '</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Produk</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+        $no = 1;
+        foreach ($details as $detail) {
+            $html .= '
+                    <tr>
+                        <td>' . $no++ . '</td>
+                        <td>' . esc($detail['produk_nama']) . '</td>
+                        <td>Rp ' . number_format($detail['harga'], 0, ',', '.') . '</td>
+                        <td>' . $detail['jumlah'] . '</td>
+                        <td>Rp ' . number_format($detail['subtotal'], 0, ',', '.') . '</td>
+                    </tr>';
+        }
+
+        $html .= '
+                </tbody>
+            </table>
+
+            <div class="total">
+                <h3>Total: Rp ' . number_format($order['total_harga'], 0, ',', '.') . '</h3>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <p><strong>Status Pemesanan:</strong> ' . ucfirst($order['status_pemesanan']) . '</p>';
+
+        if ($pembayaran) {
+            $html .= '<p><strong>Status Pembayaran:</strong> ' . ucfirst($pembayaran['status']) . '</p>';
+            if ($pembayaran['tanggal_pembayaran']) {
+                $html .= '<p><strong>Tanggal Pembayaran:</strong> ' . date('d/m/Y H:i', strtotime($pembayaran['tanggal_pembayaran'])) . '</p>';
+            }
+        }
+
+        $html .= '
+            </div>
+
+            <div class="footer">
+                <p>Terima kasih telah berbelanja di E-Commerce Hexadigital</p>
+                <p>Invoice ini dibuat secara otomatis pada ' . date('d/m/Y H:i:s') . '</p>
+            </div>
+        </body>
+        </html>';
+
+        return $html;
     }
 }

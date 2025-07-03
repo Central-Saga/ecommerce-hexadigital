@@ -146,14 +146,30 @@ class Pengiriman extends BaseController
         $pengiriman = $this->pengirimanModel->find($id);
 
         if (empty($pengiriman)) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['success' => false, 'message' => 'Pengiriman tidak ditemukan']);
+            }
             session()->setFlashdata('error', 'Pengiriman tidak ditemukan');
             return redirect()->to('godmode/pengiriman');
         }
 
-        $this->pengirimanModel->delete($id);
-        session()->setFlashdata('success', 'Pengiriman berhasil dihapus');
+        try {
+            $this->pengirimanModel->delete($id);
 
-        return redirect()->to('godmode/pengiriman');
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['success' => true, 'message' => 'Pengiriman berhasil dihapus']);
+            }
+
+            session()->setFlashdata('success', 'Pengiriman berhasil dihapus');
+            return redirect()->to('godmode/pengiriman');
+        } catch (\Exception $e) {
+            if ($this->request->isAJAX()) {
+                return $this->response->setJSON(['success' => false, 'message' => 'Gagal menghapus pengiriman']);
+            }
+
+            session()->setFlashdata('error', 'Gagal menghapus pengiriman');
+            return redirect()->to('godmode/pengiriman');
+        }
     }
 
     /**

@@ -92,8 +92,8 @@ class Pemesanan extends Model
             pemesanan.catatan,
             pemesanan.created_at,
             pemesanan.updated_at,
-            users.username as nama_pelanggan,
-            auth_identities.secret as email_pelanggan
+            COALESCE(users.username, "Unknown") as nama_pelanggan,
+            COALESCE(auth_identities.secret, "") as email_pelanggan
         ')
             ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
             ->join('users', 'users.id = pelanggans.user_id', 'left')

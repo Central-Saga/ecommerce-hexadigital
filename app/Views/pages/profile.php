@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/wrapper') ?>
+<?= $this->extend($layout ?? 'layouts/wrapper') ?>
 
 <?= $this->section('content') ?>
 <div class="profile-page">
@@ -16,6 +16,18 @@
             <ul class="list-group list-group-flush mb-3">
                 <li class="list-group-item"><strong>Username:</strong> <?= esc($user->username ?? '-') ?></li>
                 <li class="list-group-item"><strong>Email:</strong> <?= esc($user->email ?? '-') ?></li>
+                <?php if ($isAdmin): ?>
+                    <li class="list-group-item"><strong>Role:</strong>
+                        <?php
+                        $groups = $user->getGroups();
+                        $roleNames = [];
+                        foreach ($groups as $group) {
+                            $roleNames[] = ucfirst($group);
+                        }
+                        echo esc(implode(', ', $roleNames));
+                        ?>
+                    </li>
+                <?php endif; ?>
             </ul>
             <?php if ($pelanggan): ?>
                 <h6 class="mt-4 mb-2">Data Pelanggan</h6>

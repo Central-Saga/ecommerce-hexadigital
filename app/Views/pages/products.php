@@ -3,9 +3,15 @@
 <section class="products-section">
     <div class="content-container">
         <div class="section-header text-center" style="margin-top: 3rem;">
-            <h6 class="section-subtitle">Semua Produk</h6>
-            <h2 class="section-title">Daftar Produk Digital</h2>
-            <p class="section-description">Temukan produk digital terbaik untuk kebutuhan Anda</p>
+            <?php if (isset($keyword) && !empty($keyword)): ?>
+                <h6 class="section-subtitle">Hasil Pencarian</h6>
+                <h2 class="section-title">Produk untuk: "<?= esc($keyword) ?>"</h2>
+                <p class="section-description">Ditemukan <?= count($products) ?> produk yang sesuai dengan pencarian Anda</p>
+            <?php else: ?>
+                <h6 class="section-subtitle">Semua Produk</h6>
+                <h2 class="section-title">Daftar Produk Digital</h2>
+                <p class="section-description">Temukan produk digital terbaik untuk kebutuhan Anda</p>
+            <?php endif; ?>
         </div>
         <div class="products-grid">
             <?php if (isset($products) && !empty($products)): ?>
@@ -29,7 +35,12 @@
             <?php else: ?>
                 <div class="empty-state">
                     <img src="<?= base_url('assets/images/empty-products.svg') ?>" alt="No Products">
-                    <p>Belum ada produk tersedia</p>
+                    <?php if (isset($keyword) && !empty($keyword)): ?>
+                        <p>Tidak ada produk yang ditemukan untuk "<?= esc($keyword) ?>"</p>
+                        <a href="<?= base_url('produk') ?>" class="btn btn-primary">Lihat Semua Produk</a>
+                    <?php else: ?>
+                        <p>Belum ada produk tersedia</p>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

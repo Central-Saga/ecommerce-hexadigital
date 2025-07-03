@@ -195,3 +195,84 @@
         }
     }
 }
+
+// Admin Layout Profile Styles
+.admin-content {
+    .profile-page {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        align-items: flex-start;
+
+        .profile-card {
+            max-width: 100%;
+            margin-bottom: 1rem;
+
+            &:hover {
+                transform: none;
+            }
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .profile-avatar {
+            color: #3b82f6;
+        }
+
+        .btn-edit-profile {
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+
+            &:hover,
+            &:focus {
+                background: rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        .card-title {
+            color: #3b82f6;
+        }
+
+        .list-group-item {
+            strong {
+                color: #3b82f6;
+            }
+        }
+
+        .badge-status {
+            background: linear-gradient(90deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        form {
+            .form-label {
+                color: #1d4ed8;
+            }
+
+            .form-control,
+            .form-select {
+                &:focus {
+                    border-color: #3b82f6;
+                    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.08);
+                }
+            }
+
+            .btn-primary {
+                background: linear-gradient(
+                    135deg,
+                    #3b82f6 0%,
+                    #1d4ed8 100%
+                ) !important;
+                box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
+
+                &:hover {
+                    background: linear-gradient(
+                        135deg,
+                        #1d4ed8 0%,
+                        #1e40af 100%
+                    ) !important;
+                    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.18);
+                }
+            }
+        }
+    }
+}
