@@ -7,7 +7,7 @@ function isActive($path)
 ?>
 <nav class="admin-sidebar">
     <div class="admin-sidebar-header">
-        <span class="sidebar-logo-icon"><i class="bi bi-hexagon-fill"></i></span>
+        <span class="sidebar-logo-icon"><img src="<?= base_url('assets/images/logo.png') ?>" alt="Hexadigital Store" style="height:42px; width:auto; object-fit:contain;" class="me-2"></span>
         <span class="sidebar-logo-text">Hexadigital</span>
     </div>
 

@@ -16,9 +16,19 @@ class Kategori extends BaseController
         $this->kategoriModel = new KategoriModel();
     }
 
-    public function getIndex($id = null)
+    // Untuk /kategori
+    public function getIndex()
     {
-        // Tampilkan detail kategori + produk
+        $data = [
+            'title' => 'Semua Kategori',
+            'categories' => $this->kategoriModel->findAll()
+        ];
+        return view('pages/kategori', $data);
+    }
+
+    // Untuk /kategori/1 dst
+    public function getDetail($id)
+    {
         $category = $this->kategoriModel->find($id);
         if (!$category) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Kategori tidak ditemukan');

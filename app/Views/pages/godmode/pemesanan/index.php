@@ -35,9 +35,24 @@
                 <i class="bi bi-cart-fill me-2 text-primary fs-4"></i>
                 <h5 class="mb-0">Daftar Pemesanan</h5>
             </div>
-            <!-- <a href="/godmode/pemesanan/create" class="btn btn-primary">
-                <i class="bi bi-plus-circle me-1"></i> Tambah Pemesanan
-            </a> -->
+            <div class="d-flex gap-2">
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-download me-1"></i>Export
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/godmode/pemesanan/export-pdf" target="_blank">
+                                <i class="bi bi-file-pdf me-2 text-danger"></i>Export PDF
+                            </a></li>
+                        <li><a class="dropdown-item" href="/godmode/pemesanan/export-xlsx">
+                                <i class="bi bi-file-earmark-excel me-2 text-success"></i>Export Excel
+                            </a></li>
+                    </ul>
+                </div>
+                <!-- <a href="/godmode/pemesanan/create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i> Tambah Pemesanan
+                </a> -->
+            </div>
         </div>
         <div class="card-body">
             <?php if (empty($pemesanans)) : ?>

@@ -54,7 +54,7 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 60px">ID</th>
+                                <th class="text-center" style="width: 60px">No</th>
                                 <th>Customer</th>
                                 <th>Nomor Pemesanan</th>
                                 <th class="text-center">Tanggal Kirim</th>
@@ -64,9 +64,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($pengiriman as $p) : ?>
+                            <?php foreach ($pengiriman as $index => $p) : ?>
                                 <tr>
-                                    <td class="text-center"><?= esc($p['id']) ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td><?= esc($p['nama_pelanggan'] ?? '-') ?></td>
                                     <td><?= esc($p['nomor_pemesanan'] ?? '-') ?></td>
                                     <td class="text-center"><?= $p['tanggal_kirim'] ? date('d-m-Y', strtotime($p['tanggal_kirim'])) : '-' ?></td>
@@ -130,8 +130,8 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/godmode/pengiriman/pengiriman/${id}`, {
-                        method: 'DELETE',
+                fetch(`/godmode/pengiriman/delete/${id}`, {
+                        method: 'POST',
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')

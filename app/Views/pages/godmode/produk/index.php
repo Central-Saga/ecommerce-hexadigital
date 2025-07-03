@@ -54,19 +54,20 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width: 60px">ID</th>
+                                <th class="text-center" style="width: 60px">No</th>
                                 <th style="width: 100px">Gambar</th>
                                 <th>Nama Produk</th>
+                                <th>Deskripsi</th>
                                 <th style="width: 120px">Harga</th>
                                 <th class="text-center" style="width: 80px">Stok</th>
                                 <th style="width: 140px">Kategori</th>
-                                <th class="text-center" style="width: 160px">Aksi</th>
+                                <th class="text-center" style="width: 120px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($produks as $produk): ?>
+                            <?php foreach ($produks as $index => $produk): ?>
                                 <tr>
-                                    <td class="text-center"><?= esc($produk['id']) ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td class="text-center">
                                         <?php if (!empty($produk['gambar']) && file_exists(ROOTPATH . 'public/uploads/produk/' . $produk['gambar'])): ?>
                                             <img src="<?= base_url('uploads/produk/' . $produk['gambar']) ?>"
@@ -81,6 +82,16 @@
                                     </td>
                                     <td>
                                         <div class="fw-semibold"><?= esc($produk['nama']) ?></div>
+                                    </td>
+                                    <td>
+                                        <div class="text-muted small">
+                                            <?php if (!empty($produk['deskripsi'])): ?>
+                                                <?= esc(substr($produk['deskripsi'], 0, 100)) ?>
+                                                <?= strlen($produk['deskripsi']) > 100 ? '...' : '' ?>
+                                            <?php else: ?>
+                                                <span class="text-muted">Tidak ada deskripsi</span>
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                     <td>Rp <?= number_format($produk['harga'], 0, ',', '.') ?></td>
                                     <td class="text-center">
@@ -97,10 +108,6 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-1">
-                                            <a href="<?= site_url('godmode/produk/detail/' . $produk['id']) ?>"
-                                                class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Detail">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
                                             <a href="<?= site_url('godmode/produk/edit/' . $produk['id']) ?>"
                                                 class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Edit">
                                                 <i class="bi bi-pencil"></i>
