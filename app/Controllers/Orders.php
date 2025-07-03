@@ -6,6 +6,7 @@ use App\Models\Pemesanan;
 use App\Models\DetailPemesanan;
 use App\Models\Produk;
 use App\Models\Pelanggan;
+use App\Services\EmailService;
 use CodeIgniter\Controller;
 
 class Orders extends Controller
@@ -85,7 +86,16 @@ class Orders extends Controller
             'tanggal_pembayaran' => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload.');
+        // Kirim email konfirmasi pembayaran
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendPaymentConfirmation($id);
+
+        $message = 'Bukti pembayaran berhasil diupload.';
+        if ($emailSent) {
+            $message .= ' Email konfirmasi telah dikirim.';
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     public function getKonfirmasiPembayaran($id)
@@ -182,7 +192,17 @@ class Orders extends Controller
             'catatan'           => $catatan,
             'nama_pengirim'     => $nama_pengirim,
         ]);
-        return redirect()->to('/orders')->with('success', 'Konfirmasi pembayaran berhasil dikirim.');
+
+        // Kirim email konfirmasi pembayaran
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendPaymentConfirmation($id);
+
+        $message = 'Konfirmasi pembayaran berhasil dikirim.';
+        if ($emailSent) {
+            $message .= ' Email konfirmasi telah dikirim.';
+        }
+
+        return redirect()->to('/orders')->with('success', $message);
     }
 
     public function getDownloadInvoice($id = null)
@@ -240,6 +260,41 @@ class Orders extends Controller
         $dompdf->stream($filename, ['Attachment' => true]);
     }
 
+    public function getSendInvoiceEmail($id = null)
+    {
+        if (!$id) {
+            return redirect()->to('/orders')->with('error', 'ID pesanan tidak valid');
+        }
+
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->to('/login')->with('error', 'Silakan login untuk mengirim invoice');
+        }
+
+        $pelanggan = (new Pelanggan())->withUser()->where('pelanggans.user_id', $user->id)->first();
+        $pelanggan_id = $pelanggan['id'] ?? null;
+        if (!$pelanggan_id) {
+            return redirect()->to('/login')->with('error', 'Akun pelanggan tidak ditemukan');
+        }
+
+        // Validasi kepemilikan pesanan
+        $pemesananModel = new Pemesanan();
+        $order = $pemesananModel->where('id', $id)->where('pelanggan_id', $pelanggan_id)->first();
+        if (!$order) {
+            return redirect()->to('/orders')->with('error', 'Pesanan tidak ditemukan');
+        }
+
+        // Kirim email invoice
+        $emailService = new EmailService();
+        $emailSent = $emailService->sendInvoiceEmail($id);
+
+        if ($emailSent) {
+            return redirect()->to('/orders')->with('success', 'Invoice telah dikirim ke email Anda.');
+        } else {
+            return redirect()->to('/orders')->with('error', 'Gagal mengirim invoice ke email. Silakan coba lagi.');
+        }
+    }
+
     private function generateInvoiceHTML($order, $details, $pelanggan, $pembayaran)
     {
         $html = '
@@ -264,9 +319,7 @@ class Orders extends Controller
         <body>
             <div class="header">
                 <h1>INVOICE</h1>
-                <h2>PT Hexadigital Indonesia</h2>
-                <p>Jl. Contoh No. 123, Jakarta Selatan<br>
-                Telp: (021) 1234567 | Email: info@hexadigital.com</p>
+                <h2>E-Commerce Hexadigital</h2>
             </div>
 
             <div class="invoice-info">
@@ -334,7 +387,7 @@ class Orders extends Controller
             </div>
 
             <div class="footer">
-                <p>Terima kasih telah berbelanja di Hexadigital Indonesia</p>
+                <p>Terima kasih telah berbelanja di E-Commerce Hexadigital</p>
                 <p>Invoice ini dibuat secara otomatis pada ' . date('d/m/Y H:i:s') . '</p>
             </div>
         </body>

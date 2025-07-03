@@ -75,6 +75,9 @@
                     <a href="<?= site_url('orders/download-invoice/' . $order['id']) ?>" class="btn btn-success mt-3 ms-2">
                         <i class="bi bi-download"></i> Download Invoice PDF
                     </a>
+                    <a href="<?= site_url('orders/send-invoice-email/' . $order['id']) ?>" class="btn btn-info mt-3 ms-2">
+                        <i class="bi bi-envelope"></i> Kirim Invoice via Email
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>

@@ -10,7 +10,7 @@ class TestMail extends BaseController
     public function getSend()
     {
         $email = \Config\Services::email();
-        $email->setTo('wirbud1134@gmail.com');
+        $email->setTo('test@gmail.com');
         $email->setSubject('Tes Email Improved Routing');
         $email->setMessage('Coba improved auto routing!');
 
