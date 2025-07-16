@@ -7,9 +7,9 @@ use App\Models\DetailPemesanan;
 use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Services\EmailService;
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 
-class Orders extends Controller
+class Orders extends BaseController
 {
     public function getIndex()
     {
