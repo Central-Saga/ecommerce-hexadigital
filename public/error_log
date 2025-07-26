@@ -1,0 +1,39 @@
+[16-Jul-2025 07:12:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function CodeIgniter\Autoloader\mb_strpos() in /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Autoloader/FileLocator.php:286
+Stack trace:
+#0 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Config/BaseService.php(417): CodeIgniter\Autoloader\FileLocator->findQualifiedNameFromPath()
+#1 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Config/BaseService.php(330): CodeIgniter\Config\BaseService::buildServicesCache()
+#2 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Config/BaseService.php(315): CodeIgniter\Config\BaseService::serviceExists()
+#3 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Config/BaseService.php(202): CodeIgniter\Config\BaseService::__callStatic()
+#4 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Common.php(1000): CodeIgniter\Config\BaseService::get()
+#5 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Boot.php(263): service()
+#6 /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Boot.php(55): CodeIgniter\Boot::setExceptionHandler()
+#7 /home/ecommer2/public_html/ecommerce-hexadigital/public/index.php(56): CodeIgniter\Boot::bootWeb()
+#8 {main}
+  thrown in /home/ecommer2/public_html/ecommerce-hexadigital/vendor/codeigniter4/framework/system/Autoloader/FileLocator.php on line 286
+[16-Jul-2025 07:12:54 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function CodeIgniter\Autoloader\mb_strpos() in /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Autoloader/FileLocator.php:286
+Stack trace:
+#0 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Config/BaseService.php(417): CodeIgniter\Autoloader\FileLocator->findQualifiedNameFromPath()
+#1 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Config/BaseService.php(330): CodeIgniter\Config\BaseService::buildServicesCache()
+#2 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Config/BaseService.php(315): CodeIgniter\Config\BaseService::serviceExists()
+#3 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Config/BaseService.php(202): CodeIgniter\Config\BaseService::__callStatic()
+#4 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Common.php(1000): CodeIgniter\Config\BaseService::get()
+#5 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Boot.php(263): service()
+#6 /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Boot.php(55): CodeIgniter\Boot::setExceptionHandler()
+#7 /home/ecommer2/public_html/public/index.php(56): CodeIgniter\Boot::bootWeb()
+#8 {main}
+  thrown in /home/ecommer2/public_html/vendor/codeigniter4/framework/system/Autoloader/FileLocator.php on line 286
+[16-Jul-2025 07:26:31 UTC] PHP Warning:  require(/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php): Failed to open stream: No such file or directory in /home/ecommer2/public_html/public/index.php on line 54
+[16-Jul-2025 07:26:31 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/ecommer2/public_html/public/index.php:54
+Stack trace:
+#0 {main}
+  thrown in /home/ecommer2/public_html/public/index.php on line 54
+[16-Jul-2025 07:26:32 UTC] PHP Warning:  require(/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php): Failed to open stream: No such file or directory in /home/ecommer2/public_html/public/index.php on line 54
+[16-Jul-2025 07:26:32 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/ecommer2/public_html/public/index.php:54
+Stack trace:
+#0 {main}
+  thrown in /home/ecommer2/public_html/public/index.php on line 54
+[16-Jul-2025 07:26:54 UTC] PHP Warning:  require(/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php): Failed to open stream: No such file or directory in /home/ecommer2/public_html/public/index.php on line 54
+[16-Jul-2025 07:26:54 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/ecommer2/public_html/app/Config/../../vendor/codeigniter4/framework/system/Boot.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/ecommer2/public_html/public/index.php:54
+Stack trace:
+#0 {main}
+  thrown in /home/ecommer2/public_html/public/index.php on line 54

@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\Pelanggan;
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 
-class Profile extends Controller
+class Profile extends BaseController
 {
     public function getIndex()
     {
