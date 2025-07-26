@@ -132,10 +132,10 @@
                                         <?php endif; ?>
                                         <span class="current-price">Rp <?= number_format($product['harga'], 0, ',', '.') ?></span>
                                     </div>
-                                    <!--<div class="product-rating">-->
-                                    <!--    <i class="bi bi-star-fill"></i>-->
-                                    <!--    <span>4.5</span>-->
-                                    <!--</div>-->
+                                    <!-- <div class="product-rating">
+                                        <i class="bi bi-star-fill"></i>
+                                        <span>4.5</span>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
