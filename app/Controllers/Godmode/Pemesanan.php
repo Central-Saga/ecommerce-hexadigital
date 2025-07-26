@@ -423,8 +423,12 @@ class Pemesanan extends BaseController
         $dompdf->loadHtml($html, 'UTF-8');
         $dompdf->render();
 
-        // Output PDF
-        $dompdf->stream('daftar_pemesanan_' . date('Y-m-d_H-i-s') . '.pdf');
+        // Bersihkan output buffer sebelum mengirim file
+        if (ob_get_length()) ob_end_clean();
+
+        // Output PDF, paksa download
+        $dompdf->stream('daftar_pemesanan_' . date('Y-m-d_H-i-s') . '.pdf', ['Attachment' => true]);
+        exit;
     }
 
     /**
