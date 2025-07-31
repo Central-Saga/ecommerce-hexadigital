@@ -8,7 +8,7 @@
             <div class="col-md-4">
                 <h5>Link Cepat</h5>
                 <ul class="quick-links">
-                    <li><a href="/about">Tentang Kami</a></li>
+                    <li><a href="/about">Tentang Saya</a></li>
                     <li><a href="/contact">Kontak</a></li>
                     <li><a href="/terms">Syarat & Ketentuan</a></li>
                     <li><a href="/privacy">Kebijakan Privasi</a></li>
