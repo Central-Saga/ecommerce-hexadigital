@@ -7,9 +7,9 @@ use App\Models\DetailPemesanan;
 use App\Models\Produk;
 use App\Models\Pelanggan;
 use App\Services\EmailService;
-use CodeIgniter\Controller;
+use App\Controllers\BaseController;
 
-class Orders extends Controller
+class Orders extends BaseController
 {
     public function getIndex()
     {
@@ -256,8 +256,11 @@ class Orders extends Controller
         // Generate nama file
         $filename = 'Invoice-' . $order['id'] . '-' . date('Y-m-d') . '.pdf';
 
+        ob_end_clean(); 
+
         // Output PDF
         $dompdf->stream($filename, ['Attachment' => true]);
+        exit();
     }
 
     public function getSendInvoiceEmail($id = null)
