@@ -118,5 +118,27 @@ function isActive($path)
                 </ul>
             </div>
         </li>
+
+        <!-- Laporan -->
+        <li class="nav-item">
+            <a class="nav-link dropdown-toggle sidebar-dropdown <?= isActive('/godmode/laporan-penjualan') ? 'active' : '' ?>" data-bs-toggle="collapse" href="#laporanManagement">
+                <div class="icon-wrapper">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <span>Laporan</span>
+            </a>
+            <div class="collapse <?= isActive('/godmode/laporan-penjualan') ? 'show' : '' ?>" id="laporanManagement">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link <?= isActive('/godmode/laporan-penjualan') ?>" href="/godmode/laporan-penjualan">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-bar-chart"></i>
+                            </div>
+                            <span>Laporan Penjualan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </nav>

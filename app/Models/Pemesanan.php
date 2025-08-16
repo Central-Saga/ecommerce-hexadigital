@@ -99,4 +99,75 @@ class Pemesanan extends Model
             ->join('users', 'users.id = pelanggans.user_id', 'left')
             ->join('auth_identities', 'auth_identities.user_id = users.id AND auth_identities.type = "email_password"', 'left');
     }
+
+    /**
+     * Get laporan penjualan per bulan
+     */
+    public function getLaporanPenjualanPerBulan($tahun = null, $bulan = null)
+    {
+        if ($tahun === null) {
+            $tahun = date('Y');
+        }
+
+        if ($bulan === null) {
+            $bulan = date('n');
+        }
+
+        return $this->select('
+            pemesanan.id,
+            pemesanan.pelanggan_id,
+            pemesanan.tanggal_pemesanan,
+            pemesanan.total_harga,
+            pemesanan.status_pemesanan,
+            pemesanan.catatan,
+            pemesanan.created_at,
+            pemesanan.updated_at,
+            COALESCE(users.username, "Unknown") as nama_pelanggan,
+            COALESCE(auth_identities.secret, "") as email_pelanggan
+        ')
+            ->join('pelanggans', 'pelanggans.id = pemesanan.pelanggan_id', 'left')
+            ->join('users', 'users.id = pelanggans.user_id', 'left')
+            ->join('auth_identities', 'auth_identities.user_id = users.id AND auth_identities.type = "email_password"', 'left')
+            ->where('YEAR(pemesanan.tanggal_pemesanan)', $tahun)
+            ->where('MONTH(pemesanan.tanggal_pemesanan)', $bulan)
+            ->where('pemesanan.status_pemesanan !=', 'dibatalkan')
+            ->orderBy('pemesanan.tanggal_pemesanan', 'DESC');
+    }
+
+    /**
+     * Get statistik penjualan per bulan
+     */
+    public function getStatistikPenjualanPerBulan($tahun = null)
+    {
+        if ($tahun === null) {
+            $tahun = date('Y');
+        }
+
+        return $this->select('
+            MONTH(tanggal_pemesanan) as bulan,
+            COUNT(*) as total_pesanan,
+            SUM(total_harga) as total_penjualan,
+            AVG(total_harga) as rata_rata_penjualan
+        ')
+            ->where('YEAR(tanggal_pemesanan)', $tahun)
+            ->where('status_pemesanan !=', 'dibatalkan')
+            ->groupBy('MONTH(tanggal_pemesanan)')
+            ->orderBy('bulan', 'ASC');
+    }
+
+    /**
+     * Get total penjualan per bulan tertentu
+     */
+    public function getTotalPenjualanPerBulan($tahun, $bulan)
+    {
+        return $this->select('
+            COUNT(*) as total_pesanan,
+            SUM(total_harga) as total_penjualan,
+            AVG(total_harga) as rata_rata_penjualan
+        ')
+            ->where('YEAR(tanggal_pemesanan)', $tahun)
+            ->where('MONTH(tanggal_pemesanan)', $bulan)
+            ->where('status_pemesanan !=', 'dibatalkan')
+            ->first();
+    }
 }
