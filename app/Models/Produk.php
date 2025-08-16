@@ -13,7 +13,7 @@ class Produk extends Model
     protected $allowedFields = ['nama', 'slug', 'deskripsi', 'harga', 'stok', 'gambar', 'kategori_id'];
 
     protected $validationRules = [
-        'nama' => 'required|min_length[3]|max_length[255]',
+        'nama' => 'required|min_length[3]|max_length[255]|is_unique[produk.nama,id,{id}]',
         'harga' => 'required|numeric',
         'stok' => 'required|integer',
         'kategori_id' => 'required|integer'

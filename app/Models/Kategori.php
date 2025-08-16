@@ -34,7 +34,7 @@ class Kategori extends Model
 
     // Validation
     protected $validationRules      = [
-        'nama_kategori' => 'required|min_length[3]|max_length[100]',
+        'nama_kategori' => 'required|min_length[3]|max_length[100]|is_unique[kategori.nama_kategori,id,{id}]',
         'deskripsi_kategori' => 'permit_empty'
     ];
 
@@ -42,7 +42,8 @@ class Kategori extends Model
         'nama_kategori' => [
             'required' => 'Nama kategori harus diisi',
             'min_length' => 'Nama kategori minimal 3 karakter',
-            'max_length' => 'Nama kategori maksimal 100 karakter'
+            'max_length' => 'Nama kategori maksimal 100 karakter',
+            'is_unique' => 'Nama kategori sudah ada, silakan gunakan nama yang berbeda'
         ]
     ];
 

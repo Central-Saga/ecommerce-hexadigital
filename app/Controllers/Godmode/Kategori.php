@@ -46,7 +46,7 @@ class Kategori extends BaseController
     public function postStore()
     {
         $rules = [
-            'nama_kategori' => 'required|min_length[3]|max_length[100]',
+            'nama_kategori' => 'required|min_length[3]|max_length[100]|is_unique[kategori.nama_kategori]',
             'deskripsi_kategori' => 'permit_empty'
         ];
 
@@ -67,6 +67,12 @@ class Kategori extends BaseController
             session()->setFlashdata('success', 'Kategori berhasil ditambahkan');
             return redirect()->to('/godmode/kategori');
         } catch (\Exception $e) {
+            // Handle database constraint violation
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || strpos($e->getMessage(), 'uk_nama_kategori') !== false) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Nama kategori sudah ada, silakan gunakan nama yang berbeda');
+            }
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
@@ -95,7 +101,7 @@ class Kategori extends BaseController
         }
 
         $rules = [
-            'nama_kategori' => 'required|min_length[3]|max_length[100]',
+            'nama_kategori' => 'required|min_length[3]|max_length[100]|is_unique[kategori.nama_kategori,id,' . $id . ']',
             'deskripsi_kategori' => 'permit_empty'
         ];
 
@@ -116,6 +122,12 @@ class Kategori extends BaseController
             return redirect()->to('/godmode/kategori')
                 ->with('success', 'Kategori berhasil diperbarui');
         } catch (\Exception $e) {
+            // Handle database constraint violation
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || strpos($e->getMessage(), 'uk_nama_kategori') !== false) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Nama kategori sudah ada, silakan gunakan nama yang berbeda');
+            }
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal memperbarui kategori: ' . $e->getMessage());

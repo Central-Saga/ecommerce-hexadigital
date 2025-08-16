@@ -62,7 +62,7 @@ class Produk extends BaseController
         log_message('debug', 'FILES Data: ' . json_encode($this->request->getFiles()));
 
         $rules = [
-            'nama' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]|is_unique[produk.nama]',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -100,6 +100,14 @@ class Produk extends BaseController
             return redirect()->to('/godmode/produk');
         } catch (\Exception $e) {
             log_message('error', 'Exception in postStore: ' . $e->getMessage());
+
+            // Handle database constraint violation
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || strpos($e->getMessage(), 'uk_nama_produk') !== false) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Nama produk sudah ada, silakan gunakan nama yang berbeda');
+            }
+
             return redirect()->back()
                 ->withInput()
                 ->with('errors', ['general' => 'Gagal menambahkan produk: ' . $e->getMessage()]);
@@ -132,7 +140,7 @@ class Produk extends BaseController
         }
 
         $rules = [
-            'nama' => 'required|min_length[3]|max_length[255]',
+            'nama' => 'required|min_length[3]|max_length[255]|is_unique[produk.nama,id,' . $id . ']',
             'harga' => 'required|numeric',
             'stok' => 'required|integer',
             'deskripsi' => 'permit_empty',
@@ -176,6 +184,13 @@ class Produk extends BaseController
             return redirect()->to('/godmode/produk')
                 ->with('success', 'Produk berhasil diperbarui');
         } catch (\Exception $e) {
+            // Handle database constraint violation
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || strpos($e->getMessage(), 'uk_nama_produk') !== false) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('error', 'Nama produk sudah ada, silakan gunakan nama yang berbeda');
+            }
+
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Gagal memperbarui produk: ' . $e->getMessage());
