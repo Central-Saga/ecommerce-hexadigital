@@ -70,6 +70,15 @@ function isActive($path)
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?= isActive('/godmode/laporan') ?>" href="/godmode/laporan">
+                            <div class="icon-wrapper">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </div>
+                            <span>Laporan</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link <?= isActive('/godmode/produk') ?>" href="/godmode/produk">
                             <div class="icon-wrapper">
                                 <i class="bi bi-box-seam"></i>

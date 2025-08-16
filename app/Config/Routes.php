@@ -13,5 +13,8 @@ $routes->get('/', 'Homepage::index');
 $routes->get('register', 'Auth\RegisterController::registerView');
 $routes->post('register', 'Auth\RegisterController::registerAction');
 
+// testing
+$routes->get('godmode/laporan', 'Godmode\Laporan::index');
+
 // Tambahkan route Shield, exclude register
 service('auth')->routes($routes, ['except' => ['register']]);
