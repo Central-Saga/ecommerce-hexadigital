@@ -127,9 +127,12 @@ class LaporanPenjualan extends BaseController
             12 => 'Desember'
         ];
 
-        // Set header untuk download PDF
-        $this->response->setHeader('Content-Type', 'application/pdf');
-        $this->response->setHeader('Content-Disposition', 'attachment; filename="laporan_penjualan_' . $bulanList[$bulan] . '_' . $tahun . '.pdf"');
+        // Clear output buffer
+        ob_clean();
+
+        // Set header untuk download HTML (bisa dikonversi ke PDF)
+        $this->response->setHeader('Content-Type', 'text/html; charset=UTF-8');
+        $this->response->setHeader('Content-Disposition', 'attachment; filename="laporan_penjualan_' . $bulanList[$bulan] . '_' . $tahun . '.html"');
 
         return view('pages/godmode/laporan_penjualan/export_pdf', [
             'laporanPenjualan' => $laporanPenjualan,
@@ -137,6 +140,71 @@ class LaporanPenjualan extends BaseController
             'tahun' => $tahun,
             'bulan' => $bulan,
             'namaBulan' => $bulanList[$bulan]
+        ]);
+    }
+
+    /**
+     * Export laporan ke PDF menggunakan DOMPDF (jika tersedia)
+     */
+    public function getExportPdfDompdf()
+    {
+        // Cek apakah library DOMPDF tersedia
+        if (!class_exists('Dompdf\Dompdf')) {
+            return redirect()->back()->with('error', 'Library DOMPDF tidak tersedia. Silakan install terlebih dahulu.');
+        }
+
+        $tahun = $this->request->getGet('tahun') ?: date('Y');
+        $bulan = $this->request->getGet('bulan') ?: date('n');
+
+        // Validasi input
+        $tahun = (int) $tahun;
+        $bulan = (int) $bulan;
+
+        if ($tahun < 2020 || $tahun > 2030) {
+            $tahun = date('Y');
+        }
+
+        if ($bulan < 1 || $bulan > 12) {
+            $bulan = date('n');
+        }
+
+        // Ambil data laporan
+        $laporanPenjualan = $this->pemesananModel->getLaporanPenjualanPerBulan($tahun, $bulan)->findAll();
+        $statistikTotal = $this->pemesananModel->getTotalPenjualanPerBulan($tahun, $bulan);
+
+        $bulanList = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+
+        // Render HTML
+        $html = view('pages/godmode/laporan_penjualan/export_pdf', [
+            'laporanPenjualan' => $laporanPenjualan,
+            'statistikTotal' => $statistikTotal,
+            'tahun' => $tahun,
+            'bulan' => $bulan,
+            'namaBulan' => $bulanList[$bulan]
+        ]);
+
+        // Create DOMPDF instance
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Output PDF
+        $dompdf->stream('laporan_penjualan_' . $bulanList[$bulan] . '_' . $tahun . '.pdf', [
+            'Attachment' => true
         ]);
     }
 
@@ -178,6 +246,9 @@ class LaporanPenjualan extends BaseController
             11 => 'November',
             12 => 'Desember'
         ];
+
+        // Clear output buffer
+        ob_clean();
 
         // Set header untuk download Excel
         $this->response->setHeader('Content-Type', 'application/vnd.ms-excel');

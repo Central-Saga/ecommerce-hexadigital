@@ -6,10 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Penjualan <?= $namaBulan ?> <?= $tahun ?></title>
     <style>
+        @page {
+            margin: 1cm;
+            size: A4;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
             font-size: 12px;
+            line-height: 1.4;
         }
 
         .header {
@@ -23,15 +30,23 @@
             margin: 0;
             color: #333;
             font-size: 24px;
+            font-weight: bold;
         }
 
         .header p {
             margin: 5px 0;
             color: #666;
+            font-size: 14px;
         }
 
         .summary {
             margin-bottom: 30px;
+        }
+
+        .summary h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 16px;
         }
 
         .summary table {
@@ -41,8 +56,9 @@
         }
 
         .summary td {
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
+            font-size: 12px;
         }
 
         .summary td:first-child {
@@ -63,11 +79,13 @@
             padding: 8px;
             text-align: left;
             font-size: 11px;
+            vertical-align: top;
         }
 
         .data-table th {
             background-color: #f5f5f5;
             font-weight: bold;
+            text-align: center;
         }
 
         .text-center {
@@ -78,27 +96,35 @@
             text-align: right;
         }
 
-        .status-menunggu {
-            background-color: #fff3cd;
-        }
-
-        .status-diproses {
-            background-color: #d1ecf1;
-        }
-
-        .status-selesai {
-            background-color: #d4edda;
-        }
-
-        .status-dibatalkan {
-            background-color: #f8d7da;
-        }
-
         .footer {
             margin-top: 40px;
             text-align: right;
             font-size: 11px;
             color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+            }
+
+            .header {
+                page-break-after: avoid;
+            }
+
+            .summary {
+                page-break-after: avoid;
+            }
+
+            .data-table {
+                page-break-inside: auto;
+            }
         }
     </style>
 </head>

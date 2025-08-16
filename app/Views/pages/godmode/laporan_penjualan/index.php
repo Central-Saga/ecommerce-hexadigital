@@ -14,13 +14,27 @@
                     <a href="<?= base_url('godmode/laporan-penjualan/export-excel?tahun=' . $tahunSelected . '&bulan=' . $bulanSelected) ?>" class="btn btn-success btn-sm">
                         <i class="bi bi-file-earmark-excel me-1"></i> Export Excel
                     </a>
-                    <a href="<?= base_url('godmode/laporan-penjualan/export-pdf?tahun=' . $tahunSelected . '&bulan=' . $bulanSelected) ?>" class="btn btn-danger btn-sm">
+                    <a href="<?= base_url('godmode/laporan-penjualan/export-pdf?tahun=' . $tahunSelected . '&bulan=' . $bulanSelected) ?>" class="btn btn-warning btn-sm" target="_blank">
+                        <i class="bi bi-file-earmark-text me-1"></i> Export HTML
+                    </a>
+                    <a href="<?= base_url('godmode/laporan-penjualan/export-pdf-dompdf?tahun=' . $tahunSelected . '&bulan=' . $bulanSelected) ?>" class="btn btn-danger btn-sm">
                         <i class="bi bi-file-earmark-pdf me-1"></i> Export PDF
                     </a>
                 </div>
             </div>
         </div>
         <div class="card-body">
+            <!-- Info Export -->
+            <div class="alert alert-info mb-3">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Info Export:</strong>
+                <ul class="mb-0 mt-2">
+                    <li><strong>Export HTML:</strong> File HTML yang bisa dibuka di browser dan dikonversi ke PDF menggunakan "Print to PDF"</li>
+                    <li><strong>Export PDF:</strong> File PDF langsung (memerlukan library DOMPDF)</li>
+                    <li><strong>Export Excel:</strong> File Excel untuk analisis data</li>
+                </ul>
+            </div>
+
             <!-- Filter Form -->
             <form method="GET" action="<?= base_url('godmode/laporan-penjualan') ?>" class="row g-3">
                 <div class="col-md-3">
