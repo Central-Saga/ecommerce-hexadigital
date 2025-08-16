@@ -19,9 +19,22 @@ class Kategori extends BaseController
     // Untuk /kategori
     public function getIndex()
     {
+        // Ambil keyword pencarian
+        $keyword = $this->request->getGet('search');
+        
+        // Jika ada keyword, lakukan pencarian
+        if ($keyword) {
+            $categories = $this->kategoriModel->searchKategori($keyword);
+            $title = 'Search Results for: ' . $keyword;
+        } else {
+            $categories = $this->kategoriModel->findAll();
+            $title = 'Semua Kategori';
+        }
+
         $data = [
-            'title' => 'Semua Kategori',
-            'categories' => $this->kategoriModel->findAll()
+            'title' => $title,
+            'categories' => $categories,
+            'keyword' => $keyword
         ];
         return view('pages/kategori', $data);
     }

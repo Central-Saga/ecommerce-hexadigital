@@ -5,9 +5,32 @@
 <section class="categories-section">
     <div class="content-container">
         <div class="section-header text-center">
-            <h6 class="section-subtitle">Kategori Pilihan</h6>
-            <h2 class="section-title">Jelajahi Kategori Produk</h2>
-            <p class="section-description">Temukan berbagai kategori produk digital yang sesuai dengan kebutuhan Anda</p>
+            <?php if (isset($keyword) && !empty($keyword)): ?>
+                <h6 class="section-subtitle">Hasil Pencarian</h6>
+                <h2 class="section-title">Kategori untuk: "<?= esc($keyword) ?>"</h2>
+                <p class="section-description">Ditemukan <?= count($categories) ?> kategori yang sesuai dengan pencarian Anda</p>
+            <?php else: ?>
+                <h6 class="section-subtitle">Kategori Pilihan</h6>
+                <h2 class="section-title">Jelajahi Kategori Produk</h2>
+                <p class="section-description">Temukan berbagai kategori produk digital yang sesuai dengan kebutuhan Anda</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- Search Form -->
+        <div class="search-container text-center mb-4">
+            <form method="GET" action="<?= base_url('kategori') ?>" class="search-form">
+                <div class="input-group mx-auto" style="max-width: 500px;">
+                    <input type="text" name="search" class="form-control" placeholder="Cari kategori atau deskripsi..." value="<?= $keyword ?? '' ?>">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Cari
+                    </button>
+                    <?php if (!empty($keyword)) : ?>
+                        <a href="<?= base_url('kategori') ?>" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Clear
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </form>
         </div>
 
         <div class="row">
@@ -26,8 +49,14 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="empty-state">
-                    <img src="<?= base_url('assets/images/empty-category.svg') ?>" alt="No Categories">
-                    <p>Belum ada kategori tersedia</p>
+                    <?php if (isset($keyword) && !empty($keyword)): ?>
+                        <img src="<?= base_url('assets/images/empty-category.svg') ?>" alt="No Categories">
+                        <p>Tidak ada kategori yang ditemukan untuk "<?= esc($keyword) ?>"</p>
+                        <a href="<?= base_url('kategori') ?>" class="btn btn-primary">Lihat Semua Kategori</a>
+                    <?php else: ?>
+                        <img src="<?= base_url('assets/images/empty-category.svg') ?>" alt="No Categories">
+                        <p>Belum ada kategori tersedia</p>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

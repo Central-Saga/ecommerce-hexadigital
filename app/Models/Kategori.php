@@ -60,4 +60,12 @@ class Kategori extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    // Method pencarian kategori
+    public function searchKategori($keyword)
+    {
+        return $this->like('nama_kategori', $keyword)
+            ->orLike('deskripsi_kategori', $keyword)
+            ->findAll();
+    }
 }

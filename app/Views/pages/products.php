@@ -13,6 +13,24 @@
                 <p class="section-description">Temukan produk digital terbaik untuk kebutuhan Anda</p>
             <?php endif; ?>
         </div>
+
+        <!-- Search Form -->
+        <div class="search-container text-center mb-4">
+            <form method="GET" action="<?= base_url('produk') ?>" class="search-form">
+                <div class="input-group mx-auto" style="max-width: 500px;">
+                    <input type="text" name="search" class="form-control" placeholder="Cari produk, deskripsi, atau kategori..." value="<?= $keyword ?? '' ?>">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Cari
+                    </button>
+                    <?php if (!empty($keyword)) : ?>
+                        <a href="<?= base_url('produk') ?>" class="btn btn-outline-secondary">
+                            <i class="bi bi-x-circle"></i> Clear
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
+
         <div class="products-grid">
             <?php if (isset($products) && !empty($products)): ?>
                 <?php foreach ($products as $product): ?>

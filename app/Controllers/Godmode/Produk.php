@@ -21,8 +21,15 @@ class Produk extends BaseController
 
     public function getIndex()
     {
-        // Ambil semua produk dengan kategori dari database
-        $produks = $this->produkModel->getProductsWithCategory();
+        // Ambil keyword pencarian
+        $keyword = $this->request->getGet('search');
+
+        // Jika ada keyword, lakukan pencarian
+        if ($keyword) {
+            $produks = $this->produkModel->searchProducts($keyword);
+        } else {
+            $produks = $this->produkModel->getProductsWithCategory();
+        }
 
         // Format data produk untuk view
         $formattedProduks = [];
@@ -41,7 +48,8 @@ class Produk extends BaseController
         }
 
         return view('pages/godmode/produk/index', [
-            'produks' => $formattedProduks
+            'produks' => $formattedProduks,
+            'keyword' => $keyword
         ]);
     }
 

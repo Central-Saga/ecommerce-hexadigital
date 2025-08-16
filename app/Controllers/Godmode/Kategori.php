@@ -18,8 +18,15 @@ class Kategori extends BaseController
 
     public function getIndex()
     {
-        // Ambil semua kategori dari database
-        $kategoris = $this->kategoriModel->findAll();
+        // Ambil keyword pencarian
+        $keyword = $this->request->getGet('search');
+
+        // Jika ada keyword, lakukan pencarian
+        if ($keyword) {
+            $kategoris = $this->kategoriModel->searchKategori($keyword);
+        } else {
+            $kategoris = $this->kategoriModel->findAll();
+        }
 
         // Format data kategori untuk view
         $formattedKategoris = [];
@@ -34,7 +41,8 @@ class Kategori extends BaseController
         }
 
         return view('pages/godmode/kategori/index', [
-            'kategoris' => $formattedKategoris
+            'kategoris' => $formattedKategoris,
+            'keyword' => $keyword
         ]);
     }
 

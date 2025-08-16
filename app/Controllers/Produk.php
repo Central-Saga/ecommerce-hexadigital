@@ -18,10 +18,23 @@ class Produk extends BaseController
 
     public function getIndex()
     {
+        // Ambil keyword pencarian
+        $keyword = $this->request->getGet('search');
+        
+        // Jika ada keyword, lakukan pencarian
+        if ($keyword) {
+            $products = $this->produkModel->searchProducts($keyword);
+            $title = 'Search Results for: ' . $keyword;
+        } else {
+            $products = $this->produkModel->getProducts();
+            $title = 'Products';
+        }
+
         $data = [
-            'title' => 'Products',
-            'products' => $this->produkModel->getProducts(),
-            'categories' => $this->kategoriModel->findAll()
+            'title' => $title,
+            'products' => $products,
+            'categories' => $this->kategoriModel->findAll(),
+            'keyword' => $keyword
         ];
 
         return view('pages/products', $data);

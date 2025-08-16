@@ -44,12 +44,41 @@
             </a>
         </div>
         <div class="card-body">
+            <!-- Search Form -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <form method="GET" action="/godmode/produk" class="d-flex">
+                        <input type="text" name="search" class="form-control me-2" placeholder="Cari produk, deskripsi, atau kategori..." value="<?= $keyword ?? '' ?>">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <?php if (!empty($keyword)) : ?>
+                            <a href="/godmode/produk" class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-x-circle"></i> Clear
+                            </a>
+                        <?php endif; ?>
+                    </form>
+                </div>
+            </div>
+
             <?php if (empty($produks)) : ?>
                 <div class="text-center py-5">
-                    <i class="bi bi-inbox fs-1 text-muted"></i>
-                    <p class="mt-3 text-muted">Belum ada data produk</p>
+                    <?php if (!empty($keyword)) : ?>
+                        <i class="bi bi-search fs-1 text-muted"></i>
+                        <p class="mt-3 text-muted">Tidak ada hasil pencarian untuk "<?= $keyword ?>"</p>
+                        <a href="/godmode/produk" class="btn btn-primary">Lihat Semua Produk</a>
+                    <?php else : ?>
+                        <i class="bi bi-inbox fs-1 text-muted"></i>
+                        <p class="mt-3 text-muted">Belum ada data produk</p>
+                    <?php endif; ?>
                 </div>
             <?php else : ?>
+                <?php if (!empty($keyword)) : ?>
+                    <div class="alert alert-info mb-3">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Menampilkan <?= count($produks) ?> hasil pencarian untuk "<?= $keyword ?>"
+                    </div>
+                <?php endif; ?>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>

@@ -35,7 +35,12 @@ class Produk extends Model
 
     public function searchProducts($keyword)
     {
-        return $this->like('nama', $keyword)->orLike('deskripsi', $keyword)->findAll();
+        return $this->select('produk.*, kategori.nama_kategori as kategori')
+                    ->join('kategori', 'kategori.id = produk.kategori_id', 'left')
+                    ->like('produk.nama', $keyword)
+                    ->orLike('produk.deskripsi', $keyword)
+                    ->orLike('kategori.nama_kategori', $keyword)
+                    ->findAll();
     }
 
     public function updateStock($id, $quantity)
